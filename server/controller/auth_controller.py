@@ -7,10 +7,6 @@ dynamodb = boto3.resource('dynamodb', region_name='ap-southeast-1')
 table = dynamodb.Table('foodrecipe_User')  # pylint: disable=no-member
 
 
-def get_users():
-    return {}
-
-
 def getUser(email, password):
     try:
         response = table.get_item(
@@ -32,11 +28,13 @@ def getUser(email, password):
 def post_user(email, password):
     user = checkIfUserExist(email)
 
+    hashed_password = pbkdf2_sha256.hash(password)
+
     if (user is None):
         response = table.put_item(
             Item={
                 'email': email,
-                'password': password
+                'password': hashed_password
             }
         )
         return {'status': 'success'}

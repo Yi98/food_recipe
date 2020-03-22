@@ -1,12 +1,9 @@
-import functools
-from passlib.hash import pbkdf2_sha256
-
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, json, Response
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from server.controller import aws_controller
+from server.controller import auth_controller
 
 
 bp = Blueprint('auth', __name__)
@@ -17,9 +14,7 @@ def register():
     email = request.form['email']
     password = request.form['password']
 
-    hashed_password = pbkdf2_sha256.hash(password)
-
-    result = aws_controller.post_user(email, hashed_password)
+    result = auth_controller.post_user(email, password)
 
     if result['status'] == 'success':
         return redirect(url_for('route.login'))
@@ -32,23 +27,20 @@ def login():
     email = request.form['email']
     password = request.form['password']
 
-    result = aws_controller.getUser(email, password)
+    result = auth_controller.getUser(email, password)
 
-    print(result['status'])
     if result['status'] == 'success':
         return redirect(url_for('route.home'))
 
-    data = {'message': 'Login credential invalid'}
-
     response = Response(
-        response=json.dumps(data),
+        response=json.dumps({'message': 'Login credential invalid'}),
         status=401,
     )
 
     return response
 
 
-@bp.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('auth.login'))
+# @bp.route('/logout')
+# def logout():
+#     session.clear()
+#     return redirect(url_for('auth.login'))

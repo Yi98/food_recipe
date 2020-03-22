@@ -5,6 +5,7 @@ from flask import (Flask, render_template, url_for, redirect)
 from server.routes import route
 from server.api import (auth, recipe)
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -26,6 +27,7 @@ def create_app(test_config=None):
     except OSError:
         pass
     
+    app.config.from_pyfile('config.py')
 
     app.register_blueprint(route.bp, url_prefix='/')
     app.register_blueprint(auth.bp, url_prefix='/api/auth')
