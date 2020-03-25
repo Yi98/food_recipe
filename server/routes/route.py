@@ -21,4 +21,8 @@ def login():
 
 @bp.route('/home')
 def home():
-	return render_template('recipe.html')
+	return render_template('index.html')
+
+@bp.route('/details')
+def details():
+	return render_template('details.html')

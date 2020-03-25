@@ -12,8 +12,28 @@ from server.controller import recipe_controller
 bp = Blueprint('recipe', __name__)
 
 
-@bp.route('')
-def getRecipes():
-    result = recipe_controller.getRecipes()
+@bp.route('/random')
+def getRandomRecipes():
+    result = recipe_controller.getRandomRecipes()
 
-    return result;
+    return result
+
+@bp.route('/ingredient')
+def getRecipeIngredient():
+    result = recipe_controller.getRecipeIngredients(request.args.get('recipeId'))
+
+    return result
+
+
+@bp.route('/instruction')
+def getRecipeInstruction():
+    result = recipe_controller.getRecipeInstructions(request.args.get('recipeId'))
+
+    return jsonify(result)
+
+
+@bp.route('/information')
+def getRecipeInformation():
+    result = recipe_controller.getRecipeInformation(request.args.get('recipeId'))
+
+    return result
