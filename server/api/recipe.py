@@ -37,3 +37,24 @@ def getRecipeInformation():
     result = recipe_controller.getRecipeInformation(request.args.get('recipeId'))
 
     return result
+
+
+@bp.route('/similar')
+def getSimilarRecipes():
+    result = recipe_controller.getSimilarRecipes(request.args.get('recipeId'))
+
+    return jsonify(result)
+
+
+@bp.route('/search')
+def getSearchRecipes():
+    result = recipe_controller.getSearchRecipes(request.args.get('q'), request.args.get('offset'))
+
+    return result
+
+
+@bp.route('/explore')
+def getTypeRecipes():
+    result = recipe_controller.getSearchRecipes(request.args.get('type'), request.args.get('offset'))
+
+    return result

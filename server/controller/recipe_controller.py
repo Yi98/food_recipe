@@ -33,3 +33,21 @@ def getRecipeInformation(recipeId):
 	request = requests.get(domain + recipeId + '/information?apiKey=' + app.config['API_KEY'])
 
 	return request.json()
+
+
+def getSimilarRecipes(recipeId):
+	request = requests.get(domain + recipeId + '/similar?number=3&apiKey=' + app.config['API_KEY'])
+
+	return request.json()
+
+
+def getSearchRecipes(searchTerm, offset):
+	request = requests.get(domain + '/search?query=' + searchTerm + '&offset=' + offset + '&number=6&apiKey=' + app.config['API_KEY'])
+
+	return request.json()
+
+
+def getTypeRecipes(dishType, offset):
+	request = requests.get(domain + '/search?offset=' + offset + '&type=' + dishType + '&number=6&apiKey=' + app.config['API_KEY'])
+
+	return request.json()

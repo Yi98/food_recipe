@@ -2688,8 +2688,8 @@ h3 {
 
 /* line 1, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_destination.scss */
 .popular_destination_area {
-  padding-top: 140px;
-  padding-bottom: 120px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 @media (max-width: 767px) {
@@ -2804,10 +2804,24 @@ h3 {
 
 /* line 80, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_destination.scss */
 .destination_banner_wrap {
-  background-image: url(../img/banner/destination.png);
+  background-image: url(../img/hero-banner.jpg);
   padding: 150px 0;
   background-size: cover;
   background-position: center center;
+}
+
+.search_banner_wrap {
+  background-image: url(../img/search-banner.jpg);
+  padding: 150px 0;
+  background-size: cover;
+  background-position: center bottom;
+}
+
+.explore_banner_wrap {
+  background-image: url(../img/explore-banner.jpg);
+  padding: 150px 0;
+  background-size: cover;
+  background-position: center bottom;
 }
 
 @media (max-width: 767px) {
@@ -2834,7 +2848,7 @@ h3 {
   font-size: 80px;
   line-height: 90px;
   color: #fff;
-  font-family: "Nothing You Could Do", cursive;
+  /* font-family: "Nothing You Could Do", cursive; */
   margin-bottom: 0;
 }
 
@@ -4955,6 +4969,11 @@ h6 {
   padding: 10px 0 10px 0px;
 }
 
+.nice-select {
+  padding-top: 5px;
+  height: 50px;
+}
+
 /* line 1060, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_elements.scss */
 .form-select .nice-select .list .option {
   font-weight: 300;
@@ -6682,3 +6701,129 @@ h6 {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+
+/* Skeleton Wrapper */
+#content {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.skeleton-wrapper {
+  background: #fff;
+  border: 1px solid;
+  border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  margin: 10px 15px;
+}
+
+.skeleton-wrapper-inner {
+  height: 150px;
+  padding: 15px;
+  position: relative;
+}
+
+.skeleton-wrapper-body div {
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: placeholderSkeleton;
+  -webkit-animation-timing-function: linear;
+  background: #f6f7f8;
+  background-image: -webkit-gradient(linear, left center, right center, from(#f6f7f8), color-stop(.2, #edeef1), color-stop(.4, #f6f7f8), to(#f6f7f8));
+  background-image: -webkit-linear-gradient(left, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat;
+  background-size: 800px 300px;
+  height: 300px;
+  position: relative;
+}
+
+.skeleton-wrapper-body {
+  -webkit-animation-name: skeletonAnimate;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(deg), color-stop(0, red), color-stop(.15, orange), color-stop(.3, yellow), color-stop(.45, green), color-stop(.6, blue), color-stop(.75, indigo), color-stop(.8, violet), to(red));
+  background-image: -webkit-linear-gradient(135deg, red 0%, orange 15%, yellow 30%, green 45%, blue 60%,indigo 75%, violet 80%, red 100%);
+  background-repeat: repeat;
+  background-size: 50% auto;
+}
+
+.skeleton-wrapper-body div {
+  position: absolute;
+  right: 15px;
+  left: 15px;
+  top: 15px;
+}
+
+div.skeleton-avatar {
+  height: 60px;
+  width: 60px;
+  border-radius: 60px;
+  right: auto;
+}
+
+div.skeleton-label {
+  top: 0;
+  height: 230px;
+}
+
+div.skeleton-author {
+  top: 260px;
+  height: 25px;
+  left: 35px;
+  width: 300px;
+}
+
+div.skeleton-content-1,
+div.skeleton-content-2,
+div.skeleton-content-3 {
+  left: 35px;
+  right: 15px;
+  height: 12px;
+}
+
+div.skeleton-content-1 {
+  top: 300px;
+  width: 280px;
+}
+
+div.skeleton-content-2 {
+  top: 335px;
+  width: 90px;  
+  display: inline;
+}
+
+div.skeleton-content-3 {
+  top: 335px;
+  width: 90px;
+  left: 150px;
+  display: inline;
+}
+
+@-webkit-keyframes placeholderSkeleton {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+@-webkit-keyframes skeletonAnimate {
+  from {
+    background-position: top left;
+  }
+  to {
+    background-position: top right;
+  }
+}
+
+div.recipe-placeholder-card {
+  height: 24rem; 
+  background-image: linear-gradient(#fff, #fff), linear-gradient(#F7FAFD, #F7FAFD);
+  background-clip: content-box, padding-box;
+}
+
+
+ul.list {
+  width: 100%;
+}
