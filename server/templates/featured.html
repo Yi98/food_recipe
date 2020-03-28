@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- <link rel="manifest" href="site.webmanifest"> -->
-	<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+	<link rel="shortcut icon" type="image/x-icon" href="static/img/favicon.png">
 	<!-- Place favicon.ico in the root directory -->
 
 	<!-- CSS here -->
@@ -30,11 +30,47 @@
 	<!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 
-<body onload="onLoadDetails()">
+<body onload="loadRandomRecipe()">
 	<!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-				<![endif]-->
+        <![endif]-->
 
+	<!-- header-start -->
+	<!--
+	<header>
+		<div class="header-area ">
+			<div id="sticky-header" class="main-header-area">
+				<div class="container">
+					<div class="header_bottom_border">
+						<div class="row align-items-center">
+							<div class="col-lg-3">
+								<div class="form_area">
+									<h3 class="text-center">What to cook today?</h3>
+								</div>
+							</div>
+							<div class="col-lg-9">
+								<div class="row">
+									<div class="col-lg-10 col-7">
+										<input type="text" name="first_name" placeholder="Find recipe"
+											onfocus="this.placeholder = ''" onblur="this.placeholder = 'Find Recipe'"
+											required class="single-input w-100"
+											style="background-color: rgb(242, 242, 242);">
+									</div>
+									<div class="col-lg-2 col-5">
+										<div class="search_btn">
+											<button class="boxed-btn4" type="submit">Search</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+-->
+	<!-- header-end -->
 
 	<!-- header-start -->
 	<header>
@@ -73,72 +109,98 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
 	</header>
 	<!-- header-end -->
 
-	<div class="destination_details_info pt-3 pb-0">
+	<div class="popular_places_area pt-5">
 		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-8 col-md-9">
-					<img id="recipeImage" src="" class="w-100 pb-4">
-					<h2 id="recipeName"></h2>
-					<p id="recipeDishTypes" class="pt-2"></p>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="section_title mb_70">
+						<h3>Featured<span id="search-title"></span></h3>
+						<p>Discover the hidden gems.</p>
+					</div>
+				</div>
+			</div>
+			<div id="recommended-container" class="row"></div>
+
+			<div id="recipe-placeholder" class="row" style="background-color: #fff;">
+				<div class="col-lg-12">
 					<div class="row">
-						<div class="col-lg-3 col-md-5 col-12 pt-3">
-							<p><i class="fa fa-user pr-2"></i><span id="recipeServing"></span> servings</p>
+						<div class="col-lg-4 col-md-6 recipe-placeholder-card pb-4">
+							<div class="skeleton-wrapper-body">
+								<div class="skeleton-label"></div>
+								<div class="skeleton-author"></div>
+								<div class="skeleton-content-1"></div>
+								<div class="skeleton-content-2"></div>
+								<div class="skeleton-content-3"></div>
+							</div>
 						</div>
-						<div class="col-lg-9 col-md	-7 col-12 pt-3">
-							<p><i class="fa fa-clock-o pr-2"></i><span id="recipeTime"></span> minutes</p>
+						<div class="col-lg-4 col-md-6 recipe-placeholder-card pb-4">
+							<div class=" skeleton-wrapper-body">
+								<div class="skeleton-label"></div>
+								<div class="skeleton-author"></div>
+								<div class="skeleton-content-1"></div>
+								<div class="skeleton-content-2"></div>
+								<div class="skeleton-content-3"></div>
+							</div>
 						</div>
-					</div>
-
-					<div class="bordered_1px"></div>
-
-					<div class="destination_info">
-						<h3>Equipments</h3>
-						<div class="single_destination">
-							<ul id="equipment-container" class="unordered-list">
-							</ul>
+						<div class="col-lg-4 col-md-6 recipe-placeholder-card pb-4">
+							<div class="skeleton-wrapper-body">
+								<div class="skeleton-label"></div>
+								<div class="skeleton-author"></div>
+								<div class="skeleton-content-1"></div>
+								<div class="skeleton-content-2"></div>
+								<div class="skeleton-content-3"></div>
+							</div>
 						</div>
-					</div>
-
-					<div class="bordered_1px"></div>
-
-					<div class="destination_info">
-						<h3>Ingredients</h3>
-						<div class="single_destination">
-							<ul id="ingredient-container" class="unordered-list">
-							</ul>
-						</div>
-					</div>
-
-					<div class="bordered_1px"></div>
-
-					<div class="destination_info">
-						<h3>Procedure</h3>
-						<div id="instruction-container"></div>
-					</div>
-
-					<div class="bordered_1px"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="popular_places_area" style="background-color: #F7FAFD;">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-6">
-					<div class="section_title text-center mb_70">
-						<h3>Similar Recipe</h3>
 					</div>
 				</div>
+				
+				<div class="col-lg-12">
+					<div class="row">
+						<div class="col-lg-4 col-md-6 recipe-placeholder-card pb-4">
+							<div class="skeleton-wrapper-body">
+								<div class="skeleton-label"></div>
+								<div class="skeleton-author"></div>
+								<div class="skeleton-content-1"></div>
+								<div class="skeleton-content-2"></div>
+								<div class="skeleton-content-3"></div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 recipe-placeholder-card pb-4">
+							<div class=" skeleton-wrapper-body">
+								<div class="skeleton-label"></div>
+								<div class="skeleton-author"></div>
+								<div class="skeleton-content-1"></div>
+								<div class="skeleton-content-2"></div>
+								<div class="skeleton-content-3"></div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 recipe-placeholder-card pb-4">
+							<div class="skeleton-wrapper-body">
+								<div class="skeleton-label"></div>
+								<div class="skeleton-author"></div>
+								<div class="skeleton-content-1"></div>
+								<div class="skeleton-content-2"></div>
+								<div class="skeleton-content-3"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div id="similar-container" class="row d-flex justify-content-center"></div>
+
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="more_place_btn text-center">
+						<a class="boxed-btn4" onclick="loadRandomRecipe()">More Recipes</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -166,12 +228,13 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="serch_form">
-					<input type="text" placeholder="Find recipe">
-					<button type="submit">Search</button>
+					<input type="text" placeholder="Search">
+					<button type="submit">search</button>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<!-- link that opens popup -->
 	<!--     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -188,7 +251,7 @@
 	<script src="static/js/ajax-form.js"></script>
 	<script src="static/js/waypoints.min.js"></script>
 	<script src="static/js/jquery.counterup.min.js"></script>
-	<script src="static/js/imagesloaded.pkgd.min.js"></script>
+	<script src="static/s/imagesloaded.pkgd.min.js"></script>
 	<script src="static/js/scrollIt.js"></script>
 	<script src="static/js/jquery.scrollUp.min.js"></script>
 	<script src="static/js/wow.min.js"></script>
@@ -211,6 +274,7 @@
 
 	<script src="static/js/main.js"></script>
 	<script src="static/js/script.js"></script>
+
 	<script>
 		$('#datepicker').datepicker({
 			iconsLibrary: 'fontawesome',

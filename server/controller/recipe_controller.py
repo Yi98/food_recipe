@@ -36,7 +36,7 @@ def getRecipeInformation(recipeId):
 
 
 def getSimilarRecipes(recipeId):
-	request = requests.get(domain + recipeId + '/similar?number=3&apiKey=' + app.config['API_KEY'])
+	request = requests.get(domain + recipeId + '/similar?number=6&apiKey=' + app.config['API_KEY'])
 
 	return request.json()
 

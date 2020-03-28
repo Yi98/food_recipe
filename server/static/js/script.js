@@ -5,7 +5,11 @@ let typeOffset = 0
 
 const loadRandomRecipe = () => {
 	// Clear seach box vaue
-	document.getElementById('index-search-box').value = "";
+	if (document.getElementById('index-search-box')) {
+		document.getElementById('index-search-box').value = "";
+	}
+
+	document.getElementById('recipe-placeholder').style.display = 'block';
 
 	fetch(`${domain}/api/recipe/random`)
 		.then(function (response) {
@@ -264,6 +268,9 @@ const loadSearchRecipe = (searchOffset) => {
 	const url = new URL(window.location.href);
 	const searchTerm = url.searchParams.get("searchTerm");
 
+	document.getElementById('recipe-placeholder').style.display = 'block';
+
+
 	// Skip the recipe that are already loaded
 	if (searchOffset == 0) {
 		searchOffset = 0;
@@ -294,6 +301,8 @@ const loadSearchRecipe = (searchOffset) => {
 				}
 
 				image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`
+
+				document.getElementById('recipe-placeholder').style.display = 'none';
 
 				container.innerHTML += `
 					<div class="col-lg-4 col-md-6">
@@ -376,8 +385,11 @@ const onLoadExplore = () => {
 
 
 const loadExploreRecipe = (type) => {
-	// Skip the recipe that are already loaded
-	type = document.getElementById('select-recipe-type').value;
+	if (!type) {
+		type = document.getElementById('select-recipe-type').value;
+	}
+
+	document.getElementById('recipe-placeholder').style.display = 'block';
 
 	typeOffset += 6;
 
@@ -386,7 +398,6 @@ const loadExploreRecipe = (type) => {
 			return response.json();
 		})
 		.then(function (data) {
-			console.log(data);
 
 			const container = document.getElementById('explore-result-container');
 
@@ -402,6 +413,8 @@ const loadExploreRecipe = (type) => {
 				}
 
 				image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`
+
+				document.getElementById('recipe-placeholder').style.display = 'none';
 
 				container.innerHTML += `
 				<div class="col-lg-4 col-md-6">
