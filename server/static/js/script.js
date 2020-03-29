@@ -1,4 +1,5 @@
-const domain = 'http://127.0.0.1:5000'
+// const domain = 'http://127.0.0.1:5000';
+const domain = 'https://ultimate-cookbook.herokuapp.com';
 
 let searchOffset = 0;
 let typeOffset = 0
