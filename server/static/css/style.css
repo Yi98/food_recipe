@@ -226,21 +226,21 @@
 
 /* line 80, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_destination.scss */
 .destination_banner_wrap {
-  /* background-image: url(../img/logo2.png); */
+  background-image: url(../img/hero-banner.jpg);
   padding: 150px 0;
   background-size: cover;
   background-position: center center;
 }
 
 .search_banner_wrap {
-  /* background-image: url(../img/logo2.png); */
+  background-image: url(../img/search-banner.jpg);
   padding: 150px 0;
   background-size: cover;
   background-position: center bottom;
 }
 
 .explore_banner_wrap {
-  background-image: url(../img/logo2.png);
+  background-image: url(../img/explore-banner.jpg);
   padding: 150px 0;
   background-size: cover;
   background-position: center bottom;
