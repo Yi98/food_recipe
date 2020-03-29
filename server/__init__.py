@@ -34,5 +34,4 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp, url_prefix='/api/auth')
     app.register_blueprint(recipe.bp, url_prefix='/api/recipe')
 
-
     return app

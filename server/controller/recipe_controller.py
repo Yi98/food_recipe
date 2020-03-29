@@ -12,7 +12,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 domain = 'https://api.spoonacular.com/recipes/'
 
 def getRandomRecipes():
-    request = requests.get(domain + 'random?number=6&apiKey=' + app.config['API_KEY'])
+    request = requests.get(domain + 'random?number=1&apiKey=' + app.config['API_KEY'])
 
     return request.json()
 
@@ -42,12 +42,12 @@ def getSimilarRecipes(recipeId):
 
 
 def getSearchRecipes(searchTerm, offset):
-	request = requests.get(domain + '/search?query=' + searchTerm + '&offset=' + offset + '&number=6&apiKey=' + app.config['API_KEY'])
+	request = requests.get(domain + '/search?query=' + searchTerm + '&offset=' + offset + '&number=1&apiKey=' + app.config['API_KEY'])
 
 	return request.json()
 
 
 def getTypeRecipes(dishType, offset):
-	request = requests.get(domain + '/search?offset=' + offset + '&type=' + dishType + '&number=6&apiKey=' + app.config['API_KEY'])
+	request = requests.get(domain + '/search?offset=' + offset + '&type=' + dishType + '&number=1&apiKey=' + app.config['API_KEY'])
 
 	return request.json()
