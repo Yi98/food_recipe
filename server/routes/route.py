@@ -10,7 +10,7 @@ bp = Blueprint('route', __name__, url_prefix='/')
 
 @bp.route('')
 def index():
-    return redirect(url_for('route.register'))
+    return redirect(url_for('route.home'))
 
 
 @bp.route('/register')
