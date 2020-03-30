@@ -1,6 +1,7 @@
 import os
 
 from flask import (Flask, render_template, url_for, redirect)
+from boto.s3.connection import S3Connection
 
 from server.routes import route
 from server.api import (auth, recipe)
@@ -28,7 +29,9 @@ def create_app(test_config=None):
     except OSError:
         pass
     
-    app.config['API_KEY'] = 'a2478859405e44f48b5d9037d3ec05c2'
+    # app.config['API_KEY'] = 'a2478859405e44f48b5d9037d3ec05c2'
+    app.config['API_KEY'] = os.environ['API_KEY']
+
 
     app.register_blueprint(route.bp, url_prefix='/')
     app.register_blueprint(auth.bp, url_prefix='/api/auth')
