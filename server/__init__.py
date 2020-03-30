@@ -1,7 +1,6 @@
 import os
 
 from flask import (Flask, render_template, url_for, redirect)
-from boto.s3.connection import S3Connection
 
 from server.routes import route
 from server.api import (auth, recipe)
