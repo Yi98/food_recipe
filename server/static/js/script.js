@@ -1,5 +1,5 @@
 // const domain = 'http://127.0.0.1:5000';
-const domain = 'https://ultimate-cookbook.herokuapp.com';
+const domain = 'http://hexameal.com';
 
 let searchOffset = 0;
 let typeOffset = 0
@@ -56,13 +56,31 @@ const loadRandomRecipe = () => {
 
 				document.getElementById('recipe-placeholder').style.display = 'none';
 
+				let image = recipe.image.replace('556x370', '636x393');
+
+				let isImageNotFound = compareImage(image);
+
+				// if result.passed = true means no image
+				if (isImageNotFound) {
+					const extension = image.slice(image.length - 3);
+					if (extension == 'jpg') {
+						image = image.replace('jpg', 'png');
+					}
+					else if (extension == 'png') {
+						image = image.replace('png', 'jpg');
+					}
+				}
+				else {
+					image = recipe.image;
+				}
+
 				container.innerHTML += `
 					<div class="col-lg-4 col-md-6">
 						<a href="/details?recipeId=${recipe.id}">
 							<div class="single_place" style="cursor: pointer;">
 								<div hidden class="recipe-id">${recipe.id}</div>
 								<div class="thumb">
-									<img src="${recipe.image}" alt="Image not found">
+									<img src="${image}" alt="Image not found">
 								</div>
 								<div class="place_info">
 									<h3 title="${recipe.title}">${modifiedTitle}</h3>
@@ -108,7 +126,6 @@ const loadRecipeInformation = (recipeId) => {
 			let dishTypes = '';
 			const servings = data.servings;
 			const time = data.readyInMinutes;
-			const image = data.image.replace('556x370', '636x393'); // convert to bigger size
 			const equipments = [];
 			const ingredients = [];
 			const ingredientNames = [];
@@ -116,6 +133,24 @@ const loadRecipeInformation = (recipeId) => {
 			const equipmentContainer = document.getElementById('equipment-container');
 			const ingredientContainer = document.getElementById('ingredient-container');
 			const instructionContainer = document.getElementById('instruction-container');
+
+			let image = data.image.replace('556x370', '636x393');
+
+			let isImageNotFound = compareImage(image);
+
+			// if result.passed = true means no image
+			if (isImageNotFound) {
+				const extension = image.slice(image.length - 3);
+				if (extension == 'jpg') {
+					image = image.replace('jpg', 'png');
+				}
+				else if (extension == 'png') {
+					image = image.replace('png', 'jpg');
+				}
+			}
+			else {
+				image = data.image;
+			}
 
 
 			// Format dish types
@@ -217,14 +252,30 @@ const loadSimilarRecipe = (recipeId) => {
 			for (let i = 0; i < data.length; i++) {
 				recipe = data[i];
 
-				image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`
-
 				// Format recipe title
 				if (recipe.title.length > 23) {
 					modifiedTitle = recipe.title.substring(0, 23) + '...';
 				}
 				else {
 					modifiedTitle = recipe.title;
+				}
+
+				let image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
+
+				let isImageNotFound = compareImage(image);
+
+				// if result.passed = true means no image
+				if (isImageNotFound) {
+					const extension = image.slice(image.length - 3);
+					if (extension == 'jpg') {
+						image = image.replace('jpg', 'png');
+					}
+					else if (extension == 'png') {
+						image = image.replace('png', 'jpg');
+					}
+				}
+				else {
+					image = recipe.image;
 				}
 
 				similarContainer.innerHTML += `
@@ -301,7 +352,24 @@ const loadSearchRecipe = (searchOffset) => {
 					modifiedTitle = recipe.title;
 				}
 
-				image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`
+
+				let image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
+
+				let isImageNotFound = compareImage(image);
+
+				// if result.passed = true means no image
+				if (isImageNotFound) {
+					const extension = image.slice(image.length - 3);
+					if (extension == 'jpg') {
+						image = image.replace('jpg', 'png');
+					}
+					else if (extension == 'png') {
+						image = image.replace('png', 'jpg');
+					}
+				}
+				else {
+					image = recipe.image;
+				}
 
 				document.getElementById('recipe-placeholder').style.display = 'none';
 
@@ -398,7 +466,7 @@ const loadExploreRecipe = (type) => {
 		.then(function (response) {
 			return response.json();
 		})
-		.then(function (data) {
+		.then(async function (data) {
 
 			const container = document.getElementById('explore-result-container');
 
@@ -413,9 +481,28 @@ const loadExploreRecipe = (type) => {
 					modifiedTitle = recipe.title;
 				}
 
-				image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`
-
 				document.getElementById('recipe-placeholder').style.display = 'none';
+
+
+				let image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
+
+				let isImageNotFound = await compareImage(image);
+
+				// if result.passed = true means no image
+				if (isImageNotFound) {
+					const extension = image.slice(image.length - 3);
+					if (extension == 'jpg') {
+						image = image.replace('jpg', 'png');
+					}
+					else if (extension == 'png') {
+						image = image.replace('png', 'jpg');
+					}
+				}
+				else {
+					image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
+				}
+
+				await console.log(isImageNotFound);
 
 				container.innerHTML += `
 				<div class="col-lg-4 col-md-6">
@@ -439,10 +526,47 @@ const loadExploreRecipe = (type) => {
 						</div>
 					</a>
 				</div>
-			`
+			`;
 			}
 		})
 		.catch(function (err) {
 			console.log("Something went wrong!", err);
+		})
+};
+
+
+const compareImage = (imageUrl) => {
+	const rembrandt = new Rembrandt({
+		// `imageA` and `imageB` can be either Strings (file path on node.js,
+		// public url on Browsers) or Buffers
+		// https://spoonacular.com/recipeImages/715381-556x370.jpg'
+		imageA: imageUrl,
+		imageB: 'static/img/no-image.jpg',
+
+		// Needs to be one of Rembrandt.THRESHOLD_PERCENT or Rembrandt.THRESHOLD_PIXELS
+		thresholdType: Rembrandt.THRESHOLD_PERCENT,
+
+		// The maximum threshold (0...1 for THRESHOLD_PERCENT, pixel count for THRESHOLD_PIXELS
+		maxThreshold: 0.01,
+
+		// Maximum color delta (0...255):
+		maxDelta: 20,
+
+		// Maximum surrounding pixel offset
+		maxOffset: 0,
+
+		compositionMaskColor: Rembrandt.Color.RED // Color of unmatched pixels
+	})
+
+	// Run the comparison
+	rembrandt.compare()
+		.then(async function (result) {
+			console.log('Passed:', result.passed)
+			console.log('Difference:', (result.threshold * 100).toFixed(2), '%')
+
+			return result.passed;
+		})
+		.catch((e) => {
+			console.error(e)
 		})
 };
