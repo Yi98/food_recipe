@@ -58,21 +58,21 @@ const loadRandomRecipe = () => {
 
 				let image = recipe.image.replace('556x370', '636x393');
 
-				let isImageNotFound = compareImage(image);
+				// let isImageNotFound = compareImage(image);
 
-				// if result.passed = true means no image
-				if (isImageNotFound) {
-					const extension = image.slice(image.length - 3);
-					if (extension == 'jpg') {
-						image = image.replace('jpg', 'png');
-					}
-					else if (extension == 'png') {
-						image = image.replace('png', 'jpg');
-					}
-				}
-				else {
-					image = recipe.image;
-				}
+				// // if result.passed = true means no image
+				// if (isImageNotFound) {
+				// 	const extension = image.slice(image.length - 3);
+				// 	if (extension == 'jpg') {
+				// 		image = image.replace('jpg', 'png');
+				// 	}
+				// 	else if (extension == 'png') {
+				// 		image = image.replace('png', 'jpg');
+				// 	}
+				// }
+				// else {
+				// 	image = recipe.image;
+				// }
 
 				container.innerHTML += `
 					<div class="col-lg-4 col-md-6">
@@ -136,21 +136,21 @@ const loadRecipeInformation = (recipeId) => {
 
 			let image = data.image.replace('556x370', '636x393');
 
-			let isImageNotFound = compareImage(image);
+			// let isImageNotFound = compareImage(image);
 
-			// if result.passed = true means no image
-			if (isImageNotFound) {
-				const extension = image.slice(image.length - 3);
-				if (extension == 'jpg') {
-					image = image.replace('jpg', 'png');
-				}
-				else if (extension == 'png') {
-					image = image.replace('png', 'jpg');
-				}
-			}
-			else {
-				image = data.image;
-			}
+			// // if result.passed = true means no image
+			// if (isImageNotFound) {
+			// 	const extension = image.slice(image.length - 3);
+			// 	if (extension == 'jpg') {
+			// 		image = image.replace('jpg', 'png');
+			// 	}
+			// 	else if (extension == 'png') {
+			// 		image = image.replace('png', 'jpg');
+			// 	}
+			// }
+			// else {
+			// 	image = data.image;
+			// }
 
 
 			// Format dish types
@@ -262,21 +262,21 @@ const loadSimilarRecipe = (recipeId) => {
 
 				let image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
 
-				let isImageNotFound = compareImage(image);
+				// let isImageNotFound = compareImage(image);
 
-				// if result.passed = true means no image
-				if (isImageNotFound) {
-					const extension = image.slice(image.length - 3);
-					if (extension == 'jpg') {
-						image = image.replace('jpg', 'png');
-					}
-					else if (extension == 'png') {
-						image = image.replace('png', 'jpg');
-					}
-				}
-				else {
-					image = recipe.image;
-				}
+				// // if result.passed = true means no image
+				// if (isImageNotFound) {
+				// 	const extension = image.slice(image.length - 3);
+				// 	if (extension == 'jpg') {
+				// 		image = image.replace('jpg', 'png');
+				// 	}
+				// 	else if (extension == 'png') {
+				// 		image = image.replace('png', 'jpg');
+				// 	}
+				// }
+				// else {
+				// 	image = recipe.image;
+				// }
 
 				similarContainer.innerHTML += `
 					<div class="col-lg-4 col-md-6">
@@ -355,21 +355,21 @@ const loadSearchRecipe = (searchOffset) => {
 
 				let image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
 
-				let isImageNotFound = compareImage(image);
+				// let isImageNotFound = compareImage(image);
 
-				// if result.passed = true means no image
-				if (isImageNotFound) {
-					const extension = image.slice(image.length - 3);
-					if (extension == 'jpg') {
-						image = image.replace('jpg', 'png');
-					}
-					else if (extension == 'png') {
-						image = image.replace('png', 'jpg');
-					}
-				}
-				else {
-					image = recipe.image;
-				}
+				// // if result.passed = true means no image
+				// if (isImageNotFound) {
+				// 	const extension = image.slice(image.length - 3);
+				// 	if (extension == 'jpg') {
+				// 		image = image.replace('jpg', 'png');
+				// 	}
+				// 	else if (extension == 'png') {
+				// 		image = image.replace('png', 'jpg');
+				// 	}
+				// }
+				// else {
+				// 	image = recipe.image;
+				// }
 
 				document.getElementById('recipe-placeholder').style.display = 'none';
 
@@ -486,23 +486,22 @@ const loadExploreRecipe = (type) => {
 
 				let image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
 
-				let isImageNotFound = await compareImage(image);
+				// let isImageNotFound = await compareImage(image);
 
-				// if result.passed = true means no image
-				if (isImageNotFound) {
-					const extension = image.slice(image.length - 3);
-					if (extension == 'jpg') {
-						image = image.replace('jpg', 'png');
-					}
-					else if (extension == 'png') {
-						image = image.replace('png', 'jpg');
-					}
-				}
-				else {
-					image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
-				}
+				// // if result.passed = true means no image
+				// if (isImageNotFound) {
+				// 	const extension = image.slice(image.length - 3);
+				// 	if (extension == 'jpg') {
+				// 		image = image.replace('jpg', 'png');
+				// 	}
+				// 	else if (extension == 'png') {
+				// 		image = image.replace('png', 'jpg');
+				// 	}
+				// }
+				// else {
+				// 	image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
+				// }
 
-				await console.log(isImageNotFound);
 
 				container.innerHTML += `
 				<div class="col-lg-4 col-md-6">
