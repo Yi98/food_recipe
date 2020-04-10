@@ -40,9 +40,14 @@ def search():
 
 @bp.route('/explore')
 def explore():
-	return render_template('explore.html')
+    return render_template('explore.html')
 
 
 @bp.route('/featured')
 def featured():
-    return render_template('featured.html');
+    return render_template('featured.html')
+
+
+@bp.route('/fridge')
+def fridge():
+    return render_template('fridge.html')

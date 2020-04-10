@@ -6821,3 +6821,26 @@ ul.list {
   width: 100%;
 }
 
+.chip {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 0 20px;
+  height: 40px;
+  font-size: 13px;
+  line-height: 40px;
+  border-radius: 25px;
+  background-color: #e7e7e7;
+}
+
+.closebtn {
+  padding-left: 10px;
+  color: #888;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.closebtn:hover {
+  color: #000;
+}
