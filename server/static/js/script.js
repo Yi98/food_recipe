@@ -339,8 +339,6 @@ const loadSearchRecipe = (searchOffset) => {
 		.then(function (data) {
 			container = document.getElementById('search-result-container');
 
-			console.log(data);
-
 			for (let i = 0; i < data.results.length; i++) {
 				recipe = data.results[i];
 
@@ -568,4 +566,116 @@ const compareImage = (imageUrl) => {
 		.catch((e) => {
 			console.error(e)
 		})
+};
+
+
+const onAddIngredient = () => {
+	const chipContainer = document.getElementById('ingredients-chip-group');
+	const item = document.getElementById('ingredient-box').value;
+	document.getElementById('ingredient-box').value = '';
+
+	chipContainer.innerHTML += `
+		<div class="chip mt-2">
+			<span class="ingredient-item">${item}</span>
+			<span class="closebtn" onclick="onRemoveIngredient(this)">&times;</span>
+		</div>
+	`;
+
+	getRecipeByIngredients();
+};
+
+const onRemoveIngredient = (context) => {
+	context.parentNode.parentNode.removeChild(context.parentNode);
+
+	getRecipeByIngredients();
+}   
+
+
+const getRecipeByIngredients = async () => {
+	const ingredients = document.getElementsByClassName('ingredient-item');
+	let query = '';
+
+	for (let i = 0; i < ingredients.length; i++) {
+		if (i < ingredients.length - 1) {
+			query += (ingredients[i].innerHTML + ',');
+		}
+		else {
+			query += ingredients[i].innerHTML;
+		}
+	}
+
+	console.log(query);
+	document.getElementById('recipe-placeholder').style.display = 'block';
+
+
+	let response = await fetch(`${domain}/api/recipe/fridge?ingredients=${query}`);
+	let data = await response.json();
+	console.log(data);
+
+	container = document.getElementById('fridge-result-container');
+
+	container.innerHTML = '';
+
+	for (let i = 0; i < data.length; i++) {
+		recipe = data[i];
+
+		// format ingredients usage;
+		if (recipe.missedIngredients.length > 0) {
+			const missedIngredients = recipe.missedIngredients.map(ingredient => ingredient.name);
+		}
+
+		if (recipe.unusedIngredients.length > 0) {
+			const unusedIngredients = recipe.unusedIngredients.map(ingredient => ingredient.name);
+		}
+
+		if (recipe.usedIngredients.length > 0) {
+			const usedIngredients = recipe.usedIngredients.map(ingredient => ingredient.name);
+		}
+
+		// Format recipe title
+		if (recipe.title.length > 23) {
+			modifiedTitle = recipe.title.substring(0, 23) + '...';
+		}
+		else {
+			modifiedTitle = recipe.title;
+		}
+
+		let image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
+
+		// let isImageNotFound = compareImage(image);
+
+		// // if result.passed = true means no image
+		// if (isImageNotFound) {
+		// 	const extension = image.slice(image.length - 3);
+		// 	if (extension == 'jpg') {
+		// 		image = image.replace('jpg', 'png');
+		// 	}
+		// 	else if (extension == 'png') {
+		// 		image = image.replace('png', 'jpg');
+		// 	}
+		// }
+		// else {
+		// 	image = recipe.image;
+		// }
+
+		document.getElementById('recipe-placeholder').style.display = 'none';
+
+		container.innerHTML += `
+					<div class="col-lg-4 col-md-6">
+						<a href="/details?recipeId=${recipe.id}">
+							<div class="single_place" style="cursor: pointer;">
+								<div hidden class="recipe-id">${recipe.id}</div>
+								<div class="thumb">
+									<img src="${image}" alt="Image not found">
+								</div>
+								<div class="place_info">
+									<h3 class="pb-1" title="${recipe.title}">${modifiedTitle}</h3>
+									<p>Ingrdients usage:</p>
+								</div>
+							</div>
+						</a>
+					</div>
+				`;
+	}
+
 };

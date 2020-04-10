@@ -79,3 +79,12 @@ def getTypeRecipes():
                           '&type=' + dishType + '&number=6&apiKey=' + app.config['API_KEY'])
 
     return result.json()
+
+
+@bp.route('/fridge')
+def getFridgeRecipe():
+    ingredients = request.args.get('ingredients')
+
+    result = requests.get(domain + 'findByIngredients?number=6&ignorePantry=true&ranking=2&apiKey=' + app.config['API_KEY'] + '&ingredients=' + ingredients)
+
+    return jsonify(result.json())
