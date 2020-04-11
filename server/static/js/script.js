@@ -2,7 +2,8 @@ const domain = 'http://127.0.0.1:5000';
 // const domain = 'http://www.hexameal.com';
 
 let searchOffset = 0;
-let typeOffset = 0
+let typeOffset = 0;
+let fridgeOffset = 0;
 
 const loadRandomRecipe = () => {
 	// Clear seach box vaue
@@ -574,6 +575,10 @@ const onAddIngredient = () => {
 	const item = document.getElementById('ingredient-box').value;
 	document.getElementById('ingredient-box').value = '';
 
+	document.getElementById('recipe-placeholder').style.display = 'block';
+
+	document.getElementById('fridge-result-container').innerHTML = '';
+
 	chipContainer.innerHTML += `
 		<div class="chip mt-2">
 			<span class="ingredient-item">${item}</span>
@@ -581,17 +586,21 @@ const onAddIngredient = () => {
 		</div>
 	`;
 
-	getRecipeByIngredients();
+	getRecipeByIngredients(0);
 };
+
 
 const onRemoveIngredient = (context) => {
 	context.parentNode.parentNode.removeChild(context.parentNode);
 
-	getRecipeByIngredients();
+	document.getElementById('recipe-placeholder').style.display = 'block';
+	document.getElementById('fridge-result-container').innerHTML = '';
+
+	getRecipeByIngredients(0);
 }   
 
 
-const getRecipeByIngredients = async () => {
+const getRecipeByIngredients = async (offset) => {
 	const ingredients = document.getElementsByClassName('ingredient-item');
 	let query = '';
 
@@ -604,33 +613,48 @@ const getRecipeByIngredients = async () => {
 		}
 	}
 
-	console.log(query);
-	document.getElementById('recipe-placeholder').style.display = 'block';
+	if (offset == 0) {
+		fridgeOffset = 0;
+	}
+	else {
+		fridgeOffset += 6;
+	}
 
-
-	let response = await fetch(`${domain}/api/recipe/fridge?ingredients=${query}`);
+	let response = await fetch(`${domain}/api/recipe/fridge?offset=${fridgeOffset}&ingredients=${query}`);
 	let data = await response.json();
-	console.log(data);
 
-	container = document.getElementById('fridge-result-container');
+	const container = document.getElementById('fridge-result-container');
 
-	container.innerHTML = '';
 
 	for (let i = 0; i < data.length; i++) {
 		recipe = data[i];
 
-		// format ingredients usage;
+		let missedIngredients;
+		let missingIngredients;
+
 		if (recipe.missedIngredients.length > 0) {
-			const missedIngredients = recipe.missedIngredients.map(ingredient => ingredient.name);
+			missedIngredients = recipe.missedIngredients.map(ingredient => ingredient.name);
+		}
+		else {
+			missedIngredients = [];
 		}
 
-		if (recipe.unusedIngredients.length > 0) {
-			const unusedIngredients = recipe.unusedIngredients.map(ingredient => ingredient.name);
+		// format missing ingredients;
+		if (missedIngredients.length > 0) {
+			missingIngredients = missedIngredients.reduce((prev, item, index, ingredients) => {
+				if (index < ingredients.length -1) {
+					return prev += (item + ', ');
+				}
+				else {
+					return prev += item;
+				}
+			}, '');
 		}
+		else {
+			missingIngredients = 'None';
+		}
+		
 
-		if (recipe.usedIngredients.length > 0) {
-			const usedIngredients = recipe.usedIngredients.map(ingredient => ingredient.name);
-		}
 
 		// Format recipe title
 		if (recipe.title.length > 23) {
@@ -641,7 +665,9 @@ const getRecipeByIngredients = async () => {
 		}
 
 		let image = `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`;
-
+	
+		
+		
 		// let isImageNotFound = compareImage(image);
 
 		// // if result.passed = true means no image
@@ -661,21 +687,21 @@ const getRecipeByIngredients = async () => {
 		document.getElementById('recipe-placeholder').style.display = 'none';
 
 		container.innerHTML += `
-					<div class="col-lg-4 col-md-6">
-						<a href="/details?recipeId=${recipe.id}">
-							<div class="single_place" style="cursor: pointer;">
-								<div hidden class="recipe-id">${recipe.id}</div>
-								<div class="thumb">
-									<img src="${image}" alt="Image not found">
-								</div>
-								<div class="place_info">
-									<h3 class="pb-1" title="${recipe.title}">${modifiedTitle}</h3>
-									<p>Ingrdients usage:</p>
-								</div>
-							</div>
-						</a>
+			<div class="col-lg-4 col-md-6">
+				<a href="/details?recipeId=${recipe.id}">
+					<div class="single_place" style="cursor: pointer;">
+						<div hidden class="recipe-id">${recipe.id}</div>
+						<div class="thumb">
+							<img src="${image}" alt="Image not found">
+						</div>
+						<div class="place_info">
+							<h3 class="pb-1" title="${recipe.title}">${modifiedTitle}</h3>
+							<p><span style="font-weight: bold;">Missing ingredients:</span> ${missingIngredients}</p>
+						</div>
 					</div>
-				`;
+				</a>
+			</div>
+		`;
 	}
 
 };

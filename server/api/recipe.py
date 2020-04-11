@@ -84,7 +84,9 @@ def getTypeRecipes():
 @bp.route('/fridge')
 def getFridgeRecipe():
     ingredients = request.args.get('ingredients')
+    offset = request.args.get('offset')
 
-    result = requests.get(domain + 'findByIngredients?number=6&ignorePantry=true&ranking=2&apiKey=' + app.config['API_KEY'] + '&ingredients=' + ingredients)
+
+    result = requests.get(domain + 'findByIngredients?number=15&offset=' + offset + '&ignorePantry=true&ranking=2&apiKey=' + app.config['API_KEY'] + '&ingredients=' + ingredients)
 
     return jsonify(result.json())
