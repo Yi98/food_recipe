@@ -16,11 +16,8 @@ def create_app(test_config=None):
         pass
 
     # setting config variable
-    if os.environ['FLASK_ENV'] == 'development':
-        app.config.from_pyfile('config.py')
-    else:
-        app.config['API_KEY'] = os.environ['API_KEY']
-
+    # app.config.from_pyfile('config.py')
+    app.config['API_KEY'] = os.environ['API_KEY']
 
     # blueprint for route and api endpoints
     app.register_blueprint(route.bp, url_prefix='/')
