@@ -3,7 +3,7 @@ import os
 from flask import (Flask, render_template, url_for, redirect)
 
 from server.routes import route
-from server.api import (auth, recipe)
+from server.api import (auth, recipe, ingredient)
 
 
 def create_app(test_config=None):
@@ -23,5 +23,6 @@ def create_app(test_config=None):
     app.register_blueprint(route.bp, url_prefix='/')
     app.register_blueprint(auth.bp, url_prefix='/api/auth')
     app.register_blueprint(recipe.bp, url_prefix='/api/recipe')
+    app.register_blueprint(ingredient.bp, url_prefix='/api/ingredient')
 
     return app
