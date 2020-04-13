@@ -59,6 +59,6 @@ def featured():
 
 
 @bp.route('/fridge')
-@cache.instance.cached(timeout=3600)
+# @cache.instance.cached(timeout=3600)
 def fridge():
     return render_template('fridge.html')
