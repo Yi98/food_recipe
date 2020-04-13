@@ -4,10 +4,13 @@ from flask import (Flask, render_template, url_for, redirect)
 
 from server.routes import route
 from server.api import (auth, recipe, ingredient)
-
+from server.cache import cache
 
 def create_app(test_config=None):
+    # cache = Cache(config={'CACHE_TYPE': 'simple'})
+
     app = Flask(__name__, instance_relative_config=True)
+    cache.instance.init_app(app)
 
     # ensure the instance folder exists
     try:
@@ -16,8 +19,8 @@ def create_app(test_config=None):
         pass
 
     # setting config variable
-    # app.config.from_pyfile('config.py')
-    app.config['API_KEY'] = os.environ['API_KEY']
+    app.config.from_pyfile('config.py')
+    # app.config['API_KEY'] = os.environ['API_KEY']
 
     # blueprint for route and api endpoints
     app.register_blueprint(route.bp, url_prefix='/')
