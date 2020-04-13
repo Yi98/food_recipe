@@ -18,9 +18,11 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # setting config variable
-    app.config.from_pyfile('config.py')
-    # app.config['API_KEY'] = os.environ['API_KEY']
+    # config variable for development
+    # app.config.from_pyfile('config.py')
+
+    # config variable for production
+    app.config['API_KEY'] = os.environ['API_KEY']
 
     # blueprint for route and api endpoints
     app.register_blueprint(route.bp, url_prefix='/')
