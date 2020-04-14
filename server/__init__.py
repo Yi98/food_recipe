@@ -6,7 +6,8 @@ from server.routes import route
 from server.api import (auth, recipe, ingredient)
 from server.cache import cache
 
- # cache = Cache(config={'CACHE_TYPE': 'simple'})
+"""
+# cache = Cache(config={'CACHE_TYPE': 'simple'})
 
 app = Flask(__name__, instance_relative_config=True)
 cache.instance.init_app(app)
@@ -28,9 +29,9 @@ app.register_blueprint(route.bp, url_prefix='/')
 app.register_blueprint(auth.bp, url_prefix='/api/auth')
 app.register_blueprint(recipe.bp, url_prefix='/api/recipe')
 app.register_blueprint(ingredient.bp, url_prefix='/api/ingredient')
-
-
 """
+
+
 def create_app(test_config=None):
     # cache = Cache(config={'CACHE_TYPE': 'simple'})
 
@@ -56,4 +57,4 @@ def create_app(test_config=None):
     app.register_blueprint(ingredient.bp, url_prefix='/api/ingredient')
 
     return app
-"""
+
