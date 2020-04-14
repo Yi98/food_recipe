@@ -6,6 +6,31 @@ from server.routes import route
 from server.api import (auth, recipe, ingredient)
 from server.cache import cache
 
+ # cache = Cache(config={'CACHE_TYPE': 'simple'})
+
+app = Flask(__name__, instance_relative_config=True)
+cache.instance.init_app(app)
+
+# ensure the instance folder exists
+try:
+    os.makedirs(app.instance_path)
+except OSError:
+    pass
+
+# config variable for development
+app.config.from_pyfile('config.py')
+
+# config variable for production
+# app.config['API_KEY'] = os.environ['API_KEY']
+
+# blueprint for route and api endpoints
+app.register_blueprint(route.bp, url_prefix='/')
+app.register_blueprint(auth.bp, url_prefix='/api/auth')
+app.register_blueprint(recipe.bp, url_prefix='/api/recipe')
+app.register_blueprint(ingredient.bp, url_prefix='/api/ingredient')
+
+
+"""
 def create_app(test_config=None):
     # cache = Cache(config={'CACHE_TYPE': 'simple'})
 
@@ -19,10 +44,10 @@ def create_app(test_config=None):
         pass
 
     # config variable for development
-    # app.config.from_pyfile('config.py')
+    app.config.from_pyfile('config.py')
 
     # config variable for production
-    app.config['API_KEY'] = os.environ['API_KEY']
+    # app.config['API_KEY'] = os.environ['API_KEY']
 
     # blueprint for route and api endpoints
     app.register_blueprint(route.bp, url_prefix='/')
@@ -31,3 +56,4 @@ def create_app(test_config=None):
     app.register_blueprint(ingredient.bp, url_prefix='/api/ingredient')
 
     return app
+"""

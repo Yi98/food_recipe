@@ -1,5 +1,5 @@
-// const domain = 'http://127.0.0.1:5000';
-const domain = 'http://www.hexameal.com';
+const domain = 'http://127.0.0.1:5000';
+// const domain = 'http://www.hexameal.com';
 
 let searchOffset = 0;
 let typeOffset = 0;
@@ -171,8 +171,6 @@ const loadRecipeInformation = (recipeId) => {
 				}
 			}
 
-			console.log(data);
-
 			// Scraping equipments
 			for (let i = 0; i < data.extendedIngredients.length; i++) {
 				currentIngredient = data.extendedIngredients[i];
@@ -246,8 +244,6 @@ const loadSimilarRecipe = (recipeId) => {
 			return response.json();
 		})
 		.then(function (data) {
-			console.log(data);
-
 			similarContainer = document.getElementById('similar-container');
 
 			for (let i = 0; i < data.length; i++) {
