@@ -90,3 +90,5 @@ ENV/
 
 # Configuration files
 config.py
+
+/hexamealenv
