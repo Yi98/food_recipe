@@ -1,5 +1,5 @@
-// const domain = 'http://127.0.0.1:5000';
-const domain = 'https://www.hexameal.com';
+const domain = 'http://127.0.0.1:5000';
+// const domain = 'https://www.hexameal.com';
 
 let searchOffset = 0;
 let typeOffset = 0;
