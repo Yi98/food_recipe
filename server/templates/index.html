@@ -44,22 +44,23 @@
 				<div class="container-fluid">
 					<div class="header_bottom_border">
 						<div class="row align-items-center">
-							<div class="col-xl-2 col-lg-2">
+							<div class="col-lg-2">
 								<div class="logo">
 									<a href="/home">
 										<img height="45px" src="static/img/logo.png" alt="">
 									</a>
 								</div>
 							</div>
-							<div class="col-xl-6 col-lg-8"></div>
-							<div class="col-xl-4 col-lg-2 d-none d-lg-block">
+							<div class="col-lg-6"></div>
+							<div class="col-lg-4 d-none d-lg-block">
 								<div class="social_wrap d-flex align-items-center justify-content-end m-0">
 									<div class="main-menu d-none d-lg-block">
 										<nav>
 											<ul id="navigation">
 												<li><a href="/fridge">What's in the fridge</a></li>
-												<li><a href="/">Log in</a></li>
-												<li><a href="/" data-backdrop="false" data-toggle="modal" id="signup-modal"
+												<li><a onclick="onLogin()" href="/" data-backdrop="false" data-toggle="modal" id="signup-modal"
+													data-target=".signup-modal">Log in</a></li>
+												<li><a onclick="onSignup()" href="/" data-backdrop="false" data-toggle="modal" id="signup-modal"
 														data-target=".signup-modal">Sign up</a></li>
 											</ul>
 										</nav>
@@ -305,19 +306,14 @@
 		<div class="modal-dialog modal-md" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title w-100 text-center pl-4">Sign Up</h5>
+					<h5 id="account-modal-title" class="modal-title w-100 text-center pl-4">Sign Up</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="row">
+					<div class="row pt-2">
 						<div class="col-lg-12">
-							<!-- <p>Username</p> -->
-							<div class="input-group mb-2">
-								<input type="text" class="form-control" placeholder="Username" aria-label="Username"
-									aria-describedby="basic-addon1" style="height: 50px">
-							</div>
 							<!-- <p>Email Address</p> -->
 							<div class="input-group mb-2">
 								<input type="text" class="form-control" placeholder="Email address" aria-label="Email address"
@@ -366,7 +362,9 @@
 					</div>
 					<div class="row mt-4">
 						<div class="col-lg-12">
-							<p>Already have an account? <a href="/" style="text-decoration: underline;">Log in</a></p>
+							<p id="login-text">Already have an account? <a onclick="onLogin()" class="account-link">Log in</a></p>
+							<p id="forgot-ps-text" class="pb-3"><a href="/" style="text-decoration: underline;">Forgot password?</a></p>
+							<p id="signup-text">Don't have an account? <a onclick="onSignup()" class="account-link">Sign Up</a></p>
 						</div>
 					</div>
 				</div>

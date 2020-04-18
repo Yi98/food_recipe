@@ -906,3 +906,19 @@ function autocomplete(inp, arr) {
 		closeAllLists(e.target);
 	});
 }
+
+
+const onLogin = _ => {
+  document.getElementById('account-modal-title').innerHTML = 'Log in';
+  document.getElementById('login-text').style.display = 'none';
+  document.getElementById('forgot-ps-text').style.display = 'block';
+  document.getElementById('signup-text').style.display = 'block';
+}
+
+
+const onSignup = _ => {
+  document.getElementById('account-modal-title').innerHTML = 'Sign Up';
+  document.getElementById('login-text').style.display = 'block';
+  document.getElementById('forgot-ps-text').style.display = 'none';
+  document.getElementById('signup-text').style.display = 'none';
+}
