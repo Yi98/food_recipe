@@ -8,8 +8,6 @@ from server.cache import cache
 
 
 def create_app(test_config=None):
-    # cache = Cache(config={'CACHE_TYPE': 'simple'})
-
     app = Flask(__name__, instance_relative_config=True)
     cache.instance.init_app(app)
 

@@ -9,7 +9,7 @@ from server.controller import auth_controller
 bp = Blueprint('auth', __name__)
 
 
-@bp.route('/register', methods=['POST'])
+@bp.route('/signup', methods=['POST'])
 def register():
     email = request.form['email']
     password = request.form['password']

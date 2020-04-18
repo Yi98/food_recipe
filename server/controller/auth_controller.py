@@ -4,7 +4,7 @@ from flask import (flash, url_for, redirect, jsonify)
 from passlib.hash import pbkdf2_sha256
 
 dynamodb = boto3.resource('dynamodb', region_name='ap-southeast-1')
-table = dynamodb.Table('foodrecipe_User')  # pylint: disable=no-member
+table = dynamodb.Table('hexameal-User')  # pylint: disable=no-member
 
 
 def getUser(email, password):
@@ -25,7 +25,7 @@ def getUser(email, password):
 
 
 
-def post_user(email, password):
+def post_user(email, password):    
     user = checkIfUserExist(email)
 
     hashed_password = pbkdf2_sha256.hash(password)
