@@ -2,24 +2,26 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, json, Response
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-
-from server.controller import auth_controller
+from server.database import db
 
 
 bp = Blueprint('auth', __name__)
 
 
 @bp.route('/signup', methods=['POST'])
-def register():
+def signup():
     email = request.form['email']
     password = request.form['password']
 
-    result = auth_controller.post_user(email, password)
+    users = db.instance.users
 
-    if result['status'] == 'success':
-        return redirect(url_for('route.login'))
+    if (getUser(email) != None):
+        return jsonify({'message': 'User already exists'})
 
-    return redirect(url_for('route.register'))
+    user_data = {'email': email, 'password': password}
+    result = users.insert_one(user_data)
+
+    return jsonify({'message': 'succeed'}), 201
 
 
 @bp.route('/login', methods=['POST'])
@@ -27,18 +29,13 @@ def login():
     email = request.form['email']
     password = request.form['password']
 
-    result = auth_controller.getUser(email, password)
 
-    if result['status'] == 'success':
-        return redirect(url_for('route.home'))
+def getUser(email):
+    users = db.instance.users
 
-    response = Response(
-        response=json.dumps({'message': 'Login credential invalid'}),
-        status=401,
-    )
+    user = users.find_one({'email': email})
 
-    return response
-
+    return user
 
 # @bp.route('/logout')
 # def logout():

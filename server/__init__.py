@@ -1,10 +1,12 @@
 import os
 
 from flask import (Flask, render_template, url_for, redirect)
+import pymongo
 
 from server.routes import route
 from server.api import (auth, recipe, ingredient)
 from server.cache import cache
+from server.database import db
 
 
 def create_app(test_config=None):
@@ -19,8 +21,8 @@ def create_app(test_config=None):
 
     app.config.from_pyfile('config.py')
 
-    # config variable for production
-    # app.config['API_KEY'] = os.environ['API_KEY']
+    client = pymongo.MongoClient(app.config['DB_CONNECTION'])
+    db.instance = client.test
 
     # blueprint for route and api endpoints
     app.register_blueprint(route.bp, url_prefix='/')
