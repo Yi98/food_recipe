@@ -18,7 +18,7 @@
           >
             <div class="thumb">
               <img
-                src="../assets/main-course.jpg"
+                src="../../assets/main-course.jpg"
                 alt
                 style="height: 250px; object-fit: cover; width: 100%"
               />
@@ -35,7 +35,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../assets/side-dish.jpg" alt class="food-category" />
+              <img src="../../assets/side-dish.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Side dish</p>
@@ -49,7 +49,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../assets/appetizer.jpg" alt class="food-category" />
+              <img src="../../assets/appetizer.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Appetizer</p>
@@ -63,7 +63,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../assets/drink.jpg" alt class="food-category" />
+              <img src="../../assets/drink.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Drink</p>
@@ -77,7 +77,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../assets/snack.jpg" alt class="food-category" />
+              <img src="../../assets/snack.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Snack</p>
@@ -91,7 +91,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../assets/dessert.jpg" alt class="food-category" />
+              <img src="../../assets/dessert.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Dessert</p>
@@ -103,8 +103,8 @@
         <b-col lg="12">
           <a href="/explore">
             <p style="color: #040E27; text-decoration: underline;">
-              <span style="font-size: 18px;">Show more categories<b-icon-chevron-right class="pl-1 pt-1 right-icon"></b-icon-chevron-right></span>
-              <i style="font-weight: bold;" class="fa fa-angle-right pl-2"></i>
+              <router-link class="link" to="/explore"><span style="font-size: 18px;">Show more categories</span></router-link>
+              <b-icon-chevron-right class="pl-1 pt-1 right-icon"></b-icon-chevron-right>
             </p>
           </a>
         </b-col>
@@ -120,6 +120,10 @@ export default {
 </script>
 
 <style scoped>
+.link {
+  color: #040E27;
+}
+
 .popular_destination_area {
   padding-top: 60px;
   padding-bottom: 60px;
