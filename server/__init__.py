@@ -11,6 +11,7 @@ from server.database import db
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+
     cache.instance.init_app(app)
 
     # ensure the instance folder exists
@@ -18,11 +19,11 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
+    
     app.config.from_pyfile('config.py')
 
     client = pymongo.MongoClient(app.config['DB_CONNECTION'])
-    db.instance = client.test
+    db.instance = client.hexameal
 
     # blueprint for route and api endpoints
     app.register_blueprint(route.bp, url_prefix='/')

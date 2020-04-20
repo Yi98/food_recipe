@@ -913,6 +913,8 @@ const onLogin = _ => {
   document.getElementById('login-text').style.display = 'none';
   document.getElementById('forgot-ps-text').style.display = 'block';
   document.getElementById('signup-text').style.display = 'block';
+
+  document.getElementById('account-btn').setAttribute("onclick", "onContinueLogin()");
 }
 
 
@@ -921,6 +923,8 @@ const onSignup = _ => {
   document.getElementById('login-text').style.display = 'block';
   document.getElementById('forgot-ps-text').style.display = 'none';
   document.getElementById('signup-text').style.display = 'none';
+
+  document.getElementById('account-btn').setAttribute("onclick", "onContinueSignup()");
 }
 
 
@@ -932,13 +936,39 @@ const onContinueSignup = () => {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `email=${email}&password=${password}`
-  }
-  )
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
   })
-  .catch(err => {
-    console.log(err);
+    .then(response => response.json())
+    .then(data => {
+      // console.log(data);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
+
+
+const onContinueLogin = () => {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  fetch(`${domain}/api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `email=${email}&password=${password}`
   })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('login-link').style.display = 'none';
+      document.getElementById('signup-link').style.display = 'none';
+      document.getElementById('logout-link').style.display = 'inline';
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
+
+const onlogout = () => {
+  document.getElementById('login-link').style.display = 'inline';
+  document.getElementById('signup-link').style.display = 'inline';
+  document.getElementById('logout-link').style.display = 'none';
 }

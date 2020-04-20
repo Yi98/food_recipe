@@ -1,7 +1,8 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, json, Response
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+import bcrypt
+
 from server.database import db
 
 
@@ -10,16 +11,17 @@ bp = Blueprint('auth', __name__)
 
 @bp.route('/signup', methods=['POST'])
 def signup():
-    email = request.form['email']
-    password = request.form['password']
-
+    # get all users
     users = db.instance.users
+
+    email = request.form['email']
+    password = (request.form['password'])
+    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     if (getUser(email) != None):
         return jsonify({'message': 'User already exists'})
 
-    user_data = {'email': email, 'password': password}
-    result = users.insert_one(user_data)
+    result = users.insert_one({'email': email, 'password': hashed})
 
     return jsonify({'message': 'succeed'}), 201
 
@@ -28,6 +30,18 @@ def signup():
 def login():
     email = request.form['email']
     password = request.form['password']
+
+    user = getUser(email)
+
+    # User not exist
+    if (user == None):
+        return jsonify({'message': 'Invalid cridentials'}), 401
+
+    # Compare user's password with hashed password
+    if bcrypt.checkpw(password.encode('utf-8'), user['password']):
+        return jsonify({'message': 'Login in successfully'}), 201
+    else:
+        return jsonify({'message': 'Invalid cridentials'}), 401
 
 
 def getUser(email):
