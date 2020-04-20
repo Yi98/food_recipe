@@ -8,25 +8,25 @@
         <b-col lg="8" md="10">
           <b-row>
             <b-col lg="9" md="8" sm="12" class="pt-3">
-              <input
+              <b-form-input
                 id="index-search-box"
-                type="text"
+                v-model="text"
                 name="first_name"
                 placeholder="Find recipe"
                 onfocus="this.placeholder = ''"
                 onblur="this.placeholder = 'Find Recipe'"
                 required
                 class="single-input m-auto w-100"
-              />
+              ></b-form-input>
             </b-col>
             <b-col lg="3" md="4" sm="12" class="pt-3">
               <div class="search_btn">
-                <button
+                <b-button
+                  id="search-btn"
                   class="boxed-btn4 w-100"
                   onclick="onIndexSearchRecipe()"
-                  type="submit"
                   style="height: 55px;"
-                >Search</button>
+                >Search</b-button>
               </div>
             </b-col>
           </b-row>
@@ -57,30 +57,11 @@ export default {
   border-radius: 5px;
 }
 
-.boxed-btn4 {
-  background: #ff4a52;
-  color: #fff;
-  display: inline-block;
-  padding: 13px 39px;
-  font-family: "Rubik", sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  border: 0;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  text-align: center;
-  text-transform: capitalize;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
-  cursor: pointer;
+#search-btn {
+  box-shadow: none;
+  background-color:#ff4a52;
 }
 
-.boxed-btn4:focus {
-  outline: none;
-}
 
 .single-input {
   display: block;
@@ -93,7 +74,7 @@ export default {
 }
 
 .destination_banner_wrap.overlay:before {
-    opacity: .3;
+  opacity: 0.3;
 }
 
 .overlay {

@@ -29,7 +29,10 @@ const router = new VueRouter({
     { path: '/search', component: Search },
     { path: '/fridge', component: Fridge },
     { path: '/details', component: Details }
-  ]
+  ],
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  }
 });
 
 new Vue({

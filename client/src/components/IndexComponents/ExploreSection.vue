@@ -101,12 +101,12 @@
       </b-row>
       <b-row class="pt-2 pb-3">
         <b-col lg="12">
-          <a href="/explore">
+          <router-link to="/explore">
             <p style="color: #040E27; text-decoration: underline;">
-              <router-link class="link" to="/explore"><span style="font-size: 18px;">Show more categories</span></router-link>
+              <span style="font-size: 18px;">Show more categories</span>
               <b-icon-chevron-right class="pl-1 pt-1 right-icon"></b-icon-chevron-right>
             </p>
-          </a>
+          </router-link>
         </b-col>
       </b-row>
     </b-container>
@@ -120,22 +120,9 @@ export default {
 </script>
 
 <style scoped>
-.link {
-  color: #040E27;
-}
-
 .popular_destination_area {
   padding-top: 60px;
   padding-bottom: 60px;
-}
-
-.section_title h3 {
-  font-size: 38px;
-  font-weight: 400;
-  color: #040e27;
-  position: relative;
-  z-index: 0;
-  padding-bottom: 7px;
 }
 
 .food-category {
