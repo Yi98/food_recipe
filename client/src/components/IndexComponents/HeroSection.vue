@@ -59,9 +59,8 @@ export default {
 
 #search-btn {
   box-shadow: none;
-  background-color:#ff4a52;
+  background-color: #ff4a52;
 }
-
 
 .single-input {
   display: block;
