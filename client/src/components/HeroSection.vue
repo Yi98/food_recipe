@@ -45,7 +45,7 @@ export default {
 
 <style scoped>
 .destination_banner_wrap {
-  background-image: url(../../assets/hero-banner.jpg);
+  background-image: url(../assets/hero-banner.jpg);
   padding: 190px 0;
   background-size: cover;
   background-position: center center;

@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import HeroSection from "../components/IndexComponents/HeroSection.vue";
-import ExploreSection from "../components/IndexComponents/ExploreSection.vue";
+import HeroSection from "../components/HeroSection.vue";
+import ExploreSection from "../components/ExploreSection.vue";
 
 export default {
   components: {

@@ -18,7 +18,7 @@
           >
             <div class="thumb">
               <img
-                src="../../assets/main-course.jpg"
+                src="../assets/main-course.jpg"
                 alt
                 style="height: 250px; object-fit: cover; width: 100%"
               />
@@ -35,7 +35,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../../assets/side-dish.jpg" alt class="food-category" />
+              <img src="../assets/side-dish.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Side dish</p>
@@ -49,7 +49,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../../assets/appetizer.jpg" alt class="food-category" />
+              <img src="../assets/appetizer.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Appetizer</p>
@@ -63,7 +63,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../../assets/drink.jpg" alt class="food-category" />
+              <img src="../assets/drink.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Drink</p>
@@ -77,7 +77,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../../assets/snack.jpg" alt class="food-category" />
+              <img src="../assets/snack.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Snack</p>
@@ -91,7 +91,7 @@
             style="cursor: pointer;"
           >
             <div class="thumb">
-              <img src="../../assets/dessert.jpg" alt class="food-category" />
+              <img src="../assets/dessert.jpg" alt class="food-category" />
             </div>
             <div class="content">
               <p class="d-flex align-items-center">Dessert</p>

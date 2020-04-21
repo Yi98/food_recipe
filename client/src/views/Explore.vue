@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import CardPlaceholder from "./CardPlaceholder";
+import CardPlaceholder from "../components/CardPlaceholder";
 
 export default {
   name: "Explore",

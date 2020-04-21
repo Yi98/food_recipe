@@ -5,19 +5,19 @@
         <div class="row align-items-center">
           <b-col lg="3" class="py-2">
             <div class="form_area">
-              <h3 class="mb-0">What to cook today?</h3>
+              <h3 class="mb-0">What's in your fridge?</h3>
             </div>
           </b-col>
           <b-col lg="9" md="10">
             <b-row>
               <b-col lg="9" md="8" sm="12" cols="12" class="py-2">
                 <b-form-input
-                  id="index-search-box"
+                  id="add-ingredient-box"
                   v-model="text"
                   name="first_name"
-                  placeholder="Find recipe"
+                  placeholder="Add ingredients"
                   onfocus="this.placeholder = ''"
-                  onblur="this.placeholder = 'Find Recipe'"
+                  onblur="this.placeholder = 'Add ingredients'"
                   required
                   class="single-input m-auto w-100"
                 ></b-form-input>
@@ -29,7 +29,7 @@
                     class="boxed-btn4 w-100"
                     onclick="onIndexSearchRecipe()"
                     style="height: 55px;"
-                  >Search</b-button>
+                  >Add</b-button>
                 </div>
               </b-col>
             </b-row>
@@ -39,21 +39,25 @@
       </b-container>
     </div>
 
-    <div class="popular_places_area pt-5">
+    <div class="popular_places_area pt-3">
       <b-container>
-        <b-row class="pb-5">
+        <b-row>
           <b-col lg="12">
             <div class="section_title mb_70">
-              <h3>
-                Search results: Chicken breast
-                <span id="search-title"></span>
-              </h3>
-              <p>Browse amazing recipe to cook and stay hunger free.</p>
+              <b-row>
+                <b-col lg="12">
+                  <h4 style="display: inline-block" class="pt-3 pb-4 pr-3 m-0">
+                    Available ingredients:
+                    <span id="search-title"></span>
+                  </h4>
+                  <div style="display: inline" id="ingredients-chip-group"></div>
+                </b-col>
+              </b-row>
             </div>
           </b-col>
         </b-row>
-        <b-row id="explore-result-container"></b-row>
 
+        <b-row id="fridge-result-container"></b-row>
         <div>
           <CardPlaceholder></CardPlaceholder>
           <CardPlaceholder></CardPlaceholder>
@@ -62,11 +66,8 @@
         <b-row>
           <b-col lg="12">
             <div class="more_place_btn text-center">
-              <a
-                class="boxed-btn4"
-                onclick="loadExploreRecipe(null)"
-                style="color: #fff"
-              >More Recipes</a>
+              <p>End of results</p>
+              <!-- <a class="boxed-btn4" onclick="getRecipeByIngredients()" style="color: #fff">More Recipes</a> -->
             </div>
           </b-col>
         </b-row>
@@ -76,10 +77,10 @@
 </template>
 
 <script>
-import CardPlaceholder from "./CardPlaceholder";
+import CardPlaceholder from "../components/CardPlaceholder";
 
 export default {
-  name: "Search",
+  name: "Fridge",
   components: {
     CardPlaceholder
   }
@@ -87,7 +88,7 @@ export default {
 </script>
 
 <style scoped>
-#index-search-box {
+#add-ingredient-box {
   background-color: rgb(242, 242, 242);
   height: 55px;
   border-radius: 5px;
@@ -148,13 +149,6 @@ export default {
   color: #fff;
   font-weight: 400;
   margin-bottom: 0;
-}
-
-@media (max-width: 767px) {
-  .section_title h3 {
-    font-size: 30px;
-    line-height: 36px;
-  }
 }
 
 @media (max-width: 1200px) and (min-width: 992px) {
