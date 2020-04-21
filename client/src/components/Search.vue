@@ -45,10 +45,10 @@
           <b-col lg="12">
             <div class="section_title mb_70">
               <h3>
-                Explore
+                Search results: Chicken breast
                 <span id="search-title"></span>
               </h3>
-              <p>Discover the hidden gems.</p>
+              <p>Browse amazing recipe to cook and stay hunger free.</p>
             </div>
           </b-col>
         </b-row>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import CardPlaceholder from './CardPlaceholder'
+import CardPlaceholder from "./CardPlaceholder";
 
 export default {
   name: "Search",
@@ -148,6 +148,13 @@ export default {
   color: #fff;
   font-weight: 400;
   margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .section_title h3 {
+    font-size: 30px;
+    line-height: 36px;
+  }
 }
 
 @media (max-width: 1200px) and (min-width: 992px) {

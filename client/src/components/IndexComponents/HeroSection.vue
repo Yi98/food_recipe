@@ -1,7 +1,7 @@
 <template>
   <div class="destination_banner_wrap overlay">
     <div class="destination_text text-center">
-      <h3 class="pb-4">What to cook today ?</h3>
+      <h3 id="hero-text" class="pb-4 m-auto">What to cook today ?</h3>
       <b-row class="align-items-center m-auto">
         <b-col lg="2" md="1"></b-col>
         <!-- <div class="col-lg-2 col-md-1"></div> -->
@@ -110,14 +110,6 @@ export default {
   height: 600px;
 }
 
-@media (max-width: 767px) {
-  /* line 80, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_destination.scss */
-  .destination_banner_wrap {
-    height: 570px;
-    padding: 130px 0;
-  }
-}
-
 @media (min-width: 768px) and (max-width: 991px) {
   /* line 80, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_destination.scss */
   .destination_banner_wrap {
@@ -129,6 +121,15 @@ export default {
   .destination_banner_wrap .destination_text h3 {
     font-size: 41px;
     line-height: 50px;
+  }
+
+  .destination_banner_wrap {
+    height: 570px;
+    padding: 130px 0;
+  }
+
+  h3#hero-text {
+    width: 90%;
   }
 }
 </style>
