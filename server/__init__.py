@@ -1,6 +1,7 @@
 import os
 
 from flask import (Flask, render_template, url_for, redirect)
+from flask_cors import CORS
 import pymongo
 
 from server.routes import route
@@ -10,7 +11,8 @@ from server.database import db
 
 
 def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config=True)
+    # app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=True, static_folder='./dist/static', template_folder='./dist')
 
     cache.instance.init_app(app)
 
@@ -19,11 +21,15 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-    
+
     app.config.from_pyfile('config.py')
 
     client = pymongo.MongoClient(app.config['DB_CONNECTION'])
     db.instance = client.hexameal
+
+    # Apply CORS to app
+    CORS(app)
+    # CORS(app, resources={r"/api": {"origins": "https://www.hexameal.com"}})
 
     # blueprint for route and api endpoints
     app.register_blueprint(route.bp, url_prefix='/')
@@ -32,4 +38,3 @@ def create_app(test_config=None):
     app.register_blueprint(ingredient.bp, url_prefix='/api/ingredient')
 
     return app
-
