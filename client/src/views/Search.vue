@@ -13,7 +13,8 @@
               <b-col lg="9" md="8" sm="12" cols="12" class="py-2">
                 <b-form-input
                   id="index-search-box"
-                  v-model="text"
+                  v-model="searchTitle"
+                  type="text"
                   name="first_name"
                   placeholder="Find recipe"
                   onfocus="this.placeholder = ''"
@@ -27,7 +28,7 @@
                   <b-button
                     id="search-btn"
                     class="boxed-btn4 w-100"
-                    onclick="onIndexSearchRecipe()"
+                    @click="onSearchRecipe()"
                     style="height: 55px;"
                   >Search</b-button>
                 </div>
@@ -45,28 +46,26 @@
           <b-col lg="12">
             <div class="section_title mb_70">
               <h3>
-                Search results: Chicken breast
+                Search results: {{ searchTitle }}
                 <span id="search-title"></span>
               </h3>
               <p>Browse amazing recipe to cook and stay hunger free.</p>
             </div>
           </b-col>
         </b-row>
-        <b-row id="explore-result-container"></b-row>
 
-        <div>
+        <div v-if="!hasLoaded">
           <CardPlaceholder></CardPlaceholder>
           <CardPlaceholder></CardPlaceholder>
         </div>
+        <b-row id="explore-result-container" v-else>
+          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
+        </b-row>
 
-        <b-row>
+        <b-row v-if="hasLoaded">
           <b-col lg="12">
             <div class="more_place_btn text-center">
-              <a
-                class="boxed-btn4"
-                onclick="loadExploreRecipe(null)"
-                style="color: #fff"
-              >More Recipes</a>
+              <a class="boxed-btn4" @click="onLoadMoreRecipes()" style="color: #fff">More Recipes</a>
             </div>
           </b-col>
         </b-row>
@@ -76,12 +75,59 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import CardPlaceholder from "../components/CardPlaceholder";
+import RecipeCard from "../components/RecipeCard";
 
 export default {
   name: "Search",
   components: {
-    CardPlaceholder
+    CardPlaceholder,
+    RecipeCard
+  },
+  data: function() {
+    return {
+      hasLoaded: false,
+      recipes: [],
+      searchTitle: "",
+      searchOffset: 0
+    };
+  },
+  methods: {
+    onSearchRecipe: function() {
+      this.searchOffset = 0;
+      this.hasLoaded = false;
+
+      axios
+        .get(
+          `${this.domain}/api/recipe/search?q=${this.searchTitle}&offset=${this.searchOffset}`
+        )
+        .then(response => {
+          this.recipes = response.data.results;
+          this.hasLoaded = true;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onLoadMoreRecipes: function() {
+      this.searchOffset += 6;
+      this.hasLoaded = false;
+
+      axios
+        .get(
+          `${this.domain}/api/recipe/search?q=${this.searchTitle}&offset=${this.searchOffset}`
+        )
+        .then(response => {
+          console.log(response);
+          this.recipes.push(...response.data.results);
+          this.hasLoaded = true;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>

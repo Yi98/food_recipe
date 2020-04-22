@@ -13,6 +13,17 @@ Vue.use(VueRouter);
 
 Vue.config.productionTip = false
 
+Vue.mixin({
+  data: function () {
+    return {
+      get domain() {
+        return 'http://127.0.0.1:5000';
+        // return 'https://www.hexameal.com';
+      }
+    }
+  }
+})
+
 new Vue({
   router,
   render: h => h(App),
