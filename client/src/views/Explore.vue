@@ -47,7 +47,6 @@
             </div>
           </b-col>
         </b-row>
-        <b-row id="explore-result-container"></b-row>
 
         <div v-if="!hasLoaded">
           <CardPlaceholder></CardPlaceholder>

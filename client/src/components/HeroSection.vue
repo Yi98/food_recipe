@@ -1,45 +1,21 @@
 <template>
   <div class="destination_banner_wrap overlay">
     <div class="destination_text text-center">
-      <h3 id="hero-text" class="pb-4 m-auto">What to cook today ?</h3>
-      <b-row class="align-items-center m-auto">
-        <b-col lg="2" md="1"></b-col>
-        <!-- <div class="col-lg-2 col-md-1"></div> -->
-        <b-col lg="8" md="10">
-          <b-row>
-            <b-col lg="9" md="8" sm="12" class="pt-3">
-              <b-form-input
-                id="index-search-box"
-                v-model="text"
-                name="first_name"
-                placeholder="Find recipe"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Find Recipe'"
-                required
-                class="single-input m-auto w-100"
-              ></b-form-input>
-            </b-col>
-            <b-col lg="3" md="4" sm="12" class="pt-3">
-              <div class="search_btn">
-                <b-button
-                  id="search-btn"
-                  class="boxed-btn4 w-100"
-                  onclick="onIndexSearchRecipe()"
-                  style="height: 55px;"
-                >Search</b-button>
-              </div>
-            </b-col>
-          </b-row>
-        </b-col>
-        <b-col lg="2" md="1"></b-col>
-      </b-row>
+      <transition name="fade">
+        <h3 id="hero-text" class="pb-4 m-auto">{{ heroTitle }}</h3>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "HeroSection"
+  name: "HeroSection",
+  data: function() {
+    return {
+      heroTitle: "What to cook today ?"
+    };
+  }
 };
 </script>
 

@@ -10,8 +10,8 @@
           </b-col>
           <b-col lg="9" md="10">
             <b-row>
-              <b-col lg="9" md="8" sm="12" cols="12" class="py-2">
-                <b-form-input
+              <b-col lg="3" md="8" sm="12" class="py-2">
+                <!-- <b-form-input
                   id="add-ingredient-box"
                   v-model="text"
                   name="first_name"
@@ -20,17 +20,17 @@
                   onblur="this.placeholder = 'Add ingredients'"
                   required
                   class="single-input m-auto w-100"
-                ></b-form-input>
+                ></b-form-input>-->
               </b-col>
-              <b-col lg="3" md="4" sm="12" cols="12" class="py-2">
-                <div class="search_btn">
+              <b-col lg="12" class="py-2">
+                <!-- <div class="search_btn">
                   <b-button
                     id="search-btn"
                     class="boxed-btn4 w-100"
-                    onclick="onIndexSearchRecipe()"
+                    @input="onAddIngredient()"
                     style="height: 55px;"
                   >Add</b-button>
-                </div>
+                </div>-->
               </b-col>
             </b-row>
           </b-col>
@@ -41,7 +41,7 @@
 
     <div class="popular_places_area pt-3">
       <b-container>
-        <b-row>
+        <b-row class="mb-5">
           <b-col lg="12">
             <div class="section_title mb_70">
               <b-row>
@@ -50,18 +50,41 @@
                     Available ingredients:
                     <span id="search-title"></span>
                   </h4>
-                  <div style="display: inline" id="ingredients-chip-group"></div>
+                  <div style="display: inline">
+                    <tags-input
+                      placeholder="Add ingredient..."
+                      element-id="tags"
+                      typeahead-style="dropdown"
+                      discard-search-text
+                      :limit="10"
+                      :hide-input-on-limit="true"
+                      :only-existing-tags="true"
+                      :existing-tags="autocomplete"
+                      :typeahead="true"
+                      @change="onKeyIngredient"
+                      @tag-added="onAddIngredient"
+                      @tag-removed="onRemoveIngredient"
+                    ></tags-input>
+                  </div>
+                  <!-- <div style="display: inline" id="ingredients-chip-group">
+                    <div class="chip mt-2">
+                      <span class="ingredient-item">cheese</span>
+                      <span class="closebtn" onclick="onRemoveIngredient(this)">&times;</span>
+                    </div>
+                  </div>-->
                 </b-col>
               </b-row>
             </div>
           </b-col>
         </b-row>
 
-        <b-row id="fridge-result-container"></b-row>
-        <div>
+        <div v-if="!hasLoaded">
           <CardPlaceholder></CardPlaceholder>
           <CardPlaceholder></CardPlaceholder>
         </div>
+        <b-row id="fridge-result-container" v-else>
+          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
+        </b-row>
 
         <b-row>
           <b-col lg="12">
@@ -77,17 +100,266 @@
 </template>
 
 <script>
+import axios from "axios";
+import VoerroTagsInput from "@voerro/vue-tagsinput";
+
 import CardPlaceholder from "../components/CardPlaceholder";
+import RecipeCard from "../components/RecipeCard";
 
 export default {
   name: "Fridge",
   components: {
-    CardPlaceholder
+    CardPlaceholder,
+    RecipeCard,
+    "tags-input": VoerroTagsInput
+  },
+  data: function() {
+    return {
+      offset: 0,
+      hasLoaded: false,
+      recipes: [],
+      existingIngredients: [],
+      autocomplete: []
+    };
+  },
+  methods: {
+    onKeyIngredient: function(value) {
+      if (value.length % 3 != 0) {
+        return;
+      }
+
+      axios
+        .get(`${this.domain}/api/ingredient/autocomplete?query=${value}`)
+        .then(response => {
+          this.autocomplete = response.data.map(data => {
+            return { key: data.name, value: data.name };
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onUpdateIngredient: function(action, item) {
+      if (action == "add") {
+        this.existingIngredients.push(item);
+      } else if (action == "remove") {
+        this.existingIngredients = this.existingIngredients.filter(
+          ingredient => ingredient != item
+        );
+        if (this.existingIngredients.length == 0) {
+          this.hasLoaded = false;
+          return;
+        }
+      }
+
+      const query = this.existingIngredients.join();
+
+      // This will use too much point when removing ingredient
+      axios
+        .get(
+          `${this.domain}/api/recipe/fridge?offset=${this.offset}&ingredients=${query}`
+        )
+        .then(response => {
+          this.recipes = response.data;
+          this.hasLoaded = true;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onAddIngredient: function(slug) {
+      return this.onUpdateIngredient("add", slug.value);
+    },
+    onRemoveIngredient: function(slug) {
+      return this.onUpdateIngredient("remove", slug.value);
+    }
   }
 };
 </script>
 
+<style>
+/* The input */
+.tags-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tags-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+}
+
+.tags-input input:focus {
+  outline: none;
+}
+
+.tags-input input[type="text"] {
+  padding-left: 5px;
+  color: #495057;
+}
+
+.tags-input-wrapper-default {
+  padding: 0.5em 0.25em;
+  background: #fff;
+  border-radius: 0.25em;
+  border-color: #dbdbdb;
+
+  box-shadow: 1px 1px #d4d4d4;
+}
+
+.tags-input-wrapper-default.active {
+  outline: 0 none;
+}
+
+/* The tag badges & the remove icon */
+.tags-input span {
+  margin-right: 0.3em;
+}
+
+.tags-input-remove {
+  cursor: pointer;
+  position: absolute;
+  display: inline-block;
+  right: 0.6em;
+  top: 1.1em;
+  padding: 0.5em;
+  overflow: hidden;
+}
+
+.tags-input-remove:focus {
+  outline: none;
+}
+
+.tags-input-remove:before,
+.tags-input-remove:after {
+  content: "";
+  position: absolute;
+  width: 75%;
+  left: 0.15em;
+  background: #888;
+  height: 2px;
+  margin-top: -1px;
+}
+
+.tags-input-remove:before {
+  transform: rotate(45deg);
+}
+.tags-input-remove:after {
+  transform: rotate(-45deg);
+}
+
+/* Tag badge styles */
+.tags-input-badge {
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 40px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tags-input-badge-pill {
+  height: 40px;
+  margin: 0.5em 0.2em;
+  padding: 0 20px;
+  padding-right: 25px;
+  border-radius: 10em;
+}
+
+.tags-input-badge-selected-default {
+  color: #212529;
+  background-color: #f0f1f2;
+}
+
+/* Typeahead */
+.typeahead-hide-btn {
+  color: #999 !important;
+  font-style: italic;
+}
+
+/* Typeahead - badges */
+.typeahead-badges > span {
+  cursor: pointer;
+  margin-right: 0.3em;
+}
+
+/* Typeahead - dropdown */
+.typeahead-dropdown {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
+
+.typeahead-dropdown li {
+  padding: 0.25em 1em;
+  cursor: pointer;
+}
+
+/* Typeahead elements style/theme */
+.tags-input-typeahead-item-default {
+  color: rgb(32, 32, 32);
+  background-color: #ffffff;
+}
+
+.tags-input-typeahead-item-highlighted-default {
+  color: #fff;
+  background-color: #007bff;
+}
+</style>
+
+
+
 <style scoped>
+.input-group-sm > .form-control:not(textarea),
+.input-group-sm > .custom-select {
+  height: 50px;
+}
+
+.input-group > .form-control {
+  font-size: 50px;
+}
+
+.chip {
+  display: inline-block;
+  margin-right: 5px;
+  padding: 0 20px;
+  height: 40px;
+  font-size: 13px;
+  line-height: 40px;
+  border-radius: 25px;
+  background-color: #e7e7e7;
+}
+
+.closebtn {
+  padding-left: 10px;
+  color: #888;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.closebtn:hover {
+  color: #000;
+}
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+
 #add-ingredient-box {
   background-color: rgb(242, 242, 242);
   height: 55px;
