@@ -113,7 +113,6 @@ export default {
     },
     onLoadMoreRecipes: function() {
       this.searchOffset += 6;
-      this.hasLoaded = false;
 
       axios
         .get(
@@ -122,7 +121,6 @@ export default {
         .then(response => {
           console.log(response);
           this.recipes.push(...response.data.results);
-          this.hasLoaded = true;
         })
         .catch(err => {
           console.log(err);

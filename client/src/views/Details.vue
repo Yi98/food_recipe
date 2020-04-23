@@ -9,7 +9,7 @@
             class="w-100 pb-4"
           />
           <h2 id="recipeName">{{ recipe.title }}</h2>
-          <p id="recipeDishTypes" class="pt-2">{{ recipe.dishTypes[0] }}</p>
+          <p id="recipeDishTypes" class="pt-2">{{ dishTypes }}</p>
           <b-row>
             <b-col lg="3" cols="5" class="pt-3">
               <p>
@@ -35,7 +35,7 @@
             <h3>Equipments</h3>
             <div class="single_destination">
               <ul id="equipment-container" class="unordered-list">
-                <li v-for="equipment in equipments" v-bind:key="equipment">
+                <li v-for="equipment in formattedEquipments()" v-bind:key="equipment">
                   <span>{{ equipment }}</span>
                 </li>
               </ul>
@@ -162,13 +162,28 @@ export default {
   },
   computed: {
     dishTypes: function() {
-      return this.recipe.data.dishTypes.join();
+      const dishTypes = this.recipe.dishTypes.map(
+        dishType => dishType.charAt(0).toUpperCase() + dishType.slice(1)
+      );
+      return dishTypes.join(", ");
+    },
+    formattedEquipments: function() {
+      const equipments = this.equipments.map(
+        dishType => dishType.charAt(0).toUpperCase() + dishType.slice(1)
+      );
+      return equipments;
     }
   }
 };
 </script>
 
 <style scoped>
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+  list-style: none;
+}
+
 .bordered_1px {
   border-top: 1px solid #e4e6e8;
   margin-top: 65px;
@@ -212,6 +227,16 @@ ul {
   position: relative;
   padding-left: 30px;
   line-height: 1.82em !important;
+}
+
+.unordered-list li:before {
+  content: "";
+  position: absolute;
+  border: 2px solid #000;
+  background: #fff;
+  top: 13px;
+  left: 0;
+  border-radius: 50%;
 }
 
 .details-icon {

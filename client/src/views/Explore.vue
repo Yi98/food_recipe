@@ -17,6 +17,7 @@
                       <b-col lg="12">
                         <div class="single_select">
                           <b-form-select
+                            @change="onCategoryChange()"
                             class="category-select mt-2"
                             v-model="selected"
                             :options="options"
@@ -48,17 +49,20 @@
         </b-row>
         <b-row id="explore-result-container"></b-row>
 
-        <div>
+        <div v-if="!hasLoaded">
           <CardPlaceholder></CardPlaceholder>
           <CardPlaceholder></CardPlaceholder>
         </div>
+        <b-row id="explore-result-container" v-else>
+          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
+        </b-row>
 
         <b-row>
           <b-col lg="12">
             <div class="more_place_btn text-center">
               <a
+                @click="onLoadMoreRecipes()"
                 class="boxed-btn4"
-                onclick="loadExploreRecipe(null)"
                 style="color: #fff"
               >More Recipes</a>
             </div>
@@ -70,15 +74,21 @@
 </template>
 
 <script>
+import axios from "axios";
 import CardPlaceholder from "../components/CardPlaceholder";
+import RecipeCard from "../components/RecipeCard";
 
 export default {
   name: "Explore",
   components: {
-    CardPlaceholder
+    CardPlaceholder,
+    RecipeCard
   },
   data() {
     return {
+      recipes: [],
+      hasLoaded: false,
+      offset: 0,
       selected: "Main Course",
       options: [
         { value: "Main Course", text: "Main Course" },
@@ -89,6 +99,42 @@ export default {
         { value: "Dessert", text: "Dessert" }
       ]
     };
+  },
+  mounted: function() {
+    this.onCategoryChange();
+  },
+  methods: {
+    onCategoryChange: function() {
+      this.hasLoaded = false;
+      this.offset = 0;
+
+      axios
+        .get(
+          `${this.domain}/api/recipe/search?q=${this.selected}&offset=${this.offset}`
+        )
+        .then(response => {
+          this.recipes = response.data.results;
+          this.hasLoaded = true;
+          console.log(this.recipes);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onLoadMoreRecipes: function() {
+      this.offset += 6;
+
+      axios
+        .get(
+          `${this.domain}/api/recipe/search?q=${this.selected}&offset=${this.offset}`
+        )
+        .then(response => {
+          this.recipes.push(...response.data.results);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>
