@@ -1,29 +1,49 @@
 <template>
-  <header>
-    <div class="header-area">
-      <b-navbar id="navigation-bar" toggleable="lg" type="light" variant="light">
-        <b-navbar-brand href="#">
-          <router-link to="/">
-            <img height="45px" src="../assets/logo.png" alt="Hexmeal logo" />
-          </router-link>
-        </b-navbar-brand>
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#">Log in</b-nav-item>
-            <b-nav-item href="#" id="signup-btn">Sign up</b-nav-item>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
-    </div>
-  </header>
+  <div>
+    <header>
+      <div class="header-area">
+        <b-navbar id="navigation-bar" toggleable="lg" type="light" variant="light">
+          <b-navbar-brand href="#">
+            <router-link to="/">
+              <img height="45px" src="../assets/logo.png" alt="Hexmeal logo" />
+            </router-link>
+          </b-navbar-brand>
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav class="ml-auto">
+              <b-nav-item @click="onAccountLink('Log In')" v-b-modal.acc-modal>Log in</b-nav-item>
+              <b-nav-item
+                @click="onAccountLink('Sign Up')"
+                id="signup-btn"
+                v-b-modal.acc-modal
+              >Sign up</b-nav-item>
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
+      </div>
+    </header>
+
+    <AccountModal :passedAction="this.action" />
+  </div>
 </template>
 
 <script>
+import AccountModal from "../components/AccountModal";
+
 export default {
   name: "Header",
-  props: {
-    // msg: String
+  data: function() {
+    return {
+      action: null
+    };
+  },
+  components: {
+    AccountModal
+  },
+  methods: {
+    onAccountLink: function(action) {
+      this.action = action;
+    }
   }
 };
 </script>
@@ -56,7 +76,8 @@ a:hover {
   #signup-btn {
     background: #ff4a52;
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 30px;
+    margin-right: 20px;
     padding-left: 15px;
     padding-right: 15px;
     font-family: "Rubik", sans-serif;

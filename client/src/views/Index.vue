@@ -19,6 +19,8 @@
                   id="search-btn"
                   class="boxed-btn4 w-100 mt-5"
                   style="height: 55px;"
+                  @click="onAccountLink('Log In')"
+                  v-b-modal.acc-modal
                 >Explore Now</b-button>
               </div>
             </b-col>
@@ -87,10 +89,15 @@ export default {
       .type("Wanna empty the ingredients in the fridge?")
       .pause(1000)
       .delete(null, { speed: 65 })
-      .type("Enough of messy recipe instructions?")
+      .type("Enough of messy recipe's instructions?")
       .pause(1000)
       .delete(null, { speed: 65 })
       .go();
+  },
+  methods: {
+    onAccountLink: function(action) {
+      this.action = action;
+    }
   }
 };
 </script>
@@ -216,10 +223,11 @@ export default {
   }
 
   .feature-row {
-    margin-bottom: 100px;
+    margin-bottom: 130px;
   }
 
-  .feature-left, .feature-right {
+  .feature-left,
+  .feature-right {
     padding-left: 5%;
     padding-right: 5%;
   }
