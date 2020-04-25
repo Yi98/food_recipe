@@ -80,7 +80,7 @@ export default {
   components: {},
   mounted: function() {
     new TypeIt("#hero-question", {
-      speed: 125,
+      speed: 100,
       loop: true
     })
       .type("Tired of thinking what to cook?")
@@ -137,7 +137,7 @@ export default {
 }
 
 .boxed-btn4 {
-  background-color: #fa202b;
+  background-color: #fa313b;
 }
 
 .hero-banner {
@@ -180,6 +180,7 @@ export default {
 
 .features-container {
   background-color: rgb(247, 247, 247);
+  padding-bottom: 10%;
 }
 
 @media (max-width: 767px) {
@@ -223,13 +224,17 @@ export default {
   }
 
   .feature-row {
-    margin-bottom: 130px;
+    margin-bottom: 100px;
   }
 
   .feature-left,
   .feature-right {
     padding-left: 5%;
     padding-right: 5%;
+  }
+
+  .features-container {
+    padding-bottom: 0;
   }
 }
 </style>

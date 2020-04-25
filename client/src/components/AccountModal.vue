@@ -158,8 +158,9 @@ export default {
             this.password = "";
             this.showFeedback = false;
             this.$refs["acc-modal"].hide();
+            this.$store.commit('changeState');
 
-            sessionStorage.setItem('token', response.data.token);
+            sessionStorage.setItem("token", response.data.token);
 
             if (this.$route.path != "/search") {
               this.$router.push("/search");

@@ -1,7 +1,7 @@
 {
   "python.pythonPath": "d:\\Side Projects\\hexameal\\venv\\Scripts\\python.exe",
   "python.formatting.provider": "autopep8",
-"explorer.autoReveal": false,
+  "explorer.autoReveal": false,
   "explorer.compactFolders": false,
   "explorer.incrementalNaming": "smart",
   "editor.tabSize": 2,

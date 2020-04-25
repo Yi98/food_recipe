@@ -1,6 +1,7 @@
 module.exports = {
   outputDir: "../server/dist",
-
-  // relative to outputDir
-  assetsDir: "static" 
+  assetsDir: "static", // relative to outputDir
+  devServer: {
+    host: 'localhost'
+  }
 }

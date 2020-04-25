@@ -11,11 +11,18 @@
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="ml-auto">
-              <b-nav-item @click="onAccountLink('Log In')" v-b-modal.acc-modal>Log in</b-nav-item>
+              <b-nav-item v-if="isLoggedIn">Home</b-nav-item>
+              <b-nav-item @click="onLogout()" v-if="isLoggedIn">Log out</b-nav-item>
+              <b-nav-item
+                @click="onAccountLink('Log In')"
+                v-b-modal.acc-modal
+                v-if="!isLoggedIn"
+              >Log in</b-nav-item>
               <b-nav-item
                 @click="onAccountLink('Sign Up')"
                 id="signup-btn"
                 v-b-modal.acc-modal
+                v-if="!isLoggedIn"
               >Sign up</b-nav-item>
             </b-navbar-nav>
           </b-collapse>
@@ -37,12 +44,26 @@ export default {
       action: null
     };
   },
+  mounted: function() {
+    if (sessionStorage.getItem("token")) {
+      this.$store.commit("changeState");
+    }
+  },
   components: {
     AccountModal
   },
   methods: {
     onAccountLink: function(action) {
       this.action = action;
+    },
+    onLogout: function() {
+      sessionStorage.clear();
+      this.$store.commit("changeState");
+    }
+  },
+  computed: {
+    isLoggedIn: function() {
+      return this.$store.state.isLoggedIn;
     }
   }
 };
@@ -50,6 +71,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.nav-link {
+  color: #000 !important;
+}
+
 .navbar-toggler {
   border: 0;
   outline: 0;

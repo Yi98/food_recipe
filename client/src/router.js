@@ -8,7 +8,7 @@ import Details from './views/Details'
 import PageNotFound from './views/PageNotFound'
 
 
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [
@@ -24,3 +24,26 @@ export default new VueRouter({
     return { x: 0, y: 0 }
   }
 });
+
+
+router.beforeEach((to, from, next) => {
+  const token = sessionStorage.getItem('token');
+
+  if (to.name != 'Index') {
+    console.log(to.name);
+    if (!token) {
+      next({ name: 'Index' });
+    }
+    else {
+      next();
+    }
+  }
+  else {
+    next();
+  }
+
+
+});
+
+
+export default router;
