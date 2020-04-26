@@ -11,7 +11,12 @@
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="ml-auto">
-              <b-nav-item v-if="isLoggedIn">Home</b-nav-item>
+              <b-nav-item v-if="isLoggedIn">
+                <router-link class="nav-items" :to="{name: 'Fridge'}">What's in your fridge</router-link>
+              </b-nav-item>
+              <b-nav-item v-if="isLoggedIn">
+                <router-link class="nav-items" :to="{name: 'Search'}">Search Recipes</router-link>
+              </b-nav-item>
               <b-nav-item @click="onLogout()" v-if="isLoggedIn">Log out</b-nav-item>
               <b-nav-item
                 @click="onChangeModalAction('Log In')"
@@ -61,6 +66,7 @@ export default {
     onLogout: function() {
       sessionStorage.clear();
       this.$store.commit("changeState");
+      this.$router.push({name: 'Index'});
     },
     onChangeModalAction: function(action) {
       this.$store.commit("changeModalAction", { action });
@@ -74,8 +80,12 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+a.nav-items {
+  color: #000 !important;
+  text-decoration: none !important;
+}
+
 .nav-link {
   color: #000 !important;
 }

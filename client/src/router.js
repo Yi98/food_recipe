@@ -30,7 +30,6 @@ router.beforeEach((to, from, next) => {
   const token = sessionStorage.getItem('token');
 
   if (to.name != 'Index') {
-    console.log(to.name);
     if (!token) {
       next({ name: 'Index' });
     }

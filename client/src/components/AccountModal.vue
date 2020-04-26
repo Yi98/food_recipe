@@ -120,8 +120,6 @@ export default {
   props: ["passedAction"],
   data: function() {
     return {
-      // action: this.passedAction,
-      action: this.$store.state.modalAction,
       hidePassword: true,
       showFeedback: false,
       feedback: "",
@@ -135,9 +133,9 @@ export default {
       let url;
 
       // fix here
-      if (this.passedAction == "Log In") {
+      if (this.modalAction == "Log In") {
         url = `${this.domain}/api/auth/login`;
-      } else if (this.passedAction == "Sign Up") {
+      } else if (this.modalAction == "Sign Up") {
         url = `${this.domain}/api/auth/signup`;
       }
 
@@ -152,11 +150,10 @@ export default {
         data: bodyData
       })
         .then(response => {
-          console.log(response);
           this.feedback = response.data.message;
           this.showFeedback = true;
 
-          if (response.data.success && this.passedAction == "Log In") {
+          if (response.data.success && this.modalAction == "Log In") {
             this.email = "";
             this.password = "";
             this.showFeedback = false;

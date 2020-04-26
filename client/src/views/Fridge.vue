@@ -1,101 +1,60 @@
 <template>
-  <div>
-    <div class="where_togo_area py-5 search_banner_wrap">
-      <b-container>
-        <div class="row align-items-center">
-          <b-col lg="3" class="py-2">
-            <div class="form_area">
-              <h3 class="mb-0">What's in your fridge?</h3>
-            </div>
-          </b-col>
-          <b-col lg="9" md="10">
+  <div class="popular_places_area pt-3">
+    <b-container>
+      <b-row class="mb-5">
+        <b-col lg="12">
+          <div class="section_title mb_70">
             <b-row>
-              <b-col lg="3" md="8" sm="12" class="py-2">
-                <!-- <b-form-input
-                  id="add-ingredient-box"
-                  v-model="text"
-                  name="first_name"
-                  placeholder="Add ingredients"
-                  onfocus="this.placeholder = ''"
-                  onblur="this.placeholder = 'Add ingredients'"
-                  required
-                  class="single-input m-auto w-100"
-                ></b-form-input>-->
-              </b-col>
-              <b-col lg="12" class="py-2">
-                <!-- <div class="search_btn">
-                  <b-button
-                    id="search-btn"
-                    class="boxed-btn4 w-100"
-                    @input="onAddIngredient()"
-                    style="height: 55px;"
-                  >Add</b-button>
-                </div>-->
-              </b-col>
-            </b-row>
-          </b-col>
-          <b-col lg="2" md="1"></b-col>
-        </div>
-      </b-container>
-    </div>
-
-    <div class="popular_places_area pt-3">
-      <b-container>
-        <b-row class="mb-5">
-          <b-col lg="12">
-            <div class="section_title mb_70">
-              <b-row>
-                <b-col lg="12">
-                  <h4 style="display: inline-block" class="pt-3 pb-4 pr-3 m-0">
-                    Available ingredients:
-                    <span id="search-title"></span>
-                  </h4>
-                  <div style="display: inline">
-                    <tags-input
-                      placeholder="Add ingredient..."
-                      element-id="tags"
-                      typeahead-style="dropdown"
-                      discard-search-text
-                      :limit="10"
-                      :hide-input-on-limit="true"
-                      :only-existing-tags="true"
-                      :existing-tags="autocomplete"
-                      :typeahead="true"
-                      @change="onKeyIngredient"
-                      @tag-added="onAddIngredient"
-                      @tag-removed="onRemoveIngredient"
-                    ></tags-input>
-                  </div>
-                  <!-- <div style="display: inline" id="ingredients-chip-group">
+              <b-col lg="12">
+                <h4 style="display: inline-block" class="pt-3 pb-4 pr-3 m-0">
+                  Available ingredients:
+                  <span id="search-title"></span>
+                </h4>
+                <div style="display: inline">
+                  <tags-input
+                    placeholder="Add ingredient..."
+                    element-id="tags"
+                    typeahead-style="dropdown"
+                    discard-search-text
+                    :limit="10"
+                    :hide-input-on-limit="true"
+                    :only-existing-tags="true"
+                    :existing-tags="autocomplete"
+                    :typeahead="true"
+                    @change="onKeyIngredient"
+                    @tag-added="onAddIngredient"
+                    @tag-removed="onRemoveIngredient"
+                  ></tags-input>
+                </div>
+                <!-- <div style="display: inline" id="ingredients-chip-group">
                     <div class="chip mt-2">
                       <span class="ingredient-item">cheese</span>
                       <span class="closebtn" onclick="onRemoveIngredient(this)">&times;</span>
                     </div>
-                  </div>-->
-                </b-col>
-              </b-row>
-            </div>
-          </b-col>
-        </b-row>
+                </div>-->
+              </b-col>
+            </b-row>
+          </div>
+        </b-col>
+      </b-row>
 
-        <div v-if="!hasLoaded">
-          <CardPlaceholder></CardPlaceholder>
-          <CardPlaceholder></CardPlaceholder>
-        </div>
-        <b-row id="fridge-result-container" v-else>
-          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
-        </b-row>
+      <div v-if="!hasLoaded">
+        <CardPlaceholder></CardPlaceholder>
+        <CardPlaceholder></CardPlaceholder>
+      </div>
+      <b-row id="fridge-result-container" v-else>
+        <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
+      </b-row>
 
-        <b-row>
-          <b-col lg="12">
-            <div class="more_place_btn text-center">
-              <p>End of results</p>
-              <!-- <a class="boxed-btn4" onclick="getRecipeByIngredients()" style="color: #fff">More Recipes</a> -->
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </div>
+      <b-row>
+        <b-col lg="12">
+          <div class="more_place_btn text-center">
+            <p>End of results</p>
+            <!-- <a class="boxed-btn4" onclick="getRecipeByIngredients()" style="color: #fff">More Recipes</a> -->
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 

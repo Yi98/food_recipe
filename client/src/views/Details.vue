@@ -35,7 +35,7 @@
             <h3>Equipments</h3>
             <div class="single_destination">
               <ul id="equipment-container" class="unordered-list">
-                <li v-for="equipment in formattedEquipments()" v-bind:key="equipment">
+                <li v-for="equipment in formattedEquipments" v-bind:key="equipment">
                   <span>{{ equipment }}</span>
                 </li>
               </ul>
