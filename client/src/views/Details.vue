@@ -98,7 +98,6 @@ export default {
       )
       .then(response => {
         this.recipe = response.data;
-        console.log(response);
 
         this.formatIngredients();
         this.formatEquipmentAndInstruction();
