@@ -20,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/Yi98/food_recipe/issues"
   },
-  "homepage": "https://github.com/Yi98/food_recipe#readme"
+  "homepage": "https://github.com/Yi98/food_recipe#readme",
+  "dependencies": {}
 }
