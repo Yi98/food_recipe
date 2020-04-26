@@ -14,12 +14,12 @@
               <b-nav-item v-if="isLoggedIn">Home</b-nav-item>
               <b-nav-item @click="onLogout()" v-if="isLoggedIn">Log out</b-nav-item>
               <b-nav-item
-                @click="onAccountLink('Log In')"
+                @click="onChangeModalAction('Log In')"
                 v-b-modal.acc-modal
                 v-if="!isLoggedIn"
               >Log in</b-nav-item>
               <b-nav-item
-                @click="onAccountLink('Sign Up')"
+                @click="onChangeModalAction('Sign Up')"
                 id="signup-btn"
                 v-b-modal.acc-modal
                 v-if="!isLoggedIn"
@@ -30,7 +30,7 @@
       </div>
     </header>
 
-    <AccountModal :passedAction="this.action" />
+    <AccountModal />
   </div>
 </template>
 
@@ -54,11 +54,16 @@ export default {
   },
   methods: {
     onAccountLink: function(action) {
-      this.action = action;
+      this.$store.commit("changeModalAction");
+      console.log(action);
+      // this.action = action;
     },
     onLogout: function() {
       sessionStorage.clear();
       this.$store.commit("changeState");
+    },
+    onChangeModalAction: function(action) {
+      this.$store.commit("changeModalAction", { action });
     }
   },
   computed: {

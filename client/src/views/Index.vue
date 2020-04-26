@@ -19,7 +19,7 @@
                   id="search-btn"
                   class="boxed-btn4 w-100 mt-5"
                   style="height: 55px;"
-                  @click="onAccountLink('Log In')"
+                  @click="onChangeModalAction('Sign Up')"
                   v-b-modal.acc-modal
                 >Explore Now</b-button>
               </div>
@@ -97,12 +97,19 @@ export default {
   methods: {
     onAccountLink: function(action) {
       this.action = action;
+    },
+    onChangeModalAction: function(action) {
+      this.$store.commit("changeModalAction", { action });
     }
   }
 };
 </script>
 
 <style scoped>
+.hero-banner {
+  /* background-image: url('../assets/background.svg'); */
+}
+
 .feature-left {
   padding-right: 10%;
 }

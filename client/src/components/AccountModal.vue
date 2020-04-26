@@ -5,7 +5,7 @@
     size="md"
     class="signup-modal"
     style="overflow-y: hidden;"
-    :title="passedAction"
+    :title="modalAction"
     hide-footer
   >
     <div>
@@ -90,14 +90,20 @@
         <b-col lg="12">
           <p id="login-text">
             Already have an account?
-            <a @click="passedAction='Log In'" class="account-link">Log in</a>
+            <a
+              @click="onChangeModalAction('Log In')"
+              class="account-link"
+            >Log in</a>
           </p>
           <p id="forgot-ps-text" class="pb-3">
             <a href="/" class="account-link">Forgot password?</a>
           </p>
           <p id="signup-text" class="pb-3">
             Don't have an account?
-            <a @click="passedAction='Sign Up'" class="account-link">Sign Up</a>
+            <a
+              @click="onChangeModalAction('Sign Up')"
+              class="account-link"
+            >Sign Up</a>
           </p>
         </b-col>
       </b-row>
@@ -112,13 +118,10 @@ import axios from "axios";
 export default {
   name: "AccountModal",
   props: ["passedAction"],
-  mounted: function() {
-    this.action = this.passedAction;
-  },
   data: function() {
     return {
       // action: this.passedAction,
-      action: "Sign up",
+      action: this.$store.state.modalAction,
       hidePassword: true,
       showFeedback: false,
       feedback: "",
@@ -158,7 +161,7 @@ export default {
             this.password = "";
             this.showFeedback = false;
             this.$refs["acc-modal"].hide();
-            this.$store.commit('changeState');
+            this.$store.commit("changeState");
 
             sessionStorage.setItem("token", response.data.token);
 
@@ -179,6 +182,14 @@ export default {
       } else {
         this.inputType = "password";
       }
+    },
+    onChangeModalAction: function(action) {
+      this.$store.commit("changeModalAction", { action });
+    }
+  },
+  computed: {
+    modalAction: function() {
+      return this.$store.state.modalAction;
     }
   }
 };
