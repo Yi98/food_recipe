@@ -21,7 +21,7 @@ Vue.mixin({
       get domain() {
         // return 'http://127.0.0.1:5000';
         // return 'https://www.hexameal.com';
-        return 'https://www.hexameal.herokuapp.com';
+        return 'https://hexameal.herokuapp.com';
       }
     }
   }
