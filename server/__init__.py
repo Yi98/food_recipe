@@ -25,8 +25,11 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    app.config.from_pyfile('config.py')
-    client = pymongo.MongoClient(app.config['DB_CONNECTION'])
+    # app.config.from_pyfile('config.py')
+    # client = pymongo.MongoClient(app.config['DB_CONNECTION'])
+
+    client = pymongo.MongoClient(os.environ.get('DB_CONNECTION'))
+
 
     db.instance = client.hexameal
 
