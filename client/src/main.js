@@ -20,7 +20,7 @@ Vue.mixin({
     return {
       get domain() {
         // return 'http://127.0.0.1:5000';
-        return 'https://www.hexameal.com';
+        return 'http://www.hexameal.com';
       }
     }
   }
