@@ -1,5 +1,3 @@
-import os
-
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, json, Response
 )
@@ -45,11 +43,8 @@ def login():
 
     # Compare user's password with hashed password
     if bcrypt.checkpw(password.encode('utf-8'), user['password']):
-        # encoded = jwt.encode(
-        #     {'userId': str(user['_id'])}, app.config['JWT_KEY'], algorithm='HS256')
-
         encoded = jwt.encode(
-            {'userId': str(user['_id'])}, os.environ.get('JWT_KEY'), algorithm='HS256')
+            {'userId': str(user['_id'])}, app.config['JWT_KEY'], algorithm='HS256')
 
         return jsonify({'success': True, 'message': 'Login successfully', 'token': encoded.decode('utf-8')}), 201
     else:
