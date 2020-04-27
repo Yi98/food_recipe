@@ -16,10 +16,14 @@ domain = 'https://api.spoonacular.com/recipes/'
 
 
 @bp.route('/random')
-@cache.instance.cached(timeout=3600, key_prefix='random_recipes') #cache for 1 hour
+# cache for 1 hour
+@cache.instance.cached(timeout=3600, key_prefix='random_recipes')
 def getRandomRecipes():
+    # result = requests.get(
+    #     domain + 'random?number=6&apiKey=' + app.config['API_KEY'])
+
     result = requests.get(
-        domain + 'random?number=6&apiKey=' + app.config['API_KEY'])
+        domain + 'random?number=6&apiKey=' + os.environ.get('API_KEY'))
 
     return result.json()
 
@@ -27,9 +31,12 @@ def getRandomRecipes():
 @bp.route('/ingredient')
 def getRecipeIngredient():
     recipeId = request.args.get('recipeId')
-    
+
+    # result = requests.get(
+    #     domain + recipeId + '/ingredientWidget.json?apiKey=' + app.config['API_KEY'])
+
     result = requests.get(
-        domain + recipeId + '/ingredientWidget.json?apiKey=' + app.config['API_KEY'])
+        domain + recipeId + '/ingredientWidget.json?apiKey=' + os.environ.get('API_KEY'))
 
     return result.json()
 
@@ -38,8 +45,11 @@ def getRecipeIngredient():
 def getRecipeInstruction():
     recipeId = request.args.get('recipeId')
 
+    # result = requests.get(
+    #     domain + recipeId + '/analyzedInstructions?apiKey=' + app.config['API_KEY'])
+
     result = requests.get(
-        domain + recipeId + '/analyzedInstructions?apiKey=' + app.config['API_KEY'])
+        domain + recipeId + '/analyzedInstructions?apiKey=' + os.environ.get('API_KEY'))
 
     return jsonify(result.json())
 
@@ -48,8 +58,11 @@ def getRecipeInstruction():
 def getRecipeInformation():
     recipeId = request.args.get('recipeId')
 
+    # result = requests.get(domain + recipeId +
+    #                       '/information?apiKey=' + app.config['API_KEY'])
+
     result = requests.get(domain + recipeId +
-                          '/information?apiKey=' + app.config['API_KEY'])
+                          '/information?apiKey=' + os.environ.get('API_KEY'))
 
     return result.json()
 
@@ -58,8 +71,11 @@ def getRecipeInformation():
 def getSimilarRecipes():
     recipeId = request.args.get('recipeId')
 
+    # result = requests.get(domain + recipeId +
+    #                       '/similar?number=3&apiKey=' + app.config['API_KEY'])
+
     result = requests.get(domain + recipeId +
-                          '/similar?number=3&apiKey=' + app.config['API_KEY'])
+                          '/similar?number=3&apiKey=' + os.environ.get('API_KEY'))
 
     return jsonify(result.json())
 
@@ -69,8 +85,11 @@ def getSearchRecipes():
     searchTerm = request.args.get('q')
     offset = request.args.get('offset')
 
+    # result = requests.get(domain + '/search?query=' + searchTerm +
+    #                       '&offset=' + offset + '&number=6&apiKey=' + app.config['API_KEY'])
+
     result = requests.get(domain + '/search?query=' + searchTerm +
-                          '&offset=' + offset + '&number=6&apiKey=' + app.config['API_KEY'])
+                          '&offset=' + offset + '&number=6&apiKey=' + os.environ.get('API_KEY'))
 
     return result.json()
 
@@ -80,8 +99,11 @@ def getTypeRecipes():
     dishType = request.args.get('type')
     offset = request.args.get('offset')
 
+    # result = requests.get(domain + '/search?offset=' + offset +
+    #                       '&type=' + dishType + '&number=6&apiKey=' + app.config['API_KEY'])
+
     result = requests.get(domain + '/search?offset=' + offset +
-                          '&type=' + dishType + '&number=6&apiKey=' + app.config['API_KEY'])
+                          '&type=' + dishType + '&number=6&apiKey=' + os.environ.get('API_KEY'))
 
     return result.json()
 
@@ -91,7 +113,11 @@ def getFridgeRecipe():
     ingredients = request.args.get('ingredients')
     offset = request.args.get('offset')
 
+    # result = requests.get(domain + 'findByIngredients?number=6&offset=' + offset +
+    #                       '&ignorePantry=true&ranking=2&apiKey=' + app.config['API_KEY'] + '&ingredients=' + ingredients)
+
+
     result = requests.get(domain + 'findByIngredients?number=6&offset=' + offset +
-                          '&ignorePantry=true&ranking=2&apiKey=' + app.config['API_KEY'] + '&ingredients=' + ingredients)
+                          '&ignorePantry=true&ranking=2&apiKey=' + os.environ.get('API_KEY') + '&ingredients=' + ingredients)
 
     return jsonify(result.json())
