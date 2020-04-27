@@ -11,7 +11,6 @@ from server.database import db
 
 
 def create_app(test_config=None):
-    # app = Flask(__name__, instance_relative_config=True)
     app = Flask(__name__, instance_relative_config=True, static_folder='./dist/static', template_folder='./dist')
    
     # Apply CORS to app
@@ -26,11 +25,8 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # app.config.from_pyfile('config.py')
-    # client = pymongo.MongoClient(app.config['DB_CONNECTION'])
-
-    
-    client = pymongo.MongoClient(os.environ.get('DB_CONNECTION'))
+    app.config.from_pyfile('config.py')
+    client = pymongo.MongoClient(app.config['DB_CONNECTION'])
 
     db.instance = client.hexameal
 
