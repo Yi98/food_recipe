@@ -1,3 +1,7 @@
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, json, Response
 )
@@ -37,6 +41,8 @@ def login():
 
     user = getUser(email)
 
+    sendConfirmationEmail()
+
     # User not exist
     if (user == None):
         return jsonify({'success': False, 'message': 'Email does not exist'}), 200
@@ -57,6 +63,24 @@ def getUser(email):
     user = users.find_one({'email': email})
 
     return user
+
+
+def sendConfirmationEmail():
+    message = Mail(
+        from_email='support@hexameal.com',
+        to_emails='ngyi07285@hotmail.com',
+        subject='Welcome to Hexameal! Confirm your email',
+        html_content='<strong>and easy to do anywhere, even with Python</strong>')
+
+    try:
+        sg = SendGridAPIClient(app.config['SENDGRID_API'])
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e)
+
 
 # @bp.route('/logout')
 # def logout():
