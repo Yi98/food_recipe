@@ -26,9 +26,8 @@ def create_app(test_config=None):
         pass
 
     app.config.from_pyfile('config.py')
+    
     client = pymongo.MongoClient(app.config['DB_CONNECTION'])
-
-
     db.instance = client.hexameal
 
     # blueprint for route and api endpoints
