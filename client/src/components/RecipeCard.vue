@@ -38,8 +38,8 @@ export default {
   props: ["recipe"],
   computed: {
     modifiedTitle: function() {
-      if (this.recipe.title.length > 23) {
-        return this.recipe.title.substring(0, 23) + "...";
+      if (this.recipe.title.length > 28) {
+        return this.recipe.title.substring(0, 28) + "...";
       }
       return this.recipe.title;
     }
@@ -57,7 +57,7 @@ a {
 }
 
 .popular_places_area .single_place {
-  background: #fff;
+  /* background: #fff; */
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -79,12 +79,12 @@ a {
   -o-transition: 0.3s;
   transition: 0.3s;
 }
-
+/* 
 .popular_places_area .single_place:hover {
   -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-}
+} */
 
 /* line 79, ../../Arafath/CL/December/231. Travel-02/HTML/scss/_popular_place.scss */
 .popular_places_area .single_place:hover .place_info h3 {
@@ -92,6 +92,6 @@ a {
 }
 
 .popular_places_area .single_place .place_info {
-  padding: 27px 20px 25px 20px;
+  padding: 10px 0px 25px 3px;
 }
 </style>

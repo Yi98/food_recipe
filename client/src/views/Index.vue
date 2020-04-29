@@ -125,7 +125,9 @@ export default {
 .feature-title {
   font-size: 1.6rem;
   text-align: justify;
-  padding-top: 20px;
+  padding-top: 75px;
+  padding-bottom: 10px;
+  color: #ff4a52;
 }
 
 .feature-description {
@@ -137,12 +139,6 @@ export default {
   margin-bottom: 50px;
 }
 
-.feature-title {
-  padding-top: 75px;
-  padding-bottom: 10px;
-  color: #ff4a52;
-}
-
 .boxed-btn4 {
   background-color: #fa313b;
 }
@@ -152,7 +148,7 @@ export default {
 }
 
 .hero-row {
-  margin-top: 5%;
+  margin-top: 8%;
 }
 
 #hero-image {
@@ -160,7 +156,7 @@ export default {
 }
 
 #hero-question {
-  font-size: 3.3rem;
+  font-size: 3.4rem;
 }
 
 #search-btn {

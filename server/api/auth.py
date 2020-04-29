@@ -1,6 +1,7 @@
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+import json
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, json, Response
@@ -68,13 +69,16 @@ def getUser(email):
 def sendConfirmationEmail():
     message = Mail(
         from_email='support@hexameal.com',
-        to_emails='ngyi07285@hotmail.com',
+        to_emails='100080426@students.swinburne.edu.my',
         subject='Welcome to Hexameal! Confirm your email',
         html_content='<strong>and easy to do anywhere, even with Python</strong>')
 
+
+    message.template_id = 'd-9960b60c44fd4f3792e00736de89045b'
+
     try:
-        sg = SendGridAPIClient(app.config['SENDGRID_API'])
-        response = sg.send(message)
+        sendgrid_client = SendGridAPIClient(app.config['SENDGRID_API'])
+        response = sendgrid_client.send(message)
         print(response.status_code)
         print(response.body)
         print(response.headers)

@@ -50,7 +50,7 @@ export default {
     };
   },
   mounted: function() {
-    if (sessionStorage.getItem("token")) {
+    if (localStorage.getItem("token")) {
       this.$store.commit("changeState");
     }
   },
@@ -64,9 +64,9 @@ export default {
       // this.action = action;
     },
     onLogout: function() {
-      sessionStorage.clear();
+      localStorage.clear();
       this.$store.commit("changeState");
-      this.$router.push({name: 'Index'});
+      this.$router.push({ name: "Index" });
     },
     onChangeModalAction: function(action) {
       this.$store.commit("changeModalAction", { action });
@@ -98,6 +98,7 @@ a.nav-items {
 
 #navigation-bar {
   background-color: transparent !important;
+  box-shadow: 0 2px 2px -2px rgba(44, 44, 44, 0.2) !important;
 }
 
 a {

@@ -20,6 +20,10 @@ export default {
 </script>
 
 <style>
+* {
+  font-family:Helvetica, sans-serif;
+}
+
 p {
   font-size: 16px;
   color: #7a838b;

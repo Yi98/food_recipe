@@ -7,7 +7,7 @@
             <b-row>
               <b-col lg="12">
                 <h4 style="display: inline-block" class="pt-3 pb-4 pr-3 m-0">
-                  Available ingredients:
+                  Add your ingredients:
                   <span id="search-title"></span>
                 </h4>
                 <div style="display: inline">
@@ -38,22 +38,37 @@
         </b-col>
       </b-row>
 
-      <div v-if="!hasLoaded">
+      <b-row class="empty-container" v-if="isEmpty">
+        <b-col lg="12" class="text-center">
+          <img src="../assets/empty.png" class="empty-img" />
+          <P>Such empty. Add some ingredients.</P>
+        </b-col>
+      </b-row>
+
+      <div v-if="!hasLoaded && !isEmpty">
         <CardPlaceholder></CardPlaceholder>
         <CardPlaceholder></CardPlaceholder>
       </div>
-      <b-row id="fridge-result-container" v-else>
-        <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
-      </b-row>
 
-      <b-row>
-        <b-col lg="12">
-          <div class="more_place_btn text-center">
-            <p>End of results</p>
-            <!-- <a class="boxed-btn4" onclick="getRecipeByIngredients()" style="color: #fff">More Recipes</a> -->
-          </div>
-        </b-col>
-      </b-row>
+      <div v-if="hasLoaded">
+        <b-row id="fridge-result-container">
+          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
+        </b-row>
+
+        <b-row>
+          <b-col lg="12">
+            <div class="more_place_btn text-center">
+              <p>End of results</p>
+              <!-- <a
+                class="boxed-btn4"
+                onclick="getRecipeByIngredients()"
+                style="color: #fff"
+              >More Recipes</a> -->
+            </div>
+          </b-col>
+        </b-row>
+      </div>
+
     </b-container>
   </div>
 </template>
@@ -132,12 +147,24 @@ export default {
     onRemoveIngredient: function(slug) {
       return this.onUpdateIngredient("remove", slug.value);
     }
+  },
+  computed: {
+    isEmpty: function() {
+      return this.existingIngredients.length > 0 ? false : true;
+    }
   }
 };
 </script>
 
 <style>
-/* The input */
+.empty-container {
+  padding: 12vh 0;
+}
+
+.empty-img {
+  width: 30%;
+}
+
 .tags-input {
   display: flex;
   flex-wrap: wrap;
@@ -162,10 +189,9 @@ export default {
 .tags-input-wrapper-default {
   padding: 0.5em 0.25em;
   background: #fff;
-  border-radius: 0.25em;
   border-color: #dbdbdb;
-
-  box-shadow: 1px 1px #d4d4d4;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
 
 .tags-input-wrapper-default.active {
@@ -340,13 +366,6 @@ export default {
   padding: 0 20px;
 }
 
-.search_banner_wrap {
-  background-image: url(../assets/search-banner.jpg);
-  padding: 340px 0;
-  background-size: cover;
-  background-position: center center;
-}
-
 .where_togo_area .form_area h3 {
   font-size: 24px;
   color: #fff;
@@ -356,8 +375,9 @@ export default {
 
 .popular_places_area {
   padding-top: 60px;
-  padding-bottom: 60px;
-  background: #f7fafd;
+  padding-bottom: 100px;
+  /* background: #f9fcff; */
+  background-color: #fff;
 }
 
 .popular_places_area .more_place_btn {
@@ -368,18 +388,21 @@ export default {
   cursor: pointer;
 }
 
-.explore_banner_wrap {
-  background-image: url(../assets/explore-banner.jpg);
-  padding: 340px 0;
-  background-size: cover;
-  background-position: center center;
-}
-
 .where_togo_area .form_area h3 {
   font-size: 24px;
   color: #fff;
   font-weight: 400;
   margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .empty-img {
+    width: 60%;
+  }
+
+  .empty-container {
+    padding: 5vh 0;
+  }
 }
 
 @media (max-width: 1200px) and (min-width: 992px) {

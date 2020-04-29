@@ -4,7 +4,6 @@
     ref="acc-modal"
     size="md"
     class="signup-modal"
-    style="overflow-y: hidden;"
     :title="modalAction"
     hide-footer
   >
@@ -54,10 +53,10 @@
           >Continue</button>
         </b-col>
       </b-row>
-      <b-row class="my-4">
-        <b-col lg="12" class="text-center">OR</b-col>
-      </b-row>
-      <b-row class="mt-2">
+      <!-- <b-row class="my-4">
+        <b-col lg="12" class="text-center">OR</b-col> -->
+      <!-- </b-row> -->
+      <!-- <b-row class="mt-2">
         <b-col lg="12">
           <button
             type="button"
@@ -79,13 +78,18 @@
           <button type="button" class="btn w-100 platforms-btn" data-dismiss="modal">
             <b-row>
               <b-col lg="2" cols="2" class="text-right">
-                <img src="../assets//google.png" alt="Google logo" width="20px" heigh="20px" />
+                <img src="../assets/google.png" alt="Google logo" width="20px" heigh="20px" />
               </b-col>
-              <div class="col-lg-10 col-10 text-left">Continue with Google</div>
+              <b-col
+                lg="10"
+                cols="10"
+                class="text-left"
+                @done="onContinueGoogle()"
+              >Continue with Google</b-col>
             </b-row>
           </button>
         </b-col>
-      </b-row>
+      </b-row>-->
       <b-row class="mt-4">
         <b-col lg="12">
           <p id="login-text">
@@ -95,10 +99,10 @@
               class="account-link"
             >Log in</a>
           </p>
-          <p id="forgot-ps-text" class="pb-3">
+          <p id="forgot-ps-text" v-if="showForgotPassword">
             <a href="/" class="account-link">Forgot password?</a>
           </p>
-          <p id="signup-text" class="pb-3">
+          <p id="signup-text" class="pb-3 pt-3">
             Don't have an account?
             <a
               @click="onChangeModalAction('Sign Up')"
@@ -160,7 +164,7 @@ export default {
             this.$refs["acc-modal"].hide();
             this.$store.commit("changeState");
 
-            sessionStorage.setItem("token", response.data.token);
+            localStorage.setItem("token", response.data.token);
 
             if (this.$route.path != "/search") {
               this.$router.push("/search");
@@ -187,6 +191,14 @@ export default {
   computed: {
     modalAction: function() {
       return this.$store.state.modalAction;
+    },
+    showForgotPassword: function() {
+      if (this.$store.state.modalAction == "Log In") {
+        return true;
+      }
+      else {
+        return false;
+      }
     }
   }
 };
@@ -210,7 +222,7 @@ export default {
 
 #acc-modal {
   width: 100%;
-  margin-top: 5% !important;
+  margin-top: 10% !important;
 }
 
 .modal-header {
@@ -233,7 +245,6 @@ export default {
   height: auto;
   min-height: 100%;
   border-radius: 10px;
-  overflow-y: auto;
 }
 
 .modal-title {
@@ -246,7 +257,7 @@ export default {
     width: 100% !important;
     height: 100% !important;
     margin: auto !important;
-    margin-top: 12% !important;
+    margin-top: 5vh !important;
     padding: 0 !important;
   }
 
@@ -255,10 +266,9 @@ export default {
   }
 
   .modal-body {
-    height: 100%;
+    height: 90vh;
     min-height: 100%;
     border-radius: 10px;
-    overflow-y: auto;
   }
 
   .modal-dialog {

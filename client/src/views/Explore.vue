@@ -154,10 +154,8 @@ export default {
 }
 
 .explore_banner_wrap {
-  background-image: url(../assets/explore-banner.jpg);
+  background-color: #040e27;
   padding: 340px 0;
-  background-size: cover;
-  background-position: center center;
 }
 
 .where_togo_area .form_area h3 {

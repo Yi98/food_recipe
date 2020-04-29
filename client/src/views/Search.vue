@@ -1,66 +1,55 @@
 <template>
   <div>
-    <div class="where_togo_area py-5 search_banner_wrap">
+    <div class="popular_places_area pt-2">
       <b-container>
-        <div class="row align-items-center">
-          <b-col lg="3" class="py-2">
-            <div class="form_area">
-              <h3 class="mb-0">What to cook today?</h3>
-            </div>
-          </b-col>
-          <b-col lg="9" md="10">
+        <div class="row align-items-center pb-4 search-container">
+          <b-col lg="12">
             <b-row>
-              <b-col lg="9" md="8" sm="12" cols="12" class="py-2">
+              <b-col lg="10" md="8" sm="12" cols="12" class="py-2">
                 <b-form-input
                   id="index-search-box"
                   v-model="searchTitle"
-                  type="text"
-                  name="first_name"
-                  placeholder="Find recipe"
-                  onfocus="this.placeholder = ''"
-                  onblur="this.placeholder = 'Find Recipe'"
+                  type="email"
                   required
-                  class="single-input m-auto w-100"
+                  placeholder="Find recipe"
                 ></b-form-input>
               </b-col>
-              <b-col lg="3" md="4" sm="12" cols="12" class="py-2">
+              <b-col lg="2" md="4" sm="12" cols="12" class="py-2">
                 <div class="search_btn">
                   <b-button
                     id="search-btn"
-                    class="boxed-btn4 w-100"
+                    class="boxed-btn4 w-100 mb-4"
                     @click="onSearchRecipe()"
-                    style="height: 55px;"
+                    style="height: 50px;"
                   >Search</b-button>
                 </div>
               </b-col>
             </b-row>
           </b-col>
-          <b-col lg="2" md="1"></b-col>
         </div>
-      </b-container>
-    </div>
 
-    <div class="popular_places_area pt-5">
-      <b-container>
-        <b-row class="pb-5">
-          <b-col lg="12">
-            <div class="section_title mb_70">
-              <h3>
-                Search results: {{ searchTitle }}
-                <span id="search-title"></span>
-              </h3>
-              <p>Browse amazing recipe to cook and stay hunger free.</p>
-            </div>
+        <b-row class="empty-container" v-if="isEmpty">
+          <b-col lg="12" class="text-center">
+            <img src="../assets/empty.png" class="empty-img" />
+            <P>Such empty. Search something.</P>
           </b-col>
         </b-row>
 
-        <div v-if="!hasLoaded">
+        <div v-if="!hasLoaded && !isEmpty">
           <CardPlaceholder></CardPlaceholder>
           <CardPlaceholder></CardPlaceholder>
         </div>
-        <b-row id="explore-result-container" v-else>
-          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
-        </b-row>
+
+        <div v-if="hasLoaded">
+          <b-row>
+            <b-col lg="12">
+              <h3>Search Results: {{ searchTitle }}</h3>
+            </b-col>
+          </b-row>
+          <b-row id="explore-result-container">
+            <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
+          </b-row>
+        </div>
 
         <b-row v-if="hasLoaded">
           <b-col lg="12">
@@ -89,6 +78,7 @@ export default {
   data: function() {
     return {
       hasLoaded: false,
+      isEmpty: true,
       recipes: [],
       searchTitle: "",
       searchOffset: 0
@@ -98,6 +88,7 @@ export default {
     onSearchRecipe: function() {
       this.searchOffset = 0;
       this.hasLoaded = false;
+      this.isEmpty = false;
 
       axios
         .get(
@@ -131,10 +122,21 @@ export default {
 </script>
 
 <style scoped>
+.empty-container {
+  padding: 12vh 0;
+}
+
+.empty-img {
+  width: 30%;
+}
+
+h3 {
+  font-size: 1.8rem;
+}
+
 #index-search-box {
-  background-color: rgb(242, 242, 242);
-  height: 55px;
-  border-radius: 5px;
+  height: 50px;
+  box-shadow: none;
 }
 
 #search-btn {
@@ -152,24 +154,11 @@ export default {
   padding: 0 20px;
 }
 
-.search_banner_wrap {
-  background-image: url(../assets/search-banner.jpg);
-  padding: 340px 0;
-  background-size: cover;
-  background-position: center center;
-}
-
-.where_togo_area .form_area h3 {
-  font-size: 24px;
-  color: #fff;
-  font-weight: 400;
-  margin-bottom: 0;
-}
-
 .popular_places_area {
   padding-top: 60px;
-  padding-bottom: 60px;
-  background: #f7fafd;
+  padding-bottom: 100px;
+  /* background: #f9fcff; */
+  background: #fff;
 }
 
 .popular_places_area .more_place_btn {
@@ -178,13 +167,6 @@ export default {
 
 .category-select {
   cursor: pointer;
-}
-
-.explore_banner_wrap {
-  background-image: url(../assets/explore-banner.jpg);
-  padding: 340px 0;
-  background-size: cover;
-  background-position: center center;
 }
 
 .where_togo_area .form_area h3 {
@@ -198,6 +180,14 @@ export default {
   .section_title h3 {
     font-size: 30px;
     line-height: 36px;
+  }
+
+  .empty-img {
+    width: 60%;
+  }
+
+  .empty-container {
+    padding: 5vh 0;
   }
 }
 
