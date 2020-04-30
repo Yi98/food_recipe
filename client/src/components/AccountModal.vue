@@ -257,7 +257,7 @@ export default {
     width: 100% !important;
     height: 100% !important;
     margin: auto !important;
-    margin-top: 5vh !important;
+    /* margin-top: 5vh !important; */
     padding: 0 !important;
   }
 

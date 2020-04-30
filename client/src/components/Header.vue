@@ -4,7 +4,7 @@
       <div class="header-area">
         <b-navbar id="navigation-bar" toggleable="lg" type="light" variant="light">
           <b-navbar-brand href="#">
-            <router-link to="/">
+            <router-link to="/" v-on:click.native="currentTab = null">
               <img height="45px" src="../assets/logo.png" alt="Hexmeal logo" />
             </router-link>
           </b-navbar-brand>
@@ -12,10 +12,20 @@
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="ml-auto">
               <b-nav-item v-if="isLoggedIn">
-                <router-link class="nav-items" :to="{name: 'Fridge'}">What's in your fridge</router-link>
+                <router-link
+                  v-on:click.native="currentTab = 'SearchTab'"
+                  v-bind:class="{ active: currentTab == 'SearchTab' }"
+                  class="nav-items"
+                  :to="{name: 'Search'}"
+                >Search Recipes</router-link>
               </b-nav-item>
               <b-nav-item v-if="isLoggedIn">
-                <router-link class="nav-items" :to="{name: 'Search'}">Search Recipes</router-link>
+                <router-link
+                  v-on:click.native="currentTab = 'FridgeTab'"
+                  v-bind:class="{ active: currentTab == 'FridgeTab' }"
+                  class="nav-items"
+                  :to="{name: 'Fridge'}"
+                >What's in your fridge</router-link>
               </b-nav-item>
               <b-nav-item @click="onLogout()" v-if="isLoggedIn">Log out</b-nav-item>
               <b-nav-item
@@ -46,7 +56,8 @@ export default {
   name: "Header",
   data: function() {
     return {
-      action: null
+      action: null,
+      currentTab: null
     };
   },
   mounted: function() {
@@ -58,11 +69,6 @@ export default {
     AccountModal
   },
   methods: {
-    onAccountLink: function(action) {
-      this.$store.commit("changeModalAction");
-      console.log(action);
-      // this.action = action;
-    },
     onLogout: function() {
       localStorage.clear();
       this.$store.commit("changeState");
@@ -81,9 +87,13 @@ export default {
 </script>
 
 <style>
+.active {
+  color: #ff4a52 !important;
+}
+
 a.nav-items {
-  color: #000 !important;
-  text-decoration: none !important;
+  color: #000;
+  text-decoration: none;
 }
 
 .nav-link {
@@ -97,8 +107,7 @@ a.nav-items {
 }
 
 #navigation-bar {
-  background-color: transparent !important;
-  box-shadow: 0 2px 2px -2px rgba(44, 44, 44, 0.2) !important;
+  /* background-color: transparent !important; */
 }
 
 a {

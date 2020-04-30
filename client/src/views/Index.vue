@@ -40,7 +40,7 @@
             <h2 class="feature-title">Explore more than 350,000 recipes</h2>
             <p
               class="feature-description"
-            >Hexameal provides thousands and thousands of recipe for you to explore</p>
+            >Enormous amount of recipes to explore</p>
           </b-col>
           <b-col lg="4" class="text-center">
             <img class="feature-img" src="../assets/search.svg" alt="Hero banner" />
@@ -54,7 +54,7 @@
             <h2 class="feature-title">Find recipes based on available ingredients</h2>
             <p
               class="feature-description"
-            >Every recipe has the details such as equipments used, ingredients and instructions. No more missing item during cooking.</p>
+            >Perish 'forgot to buy' disappointment when cooking</p>
           </b-col>
         </b-row>
         <b-row class="reverse feature-row">
@@ -62,7 +62,7 @@
             <h2 class="feature-title">Details-oriented recipe</h2>
             <p
               class="feature-description"
-            >Every recipe has the details such as equipments used, ingredients and instructions. No more missing item during cooking.</p>
+            > Equipments? Checked! Ingredients? Checked! Instruction? Checked!</p>
           </b-col>
           <b-col lg="4">
             <img class="feature-img" src="../assets/organized.svg" alt="Hero banner" />
@@ -70,14 +70,19 @@
         </b-row>
       </b-container>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
 import TypeIt from "typeit";
 
+import Footer from "../components/Footer.vue";
+
 export default {
-  components: {},
+  components: {
+    Footer
+  },
   mounted: function() {
     new TypeIt("#hero-question", {
       speed: 100,
@@ -139,10 +144,6 @@ export default {
   margin-bottom: 50px;
 }
 
-.boxed-btn4 {
-  background-color: #fa313b;
-}
-
 .hero-banner {
   height: 85vh;
 }
@@ -161,6 +162,7 @@ export default {
 
 #search-btn {
   border-radius: 40px;
+  background-color: #fa313b;
 }
 
 .hero-text-container {
@@ -227,7 +229,7 @@ export default {
   }
 
   .feature-row {
-    margin-bottom: 100px;
+    margin-bottom: 70px;
   }
 
   .feature-left,
@@ -237,7 +239,7 @@ export default {
   }
 
   .features-container {
-    padding-bottom: 0;
+    padding-bottom: 5%;
   }
 }
 </style>

@@ -42,7 +42,7 @@ def login():
 
     user = getUser(email)
 
-    sendConfirmationEmail()
+    # sendConfirmationEmail()
 
     # User not exist
     if (user == None):
@@ -69,7 +69,7 @@ def getUser(email):
 def sendConfirmationEmail():
     message = Mail(
         from_email='support@hexameal.com',
-        to_emails='100080426@students.swinburne.edu.my',
+        to_emails='ngyi07285@hotmail.com',
         subject='Welcome to Hexameal! Confirm your email',
         html_content='<strong>and easy to do anywhere, even with Python</strong>')
 
