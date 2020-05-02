@@ -1,21 +1,33 @@
+from flask import (
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, json, Response
+)
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import json
-
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, json, Response
-)
 import bcrypt
 import jwt
 from bson import Binary, Code
 from bson.json_util import dumps
+from bson import ObjectId
+
 
 from server.database import db
 from flask import current_app as app
 
 
 bp = Blueprint('auth', __name__)
+
+
+@bp.route('/confirm', methods=['GET', 'POST'])
+def confirmEmail():
+    users = db.instance.users
+
+    #fix this
+    user = users.update_one({'_id': ObjectId(request.args.get('token'))}, {'$set': {'verified': True}}, upsert=False)   
+
+    # add a link back to dashboard
+    return jsonify({'message': 'Email verified. You can proceed to login now'})
 
 
 @bp.route('/signup', methods=['POST'])
@@ -27,11 +39,22 @@ def signup():
     password = (request.form['password'])
     hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
-    if (getUser(email) != None):
+    user = getUser(email)
+
+    # user exists and verified
+    if (user != None and user['verified'] == True):
         return jsonify({'message': 'Email already exists'})
 
-    result = users.insert_one({'email': email, 'password': hashed})
+    # user exists but not verified
+    if (user != None and user['verified'] == False):
+        return jsonify({'success': True, 'message': "Please confirm your email address to continue. Resend confirmation email."}), 201
 
+    user = users.insert_one(
+        {'email': email, 'password': hashed, 'verified': False})
+
+    sendConfirmationEmail(email, user.inserted_id)
+
+    # user does not exist
     return jsonify({'success': True, 'message': f"A confirmation email has been sent to {email}"}), 201
 
 
@@ -42,11 +65,12 @@ def login():
 
     user = getUser(email)
 
-    # sendConfirmationEmail()
-
     # User not exist
     if (user == None):
         return jsonify({'success': False, 'message': 'Email does not exist'}), 200
+
+    if (user['verified'] == False):
+        return jsonify({'success': False, 'message': f"Please confirm your email address to continue. Resend confirmation email."}), 201
 
     # Compare user's password with hashed password
     if bcrypt.checkpw(password.encode('utf-8'), user['password']):
@@ -66,13 +90,21 @@ def getUser(email):
     return user
 
 
-def sendConfirmationEmail():
+def sendConfirmationEmail(email, id):
+    # pass token to dynamic template
+
+    # link = 'http://127.0.0.1:5000/api/auth/confirm?token=' + str(id)
+    link = "https://hexameal.com/api/auth/confirm?token=" + str(id)
+
     message = Mail(
         from_email='support@hexameal.com',
-        to_emails='ngyi07285@hotmail.com',
+        to_emails=email,
         subject='Welcome to Hexameal! Confirm your email',
         html_content='<strong>and easy to do anywhere, even with Python</strong>')
 
+    message.dynamic_template_data = {
+        "link": link
+    }
 
     message.template_id = 'd-9960b60c44fd4f3792e00736de89045b'
 
@@ -84,9 +116,3 @@ def sendConfirmationEmail():
         print(response.headers)
     except Exception as e:
         print(e)
-
-
-# @bp.route('/logout')
-# def logout():
-#     session.clear()
-#     return redirect(url_for('auth.login'))

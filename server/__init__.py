@@ -31,9 +31,10 @@ def create_app(test_config=None):
     db.instance = client.hexameal
 
     # blueprint for route and api endpoints
-    app.register_blueprint(route.bp, url_prefix='/')
     app.register_blueprint(auth.bp, url_prefix='/api/auth')
     app.register_blueprint(recipe.bp, url_prefix='/api/recipe')
     app.register_blueprint(ingredient.bp, url_prefix='/api/ingredient')
+    app.register_blueprint(route.bp, url_prefix='/')
+
 
     return app

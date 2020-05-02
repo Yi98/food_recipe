@@ -50,11 +50,19 @@
             class="boxed-btn4 w-100 platforms-btn"
             style="height: 50px; color: white;"
             data-dismiss="modal"
-          >Continue</button>
+          >
+            {{ buttonText }}
+            <pulse-loader
+              v-if="buttonText == 'Loading'"
+              style="display: inline;"
+              :color="'#fff'"
+              :size="'4px'"
+            ></pulse-loader>
+          </button>
         </b-col>
       </b-row>
       <!-- <b-row class="my-4">
-        <b-col lg="12" class="text-center">OR</b-col> -->
+      <b-col lg="12" class="text-center">OR</b-col>-->
       <!-- </b-row> -->
       <!-- <b-row class="mt-2">
         <b-col lg="12">
@@ -92,7 +100,7 @@
       </b-row>-->
       <b-row class="mt-4">
         <b-col lg="12">
-          <p id="login-text">
+          <p id="login-text" v-if="!showForgotPassword">
             Already have an account?
             <a
               @click="onChangeModalAction('Log In')"
@@ -102,7 +110,7 @@
           <p id="forgot-ps-text" v-if="showForgotPassword">
             <a href="/" class="account-link">Forgot password?</a>
           </p>
-          <p id="signup-text" class="pb-3 pt-3">
+          <p id="signup-text" class="pb-3 pt-3" v-if="showForgotPassword">
             Don't have an account?
             <a
               @click="onChangeModalAction('Sign Up')"
@@ -118,9 +126,13 @@
 
 <script>
 import axios from "axios";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
 export default {
   name: "AccountModal",
+  components: {
+    PulseLoader
+  },
   props: ["passedAction"],
   data: function() {
     return {
@@ -128,6 +140,7 @@ export default {
       showFeedback: false,
       feedback: "",
       inputType: "password",
+      buttonText: "Continue",
       email: null,
       password: null
     };
@@ -135,6 +148,8 @@ export default {
   methods: {
     onContinueAccount: function() {
       let url;
+
+      this.buttonText = "Loading";
 
       // fix here
       if (this.modalAction == "Log In") {
@@ -156,6 +171,7 @@ export default {
         .then(response => {
           this.feedback = response.data.message;
           this.showFeedback = true;
+          this.buttonText = "Continue";
 
           if (response.data.success && this.modalAction == "Log In") {
             this.email = "";
@@ -195,8 +211,7 @@ export default {
     showForgotPassword: function() {
       if (this.$store.state.modalAction == "Log In") {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
     }
@@ -257,7 +272,7 @@ export default {
     width: 100% !important;
     height: 100% !important;
     margin: auto !important;
-    /* margin-top: 5vh !important; */
+    margin-top: 5vh !important;
     padding: 0 !important;
   }
 

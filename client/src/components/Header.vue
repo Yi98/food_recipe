@@ -11,22 +11,32 @@
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="ml-auto">
-              <b-nav-item v-if="isLoggedIn">
-                <router-link
-                  v-on:click.native="currentTab = 'SearchTab'"
-                  v-bind:class="{ active: currentTab == 'SearchTab' }"
-                  class="nav-items"
-                  :to="{name: 'Search'}"
-                >Search Recipes</router-link>
-              </b-nav-item>
-              <b-nav-item v-if="isLoggedIn">
-                <router-link
-                  v-on:click.native="currentTab = 'FridgeTab'"
-                  v-bind:class="{ active: currentTab == 'FridgeTab' }"
-                  class="nav-items"
-                  :to="{name: 'Fridge'}"
-                >What's in your fridge</router-link>
-              </b-nav-item>
+              <b-nav-item-dropdown text="Search recipes" right v-if="isLoggedIn">
+                <b-dropdown-item href="#">
+                  <router-link
+                    v-on:click.native="currentTab = 'SearchTab'"
+                    v-bind:class="{ active: currentTab == 'SearchTab' }"
+                    class="nav-items"
+                    :to="{name: 'Search'}"
+                  >by title</router-link>
+                </b-dropdown-item>
+                <b-dropdown-item href="#">
+                  <router-link
+                    v-on:click.native="currentTab = 'ExploreTab'"
+                    v-bind:class="{ active: currentTab == 'ExploreTab' }"
+                    class="nav-items"
+                    :to="{name: 'Explore'}"
+                  >by categories</router-link>
+                </b-dropdown-item>
+                <b-dropdown-item href="#">
+                  <router-link
+                    v-on:click.native="currentTab = 'FridgeTab'"
+                    v-bind:class="{ active: currentTab == 'FridgeTab' }"
+                    class="nav-items"
+                    :to="{name: 'Fridge'}"
+                  >by ingredients</router-link>
+                </b-dropdown-item>
+              </b-nav-item-dropdown>
               <b-nav-item @click="onLogout()" v-if="isLoggedIn">Log out</b-nav-item>
               <b-nav-item
                 @click="onChangeModalAction('Log In')"
@@ -107,15 +117,11 @@ a.nav-items {
 }
 
 #navigation-bar {
-  /* background-color: transparent !important; */
+  background-color: #fcfcfc;
 }
 
 a {
   transition: 0.3s !important;
-}
-
-a:hover {
-  color: #ff4a52 !important;
 }
 
 @media (min-width: 992px) {
@@ -142,6 +148,17 @@ a:hover {
     -o-transition: 0.3s;
     transition: 0.3s;
     cursor: pointer;
+  }
+}
+
+@media all and (max-width: 720px) {
+  .navbar-nav .dropdown-menu {
+    border: 0;
+    background-color: #f8f9fa;
+  }
+
+  .dropdown-item {
+    padding-left: 10px;
   }
 }
 </style>
