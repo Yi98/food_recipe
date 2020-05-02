@@ -15,23 +15,19 @@
                     placeholder="Add ingredient..."
                     element-id="tags"
                     typeahead-style="dropdown"
-                    discard-search-text
-                    :limit="10"
-                    :hide-input-on-limit="true"
+                    v-model="previousIngredients"
+                    :delete-on-backspace="false"
+                    :typeahead-hide-discard="true"
+                    :limit="4"
                     :only-existing-tags="true"
                     :existing-tags="autocomplete"
                     :typeahead="true"
                     @change="onKeyIngredient"
+                    @limit-reached="onLimitReached"
                     @tag-added="onAddIngredient"
                     @tag-removed="onRemoveIngredient"
                   ></tags-input>
                 </div>
-                <!-- <div style="display: inline" id="ingredients-chip-group">
-                    <div class="chip mt-2">
-                      <span class="ingredient-item">cheese</span>
-                      <span class="closebtn" onclick="onRemoveIngredient(this)">&times;</span>
-                    </div>
-                </div>-->
               </b-col>
             </b-row>
           </div>
@@ -52,7 +48,7 @@
 
       <div v-if="hasLoaded">
         <b-row id="fridge-result-container">
-          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
+          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe" v-bind:fridgeType="true"></RecipeCard>
         </b-row>
 
         <b-row>
@@ -63,12 +59,11 @@
                 class="boxed-btn4"
                 onclick="getRecipeByIngredients()"
                 style="color: #fff"
-              >More Recipes</a> -->
+              >More Recipes</a>-->
             </div>
           </b-col>
         </b-row>
       </div>
-
     </b-container>
   </div>
 </template>
@@ -92,8 +87,8 @@ export default {
       offset: 0,
       hasLoaded: false,
       recipes: [],
-      existingIngredients: [],
-      autocomplete: []
+      autocomplete: [],
+      previousIngredients: this.$store.state.existingIngredients
     };
   },
   methods: {
@@ -115,18 +110,19 @@ export default {
     },
     onUpdateIngredient: function(action, item) {
       if (action == "add") {
-        this.existingIngredients.push(item);
+        this.$store.commit("updateIngredient", { action, item });
       } else if (action == "remove") {
-        this.existingIngredients = this.existingIngredients.filter(
-          ingredient => ingredient != item
-        );
-        if (this.existingIngredients.length == 0) {
+        this.$store.commit("updateIngredient", { action, item });
+
+        if (this.$store.state.existingIngredients.length == 0) {
           this.hasLoaded = false;
           return;
         }
       }
 
-      const query = this.existingIngredients.join();
+      const query = this.$store.state.existingIngredients
+        .map(e => e.key)
+        .join();
 
       // This will use too much point when removing ingredient
       axios
@@ -134,6 +130,7 @@ export default {
           `${this.domain}/api/recipe/fridge?offset=${this.offset}&ingredients=${query}`
         )
         .then(response => {
+          console.log(response.data);
           this.recipes = response.data;
           this.hasLoaded = true;
         })
@@ -146,25 +143,20 @@ export default {
     },
     onRemoveIngredient: function(slug) {
       return this.onUpdateIngredient("remove", slug.value);
+    },
+    onLimitReached: function() {
+      alert('Free version only allows maximum of 4 ingredients. Please upgrade to premium for unlimited ingredients')
     }
   },
   computed: {
     isEmpty: function() {
-      return this.existingIngredients.length > 0 ? false : true;
+      return this.$store.state.existingIngredients.length > 0 ? false : true;
     }
   }
 };
 </script>
 
 <style>
-.empty-container {
-  padding: 12vh 0;
-}
-
-.empty-img {
-  width: 30%;
-}
-
 .tags-input {
   display: flex;
   flex-wrap: wrap;
@@ -256,7 +248,7 @@ export default {
   margin: 0.5em 0.2em;
   padding: 0 20px;
   padding-right: 25px;
-  border-radius: 10em;
+  /* border-radius: 10em; */
 }
 
 .tags-input-badge-selected-default {
@@ -306,6 +298,14 @@ export default {
 
 
 <style scoped>
+.empty-container {
+  padding: 10vh 0;
+}
+
+.empty-img {
+  width: 30%;
+}
+
 .input-group-sm > .form-control:not(textarea),
 .input-group-sm > .custom-select {
   height: 50px;
@@ -313,17 +313,6 @@ export default {
 
 .input-group > .form-control {
   font-size: 50px;
-}
-
-.chip {
-  display: inline-block;
-  margin-right: 5px;
-  padding: 0 20px;
-  height: 40px;
-  font-size: 13px;
-  line-height: 40px;
-  border-radius: 25px;
-  background-color: #e7e7e7;
 }
 
 .closebtn {

@@ -12,7 +12,7 @@
         <div class="place_info">
           <h3 :title="recipe.title">{{ modifiedTitle }}</h3>
           <p :title="recipe.dishTypes">{{ recipe.dishTypes }}</p>
-          <div class="d-flex">
+          <div class="d-flex" v-if="!fridgeType">
             <div class="days">
               <p class="pr-4">
                 <b-icon-people-fill class="right-icon"></b-icon-people-fill>
@@ -26,6 +26,11 @@
               </p>
             </div>
           </div>
+          <b-row v-if="fridgeType">
+            <b-col lg="12">
+              <p>Missing Ingredients: {{ missingIngredient }}</p>
+            </b-col>
+          </b-row>
         </div>
       </div>
     </router-link>
@@ -35,13 +40,24 @@
 <script>
 export default {
   name: "RecipeCard",
-  props: ["recipe"],
+  props: {
+    recipe: Object,
+    fridgeType: Boolean
+  },
   computed: {
     modifiedTitle: function() {
       if (this.recipe.title.length > 28) {
         return this.recipe.title.substring(0, 28) + "...";
       }
       return this.recipe.title;
+    },
+    missingIngredient: function() {
+      if (this.recipe.missedIngredients.length > 0) {
+        return this.recipe.missedIngredients.map(e => e.name).join(", ");
+      }
+      else {
+        return 'None';
+      }
     }
   }
 };
