@@ -18,16 +18,23 @@
                     v-bind:class="{ active: currentTab == 'SearchTab' }"
                     class="nav-items"
                     :to="{name: 'Search'}"
-                  >Search recipes</router-link>
+                  >by title</router-link>
                 </b-dropdown-item>
-                <b-dropdown-item href="#">By categories</b-dropdown-item>
+                <b-dropdown-item href="#">
+                  <router-link
+                    v-on:click.native="currentTab = 'ExploreTab'"
+                    v-bind:class="{ active: currentTab == 'ExploreTab' }"
+                    class="nav-items"
+                    :to="{name: 'Explore'}"
+                  >by categories</router-link>
+                </b-dropdown-item>
                 <b-dropdown-item href="#">
                   <router-link
                     v-on:click.native="currentTab = 'FridgeTab'"
                     v-bind:class="{ active: currentTab == 'FridgeTab' }"
                     class="nav-items"
                     :to="{name: 'Fridge'}"
-                  >What's in your fridge</router-link>
+                  >by ingredients</router-link>
                 </b-dropdown-item>
               </b-nav-item-dropdown>
               <b-nav-item @click="onLogout()" v-if="isLoggedIn">Log out</b-nav-item>
@@ -116,7 +123,6 @@ a.nav-items {
 a {
   transition: 0.3s !important;
 }
-
 
 @media (min-width: 992px) {
   #signup-btn a {

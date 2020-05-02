@@ -9,6 +9,7 @@ import bcrypt
 import jwt
 from bson import Binary, Code
 from bson.json_util import dumps
+from bson import ObjectId
 
 
 from server.database import db
@@ -23,7 +24,7 @@ def confirmEmail():
     users = db.instance.users
 
     #fix this
-    user = users.update_one({'_id': request.args.get('token')}, {'$set': {'verified': True}}, upsert=False)   
+    user = users.update_one({'_id': ObjectId(request.args.get('token'))}, {'$set': {'verified': True}}, upsert=False)   
 
     # add a link back to dashboard
     return jsonify({'message': 'Email verified. You can proceed to login now'})
@@ -68,7 +69,7 @@ def login():
     if (user == None):
         return jsonify({'success': False, 'message': 'Email does not exist'}), 200
 
-    if (user.verified == False):
+    if (user['verified'] == False):
         return jsonify({'success': False, 'message': f"Please confirm your email address to continue. Resend confirmation email."}), 201
 
     # Compare user's password with hashed password
@@ -92,8 +93,8 @@ def getUser(email):
 def sendConfirmationEmail(email, id):
     # pass token to dynamic template
 
-    link = 'http://127.0.0.1:5000/api/auth/confirm?token=' + str(id)
-    # link = "https://hexameal.com/api/auth/confirm?token=" + str(id)
+    # link = 'http://127.0.0.1:5000/api/auth/confirm?token=' + str(id)
+    link = "https://hexameal.com/api/auth/confirm?token=" + str(id)
 
     message = Mail(
         from_email='support@hexameal.com',
