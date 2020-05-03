@@ -9,6 +9,15 @@
   >
     <div>
       <p class="pl-1" style="color: #000" v-if="showFeedback">{{ feedback }}</p>
+      <p
+        class="pl-1"
+        v-if="showFeedback"
+        v-bind:class="{'resend-email': countdownEnd }"
+        @click="startCountdown()"
+      >
+        Resend verification email
+        <span v-if="!countdownEnd">({{ countdown }}s)</span>
+      </p>
 
       <b-row class="pt-2">
         <b-col lg="12">
@@ -138,9 +147,11 @@ export default {
     return {
       hidePassword: true,
       showFeedback: false,
+      countdownEnd: false,
       feedback: "",
       inputType: "password",
       buttonText: "Continue",
+      countdown: 30,
       email: null,
       password: null
     };
@@ -158,7 +169,7 @@ export default {
         url = `${this.domain}/api/auth/signup`;
       }
 
-      var bodyData = new FormData();
+      const bodyData = new FormData();
       bodyData.append("email", this.email);
       bodyData.append("password", this.password);
 
@@ -172,6 +183,8 @@ export default {
           this.feedback = response.data.message;
           this.showFeedback = true;
           this.buttonText = "Continue";
+
+          this.startCountdown();
 
           if (response.data.success && this.modalAction == "Log In") {
             this.email = "";
@@ -202,6 +215,33 @@ export default {
     },
     onChangeModalAction: function(action) {
       this.$store.commit("changeModalAction", { action });
+    },
+    startCountdown: function() {
+      const bodyData = new FormData();
+      bodyData.append("email", this.email);
+
+      axios({
+        method: "POST",
+        url: `${this.domain}/api/auth/resend`,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        data: bodyData
+      })
+        .then(response => {
+          this.feedback = response.data.message;
+          this.showFeedback = true;
+        })
+        .catch(err => console.log(err));
+
+      this.countdown = 30;
+      this.countdownEnd = false;
+
+      setInterval(() => {
+        if (this.countdown > 1) {
+          this.countdown -= 1;
+        } else {
+          this.countdownEnd = true;
+        }
+      }, 1000);
     }
   },
   computed: {
@@ -220,6 +260,20 @@ export default {
 </script>
 
 <style>
+.form-control {
+  box-shadow: none !important;
+}
+
+.form-control:focus {
+  border-color: rgb(143, 143, 143) !important;
+}
+
+.resend-email {
+  color: #000;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .reveal-icon {
   position: absolute;
   right: 0;

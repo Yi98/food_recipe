@@ -170,7 +170,7 @@ export default {
 }
 
 .tags-input input:focus {
-  outline: none;
+  outline: none;  
 }
 
 .tags-input input[type="text"] {
@@ -188,6 +188,8 @@ export default {
 
 .tags-input-wrapper-default.active {
   outline: 0 none;
+  border-color: rgb(143, 143, 143) !important;
+
 }
 
 /* The tag badges & the remove icon */
