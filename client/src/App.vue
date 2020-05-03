@@ -18,7 +18,7 @@ export default {
 
 <style>
 * {
-  font-family:Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 p {

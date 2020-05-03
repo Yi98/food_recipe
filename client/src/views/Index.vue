@@ -2,11 +2,11 @@
   <div>
     <b-container class="hero-banner">
       <b-row class="hero-row">
-        <b-col lg="6" class="text-center pb-3">
+        <b-col lg="6" md="12" class="text-center pb-3">
           <img src="../assets/hero-banner.svg" alt="Hero banner" id="hero-image" />
         </b-col>
-        <b-col lg="2"></b-col>
-        <b-col lg="4" class="hero-text-container">
+        <b-col lg="1" md="0"></b-col>
+        <b-col lg="5" md="12" class="hero-text-container">
           <b-row class="hero-question-container">
             <b-col lg="12">
               <h1 id="hero-question"></h1>
@@ -17,7 +17,7 @@
               <div id="hero-btn-container" class="m-auto">
                 <b-button
                   id="search-btn"
-                  class="boxed-btn4 w-100 mt-5"
+                  class="boxed-btn4 w-100"
                   style="height: 55px;"
                   @click="onChangeModalAction('Sign Up')"
                   v-b-modal.acc-modal
@@ -30,41 +30,37 @@
     </b-container>
     <div class="features-container">
       <b-container>
-        <b-row class="py-5">
+        <b-row class="pt-5 pb-4">
           <b-col lg="12" class="text-center">
-            <h1>Features</h1>
+            <h1 class="feature-string">Available features</h1>
           </b-col>
         </b-row>
         <b-row class="reverse feature-row">
-          <b-col lg="8" class="feature-left">
+          <b-col lg="8" md="8" class="feature-left">
             <h2 class="feature-title">Explore more than 350,000 recipes</h2>
-            <p
-              class="feature-description"
-            >Enormous amount of recipes to explore</p>
+            <p class="feature-description">Enormous amount of recipes to explore</p>
           </b-col>
-          <b-col lg="4" class="text-center">
+          <b-col lg="4" md="4" class="text-center">
             <img class="feature-img" src="../assets/search.svg" alt="Hero banner" />
           </b-col>
         </b-row>
         <b-row class="feature-row">
-          <b-col lg="4" class="text-center">
+          <b-col lg="4" md="4" class="text-center">
             <img class="feature-img" src="../assets/fridge.svg" alt="Hero banner" />
           </b-col>
-          <b-col lg="8" class="feature-right">
+          <b-col lg="8" md="8" class="feature-right">
             <h2 class="feature-title">Find recipes based on available ingredients</h2>
-            <p
-              class="feature-description"
-            >Perish 'forgot to buy' disappointment when cooking</p>
+            <p class="feature-description">Perish 'forgot to buy' disappointment when cooking</p>
           </b-col>
         </b-row>
         <b-row class="reverse feature-row">
-          <b-col lg="8" class="feature-left">
+          <b-col lg="8" md="8" class="feature-left">
             <h2 class="feature-title">Details-oriented recipe</h2>
             <p
               class="feature-description"
-            > Equipments? Checked! Ingredients? Checked! Instruction? Checked!</p>
+            >Equipments? Checked! Ingredients? Checked! Instruction? Checked!</p>
           </b-col>
-          <b-col lg="4">
+          <b-col lg="4" md="4" class="text-center">
             <img class="feature-img" src="../assets/organized.svg" alt="Hero banner" />
           </b-col>
         </b-row>
@@ -91,7 +87,7 @@ export default {
       .type("Tired of thinking what to cook?")
       .pause(1000)
       .delete(null, { speed: 65 })
-      .type("Wanna empty the ingredients in the fridge?")
+      .type("Wanna get rid of exisiting ingredients?")
       .pause(1000)
       .delete(null, { speed: 65 })
       .type("Enough of messy recipe's instructions?")
@@ -110,11 +106,13 @@ export default {
 };
 </script>
 
-<style scoped>
-.hero-banner {
-  /* background-image: url('../assets/background.svg'); */
+<style>
+.navbar-toggler {
+  outline: none !important;
 }
+</style>
 
+<style scoped>
 .feature-left {
   padding-right: 10%;
 }
@@ -129,15 +127,15 @@ export default {
 
 .feature-title {
   font-size: 1.6rem;
-  text-align: justify;
+  text-align: left;
   padding-top: 75px;
   padding-bottom: 10px;
   color: #ff4a52;
 }
 
 .feature-description {
-  text-align: justify;
-  font-size: 1.4rem;
+  text-align: left;
+  font-size: 1.1rem;
 }
 
 .feature-row {
@@ -162,7 +160,9 @@ export default {
 
 #search-btn {
   border-radius: 40px;
-  background-color: #fa313b;
+  background-color: #ff3842;
+  margin-top: 20%;
+  box-shadow: none;
 }
 
 .hero-text-container {
@@ -184,8 +184,47 @@ export default {
 }
 
 .features-container {
-  background-color: rgb(247, 247, 247);
-  padding-bottom: 10%;
+  background-color: #fbfbfb;
+  padding-bottom: 2%;
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  #search-btn {
+    margin-top: 0%;
+  }
+}
+
+/* md-size */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  #hero-question {
+    font-size: 2.5rem;
+  }
+
+  #hero-image {
+    width: 45%;
+  }
+
+  #search-btn {
+    margin-top: 0%;
+  }
+
+  .hero-text-container {
+    padding-top: 10%;
+    padding-left: 10%;
+    padding-right: 10%;
+    height: 0%;
+    text-align: center;
+  }
+
+  .hero-question-container {
+    padding-left: 5%;
+    padding-right: 5%;
+    height: 150px;
+  }
+
+  .feature-title {
+    padding-top: 0;
+  }
 }
 
 @media (max-width: 767px) {
@@ -194,7 +233,7 @@ export default {
   }
 
   #hero-question {
-    font-size: 2rem;
+    font-size: 1.9rem;
   }
 
   #hero-image {
@@ -213,19 +252,20 @@ export default {
   }
 
   .feature-title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     text-align: left;
     padding-top: 20px;
-    padding-bottom: 5px;
+    padding-bottom: 2px;
+    margin-bottom: 0;
   }
 
   .feature-description {
-    text-align: justify;
-    font-size: 1.2rem;
+    text-align: left;
+    font-size: 1.1rem;
   }
 
   .feature-img {
-    width: 85%;
+    width: 70%;
   }
 
   .feature-row {
@@ -239,7 +279,15 @@ export default {
   }
 
   .features-container {
-    padding-bottom: 5%;
+    padding-bottom: 0;
+  }
+
+  #search-btn {
+    margin-top: 10%;
+  }
+
+  .feature-string {
+    font-size: 2rem;
   }
 }
 </style>

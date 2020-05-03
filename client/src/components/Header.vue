@@ -117,7 +117,7 @@ a.nav-items {
 }
 
 #navigation-bar {
-  background-color: #fcfcfc;
+  background-color: #fcfcfc !important;
 }
 
 a {

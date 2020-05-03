@@ -19,17 +19,6 @@ from flask import current_app as app
 bp = Blueprint('auth', __name__)
 
 
-@bp.route('/confirm', methods=['GET', 'POST'])
-def confirmEmail():
-    users = db.instance.users
-
-    #fix this
-    user = users.update_one({'_id': ObjectId(request.args.get('token'))}, {'$set': {'verified': True}}, upsert=False)   
-
-    # add a link back to dashboard
-    return jsonify({'message': 'Email verified. You can proceed to login now'})
-
-
 @bp.route('/signup', methods=['POST'])
 def signup():
     # get all users
@@ -47,15 +36,15 @@ def signup():
 
     # user exists but not verified
     if (user != None and user['verified'] == False):
-        return jsonify({'success': True, 'message': "Please confirm your email address to continue. Resend confirmation email."}), 201
+        return jsonify({'success': True, 'message': f"A verification email has been sent to {email}"}), 201
 
     user = users.insert_one(
         {'email': email, 'password': hashed, 'verified': False})
 
-    sendConfirmationEmail(email, user.inserted_id)
+    sendVerificationEmail(email, user.inserted_id)
 
     # user does not exist
-    return jsonify({'success': True, 'message': f"A confirmation email has been sent to {email}"}), 201
+    return jsonify({'success': True, 'message': f"A verification email has been sent to {email}"}), 201
 
 
 @bp.route('/login', methods=['POST'])
@@ -70,7 +59,7 @@ def login():
         return jsonify({'success': False, 'message': 'Email does not exist'}), 200
 
     if (user['verified'] == False):
-        return jsonify({'success': False, 'message': f"Please confirm your email address to continue. Resend confirmation email."}), 201
+        return jsonify({'success': False, 'message': f"Please confirm your email address to continue. Resend verification email."}), 201
 
     # Compare user's password with hashed password
     if bcrypt.checkpw(password.encode('utf-8'), user['password']):
@@ -82,6 +71,29 @@ def login():
         return jsonify({'success': False, 'message': "Incorrect password"}), 200
 
 
+@bp.route('/confirm', methods=['GET'])
+def confirmEmail():
+    users = db.instance.users
+
+    # fix this
+    user = users.update_one({'_id': ObjectId(request.args.get('token'))}, {
+                            '$set': {'verified': True}}, upsert=False)
+
+    # add a link back to dashboard
+    # return jsonify({'message': 'Email verified. You can proceed to login now'})
+    return '<h1>Email verified. <a href="../../index.html">Proceed to login</a></h1>'
+
+
+@bp.route('/resend', methods=['POST'])
+def resendEmail():
+    user = getUser(request.form['email'])
+
+    if (user != None and user['verified'] == False):
+        sendVerificationEmail(user['email'], user['_id'])
+
+    return jsonify({'success': True, 'message': f"A verification email has been sent to {user['email']}"}), 201
+
+
 def getUser(email):
     users = db.instance.users
 
@@ -90,9 +102,7 @@ def getUser(email):
     return user
 
 
-def sendConfirmationEmail(email, id):
-    # pass token to dynamic template
-
+def sendVerificationEmail(email, id):
     # link = 'http://127.0.0.1:5000/api/auth/confirm?token=' + str(id)
     link = "https://hexameal.com/api/auth/confirm?token=" + str(id)
 
