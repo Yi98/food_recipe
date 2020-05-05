@@ -157,6 +157,12 @@ export default {
 </script>
 
 <style>
+.tags-input-wrapper-default {
+  border: 0 !important;
+  border-bottom: 1px solid #ced4da !important;
+}
+
+
 .tags-input {
   display: flex;
   flex-wrap: wrap;

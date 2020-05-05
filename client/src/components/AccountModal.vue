@@ -56,7 +56,7 @@
             id="account-btn"
             @click="onContinueAccount()"
             type="button"
-            class="boxed-btn4 w-100 platforms-btn"
+            class="boxed-btn4 w-100 platforms-btn my-2"
             style="height: 50px; color: white;"
             data-dismiss="modal"
           >
@@ -260,8 +260,13 @@ export default {
 </script>
 
 <style>
+
+
 .form-control {
   box-shadow: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
 }
 
 .form-control:focus {
@@ -318,10 +323,15 @@ export default {
 
 .modal-title {
   margin: auto;
-  margin-left: 42%;
+  margin-left: 45%;
 }
 
 @media all and (max-width: 720px) {
+  .modal-content {
+    border-radius: 16px 16px 0 0 !important;
+    border: 0 !important;
+  }
+
   #acc-modal {
     width: 100% !important;
     height: 100% !important;
@@ -331,12 +341,12 @@ export default {
   }
 
   .modal-title {
-    margin-left: 38%;
+    margin-left: 39%;
   }
 
   .modal-body {
     height: 90vh;
-    min-height: 100%;
+    /* min-height: 100%; */
     border-radius: 10px;
   }
 

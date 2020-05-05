@@ -30,7 +30,7 @@
     </b-container>
     <div class="features-container">
       <b-container>
-        <b-row class="pt-5 pb-4">
+        <b-row class="py-5">
           <b-col lg="12" class="text-center">
             <h1 class="feature-string">Available features</h1>
           </b-col>
@@ -113,6 +113,10 @@ export default {
 </style>
 
 <style scoped>
+.feature-string {
+  font-weight: 100;
+}
+
 .feature-left {
   padding-right: 10%;
 }
@@ -155,6 +159,7 @@ export default {
 }
 
 #hero-question {
+  font-weight: 100;
   font-size: 3.4rem;
 }
 
@@ -283,7 +288,7 @@ export default {
   }
 
   #search-btn {
-    margin-top: 10%;
+    margin-top: 15%;
   }
 
   .feature-string {

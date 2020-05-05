@@ -1,74 +1,34 @@
 <template>
-  <div>
-    <div class="where_togo_area py-5 explore_banner_wrap">
-      <b-container>
-        <b-row class="align-items-center">
-          <b-col lg="3" md="5" class="pt-2">
-            <div class="form_area">
-              <h3 class="mb-0">Pick a category :</h3>
-            </div>
-          </b-col>
-          <b-col lg="9" md="7">
-            <b-row>
-              <b-col md="12" cols="12" class="pt-2">
-                <div class="filter_bordered">
-                  <div class="filter_inner">
-                    <b-row>
-                      <b-col lg="12">
-                        <div class="single_select">
-                          <b-form-select
-                            @change="onCategoryChange()"
-                            class="category-select mt-2"
-                            v-model="selected"
-                            :options="options"
-                          ></b-form-select>
-                        </div>
-                      </b-col>
-                    </b-row>
-                  </div>
-                </div>
-              </b-col>
-            </b-row>
-          </b-col>
-        </b-row>
-      </b-container>
-    </div>
+  <div class="popular_places_area pt-3">
+    <b-container>
+      <b-row>
+        <b-col lg="12">
+          <div class="single_select">
+            <b-form-select
+              @change="onCategoryChange()"
+              class="category-select mb-5"
+              v-model="selected"
+              :options="options"
+            ></b-form-select>
+          </div>
+        </b-col>
+      </b-row>
+      <div v-if="!hasLoaded">
+        <CardPlaceholder></CardPlaceholder>
+        <CardPlaceholder></CardPlaceholder>
+      </div>
+      <b-row id="explore-result-container" v-else>
+        <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
+      </b-row>
 
-    <div class="popular_places_area pt-5">
-      <b-container>
-        <b-row class="pb-5">
-          <b-col lg="12">
-            <div class="section_title mb_70">
-              <h3>
-                Explore
-                <span id="search-title"></span>
-              </h3>
-              <p>Discover the hidden gems.</p>
-            </div>
-          </b-col>
-        </b-row>
-
-        <div v-if="!hasLoaded">
-          <CardPlaceholder></CardPlaceholder>
-          <CardPlaceholder></CardPlaceholder>
-        </div>
-        <b-row id="explore-result-container" v-else>
-          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe"></RecipeCard>
-        </b-row>
-
-        <b-row>
-          <b-col lg="12">
-            <div class="more_place_btn text-center">
-              <a
-                @click="onLoadMoreRecipes()"
-                class="boxed-btn4"
-                style="color: #fff"
-              >More Recipes</a>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </div>
+      <b-row>
+        <b-col lg="12">
+          <div class="more_place_btn text-center">
+            <a @click="onLoadMoreRecipes()" class="boxed-btn4" style="color: #fff">More Recipes</a>
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -142,7 +102,7 @@ export default {
 .popular_places_area {
   padding-top: 60px;
   padding-bottom: 60px;
-  background: #f7fafd;
+  background: #fff;
 }
 
 .popular_places_area .more_place_btn {
@@ -151,6 +111,7 @@ export default {
 
 .category-select {
   cursor: pointer;
+  box-shadow: none;
 }
 
 .explore_banner_wrap {
