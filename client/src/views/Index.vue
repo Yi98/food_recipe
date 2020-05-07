@@ -114,7 +114,7 @@ export default {
 
 <style scoped>
 .feature-string {
-  font-weight: 100;
+  font-weight: 300;
 }
 
 .feature-left {
@@ -159,7 +159,7 @@ export default {
 }
 
 #hero-question {
-  font-weight: 100;
+  font-weight: 300;
   font-size: 3.4rem;
 }
 
