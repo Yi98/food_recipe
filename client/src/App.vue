@@ -17,8 +17,13 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./assets/fonts/Montserrat-Medium.ttf');
+}
+
 * {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Montserrat';
 }
 
 p {

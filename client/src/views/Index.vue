@@ -32,37 +32,45 @@
       <b-container>
         <b-row class="py-5">
           <b-col lg="12" class="text-center">
-            <h1 class="feature-string">Available features</h1>
+            <h1 class="feature-string">Available Features</h1>
           </b-col>
         </b-row>
         <b-row class="reverse feature-row">
-          <b-col lg="8" md="8" class="feature-left">
+          <b-col lg="1"></b-col>
+          <b-col lg="7" md="8" class="feature-left">
             <h2 class="feature-title">Explore more than 350,000 recipes</h2>
-            <p class="feature-description">Enormous amount of recipes to explore</p>
+            <p class="feature-description">Enormous amount of recipes to explore.</p>
           </b-col>
-          <b-col lg="4" md="4" class="text-center">
+          <b-col lg="3" md="4" class="text-center">
             <img class="feature-img" src="../assets/search.svg" alt="Hero banner" />
           </b-col>
+          <b-col lg="1"></b-col>
         </b-row>
         <b-row class="feature-row">
-          <b-col lg="4" md="4" class="text-center">
+          <b-col lg="1"></b-col>
+          <b-col lg="3" md="4" id="mid-feature-img" class="text-center">
             <img class="feature-img" src="../assets/fridge.svg" alt="Hero banner" />
           </b-col>
-          <b-col lg="8" md="8" class="feature-right">
+          <b-col lg="7" md="8" class="feature-right">
             <h2 class="feature-title">Find recipes based on available ingredients</h2>
-            <p class="feature-description">Perish 'forgot to buy' disappointment when cooking</p>
+            <p
+              class="feature-description"
+            >No more 'missing ingredients' disappointment when cooking.</p>
           </b-col>
+          <b-col lg="1"></b-col>
         </b-row>
         <b-row class="reverse feature-row">
-          <b-col lg="8" md="8" class="feature-left">
+          <b-col lg="1"></b-col>
+          <b-col lg="7" md="8" class="feature-left">
             <h2 class="feature-title">Details-oriented recipe</h2>
             <p
               class="feature-description"
-            >Equipments? Checked! Ingredients? Checked! Instruction? Checked!</p>
+            >Equipments? Checked! Ingredients? Checked! Instructions? Checked!</p>
           </b-col>
-          <b-col lg="4" md="4" class="text-center">
+          <b-col lg="3" md="4" class="text-center">
             <img class="feature-img" src="../assets/organized.svg" alt="Hero banner" />
           </b-col>
+          <b-col lg="1"></b-col>
         </b-row>
       </b-container>
     </div>
@@ -87,7 +95,7 @@ export default {
       .type("Tired of thinking what to cook?")
       .pause(1000)
       .delete(null, { speed: 65 })
-      .type("Wanna get rid of exisiting ingredients?")
+      .type("Wanna get rid of existing ingredients?")
       .pause(1000)
       .delete(null, { speed: 65 })
       .type("Enough of messy recipe's instructions?")
@@ -107,6 +115,10 @@ export default {
 </script>
 
 <style>
+#mid-feature-img {
+  padding-top: 5%;
+}
+
 .navbar-toggler {
   outline: none !important;
 }
@@ -189,7 +201,7 @@ export default {
 }
 
 .features-container {
-  background-color: #fbfbfb;
+  background-color: #fcfcfc;
   padding-bottom: 2%;
 }
 
@@ -228,6 +240,10 @@ export default {
   }
 
   .feature-title {
+    padding-top: 0;
+  }
+
+  #mid-feature-img {
     padding-top: 0;
   }
 }
@@ -293,6 +309,10 @@ export default {
 
   .feature-string {
     font-size: 2rem;
+  }
+
+  #mid-feature-img {
+    padding-top: 0;
   }
 }
 </style>

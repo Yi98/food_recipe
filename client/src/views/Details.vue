@@ -57,7 +57,7 @@
 
           <div class="bordered_1px"></div>
 
-          <div class="destination_info">
+          <div class="destination_info pb-5">
             <h3>Procedure</h3>
             <div id="instruction-container">
               <div
@@ -71,7 +71,6 @@
             </div>
           </div>
 
-          <div class="bordered_1px"></div>
         </b-col>
       </b-row>
     </b-container>
