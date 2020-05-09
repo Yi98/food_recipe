@@ -89,7 +89,7 @@ export default {
   },
   mounted: function() {
     new TypeIt("#hero-question", {
-      speed: 100,
+      speed: 90,
       loop: true
     })
       .type("Tired of thinking what to cook?")

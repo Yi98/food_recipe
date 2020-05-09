@@ -11,7 +11,7 @@
       <p class="pl-1" style="color: #000" v-if="showFeedback">{{ feedback }}</p>
       <p
         class="pl-1"
-        v-if="showFeedback"
+        v-if="showResendEmail"
         v-bind:class="{'resend-email': countdownEnd }"
         @click="startCountdown()"
       >
@@ -148,6 +148,7 @@ export default {
       hidePassword: true,
       showFeedback: false,
       countdownEnd: false,
+      showResendEmail: false,
       feedback: "",
       inputType: "password",
       buttonText: "Continue",
@@ -229,19 +230,22 @@ export default {
         .then(response => {
           this.feedback = response.data.message;
           this.showFeedback = true;
+          this.showResendEmail = response.data.resendEmail;
+          this.countdown = 30;
+          this.countdownEnd = false;
+
+          if (this.showResendEmail) {
+            const timer = setInterval(() => {
+              if (this.countdown > 1) {
+                this.countdown -= 1;
+              } else {
+                this.countdownEnd = true;
+                clearInterval(timer);
+              }
+            }, 1000);
+          }
         })
         .catch(err => console.log(err));
-
-      this.countdown = 30;
-      this.countdownEnd = false;
-
-      setInterval(() => {
-        if (this.countdown > 1) {
-          this.countdown -= 1;
-        } else {
-          this.countdownEnd = true;
-        }
-      }, 1000);
     }
   },
   computed: {
@@ -260,8 +264,6 @@ export default {
 </script>
 
 <style>
-
-
 .form-control {
   box-shadow: none !important;
   border-top: none !important;

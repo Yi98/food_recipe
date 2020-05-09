@@ -48,7 +48,7 @@ export default {
       recipes: [],
       hasLoaded: false,
       offset: 0,
-      selected: "Main Course",
+      selected: this.$store.state.currentCategory,
       options: [
         { value: "Main Course", text: "Main Course" },
         { value: "Side Dish", text: "Side Dish" },
@@ -66,6 +66,8 @@ export default {
     onCategoryChange: function() {
       this.hasLoaded = false;
       this.offset = 0;
+      let selected = this.selected;
+      this.$store.commit("updateCategory", { category: selected });
 
       axios
         .get(
@@ -74,7 +76,6 @@ export default {
         .then(response => {
           this.recipes = response.data.results;
           this.hasLoaded = true;
-          console.log(this.recipes);
         })
         .catch(err => {
           console.log(err);

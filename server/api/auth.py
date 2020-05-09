@@ -32,11 +32,11 @@ def signup():
 
     # user exists and verified
     if (user != None and user['verified'] == True):
-        return jsonify({'message': 'Email already exists'})
+        return jsonify({'resendEmail': False, 'message': 'Email already exists.'})
 
     # user exists but not verified
     if (user != None and user['verified'] == False):
-        return jsonify({'success': True, 'message': f"A verification email has been sent to {email}"}), 201
+        return jsonify({'success': True, 'resendEmail': True, 'message': f"A verification email has been sent to {email}"}), 201
 
     user = users.insert_one(
         {'email': email, 'password': hashed, 'verified': False})
@@ -44,7 +44,7 @@ def signup():
     sendVerificationEmail(email, user.inserted_id)
 
     # user does not exist
-    return jsonify({'success': True, 'message': f"A verification email has been sent to {email}"}), 201
+    return jsonify({'success': True, 'resendEmail': True, 'message': f"A verification email has been sent to {email}"}), 201
 
 
 @bp.route('/login', methods=['POST'])
@@ -56,10 +56,10 @@ def login():
 
     # User not exist
     if (user == None):
-        return jsonify({'success': False, 'message': 'Email does not exist'}), 200
+        return jsonify({'success': False, 'resendEmail': False, 'message': 'Email does not exist'}), 200
 
     if (user['verified'] == False):
-        return jsonify({'success': False, 'message': f"Please confirm your email address to continue. Resend verification email."}), 201
+        return jsonify({'success': False, 'resendEmail': True, 'message': f"Please confirm your email address to continue."}), 201
 
     # Compare user's password with hashed password
     if bcrypt.checkpw(password.encode('utf-8'), user['password']):
@@ -75,12 +75,9 @@ def login():
 def confirmEmail():
     users = db.instance.users
 
-    # fix this
     user = users.update_one({'_id': ObjectId(request.args.get('token'))}, {
                             '$set': {'verified': True}}, upsert=False)
 
-    # add a link back to dashboard
-    # return jsonify({'message': 'Email verified. You can proceed to login now'})
     return '<h1>Email verified. <a href="../../index.html">Proceed to login</a></h1>'
 
 
@@ -91,7 +88,7 @@ def resendEmail():
     if (user != None and user['verified'] == False):
         sendVerificationEmail(user['email'], user['_id'])
 
-    return jsonify({'success': True, 'message': f"A verification email has been sent to {user['email']}"}), 201
+    return jsonify({'success': True, 'resendEmail': True, 'message': f"A verification email has been sent to {user['email']}"}), 201
 
 
 def getUser(email):
