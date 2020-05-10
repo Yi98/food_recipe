@@ -8,7 +8,8 @@ export default new Vuex.Store({
     isLoggedIn: false,
     modalAction: 'Sign Up',
     existingIngredients: [],
-    currentCategory: 'Main Course'
+    currentCategory: 'Main Course',
+    currentSearch: '',
   },
   mutations: {
     changeState(state) {
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     },
     updateCategory(state, { category }) {
       state.currentCategory = category;
+    },
+    updateSearch(state, { title }) {
+      state.currentSearch = title;
     }
   }
 })

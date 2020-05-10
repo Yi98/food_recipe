@@ -97,6 +97,11 @@ export default {
 </script>
 
 <style>
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+
 .active {
   color: #ff4a52 !important;
 }
