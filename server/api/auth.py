@@ -100,8 +100,8 @@ def getUser(email):
 
 
 def sendVerificationEmail(email, id):
-    link = 'http://127.0.0.1:5000/api/auth/confirm?token=' + str(id)
-    # link = "https://hexameal.com/api/auth/confirm?token=" + str(id)
+    # link = 'http://127.0.0.1:5000/api/auth/confirm?token=' + str(id)
+    link = "https://hexameal.com/api/auth/confirm?token=" + str(id)
 
     message = Mail(
         from_email='support@hexameal.com',
