@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="topView">
     <div class="popular_places_area pt-2">
       <b-container>
         <div class="row align-items-center pb-4 search-container">
@@ -74,6 +74,7 @@
 
 <script>
 import axios from "axios";
+import VueScrollTo from "vue-scrollto";
 
 import CardPlaceholder from "../components/CardPlaceholder";
 import RecipeCard from "../components/RecipeCard";
@@ -130,6 +131,8 @@ export default {
         .catch(err => {
           console.log(err);
         });
+
+      VueScrollTo.scrollTo("#topView", 700, { cancelable: false });
     },
     checkEnterPressed: function(e) {
       if (e.keyCode === 13) {
@@ -232,5 +235,4 @@ h3 {
     font-size: 18px;
   }
 }
-
 </style>

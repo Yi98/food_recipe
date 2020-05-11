@@ -15,9 +15,10 @@
                 <!-- <h4 style="display: inline-block" class="pt-3 pb-4 pr-3 m-0">
                   Add your ingredients:
                   <span id="search-title"></span>
-                </h4> -->
+                </h4>-->
                 <div style="display: inline">
                   <tags-input
+                    ref="input"
                     placeholder="Add ingredient..."
                     element-id="tags"
                     typeahead-style="dropdown"
@@ -27,6 +28,7 @@
                     :limit="4"
                     :only-existing-tags="true"
                     :existing-tags="autocomplete"
+                    :typeahead-activation-threshold="0"
                     :typeahead="true"
                     @change="onKeyIngredient"
                     @limit-reached="onLimitReached"
@@ -54,7 +56,12 @@
 
       <div v-if="hasLoaded">
         <b-row id="fridge-result-container">
-          <RecipeCard v-for="recipe in recipes" v-bind:key="recipe.id" v-bind:recipe="recipe" v-bind:fridgeType="true"></RecipeCard>
+          <RecipeCard
+            v-for="recipe in recipes"
+            v-bind:key="recipe.id"
+            v-bind:recipe="recipe"
+            v-bind:fridgeType="true"
+          ></RecipeCard>
         </b-row>
 
         <b-row>
@@ -151,7 +158,9 @@ export default {
       return this.onUpdateIngredient("remove", slug.value);
     },
     onLimitReached: function() {
-      alert('Free version only allows maximum of 4 ingredients. Please upgrade to premium for unlimited ingredients')
+      alert(
+        "Free version only allows maximum of 4 ingredients. Please upgrade to premium for unlimited ingredients"
+      );
     }
   },
   computed: {
@@ -168,7 +177,6 @@ export default {
   border-bottom: 1px solid #ced4da !important;
 }
 
-
 .tags-input {
   display: flex;
   flex-wrap: wrap;
@@ -182,7 +190,7 @@ export default {
 }
 
 .tags-input input:focus {
-  outline: none;  
+  outline: none;
 }
 
 .tags-input input[type="text"] {
@@ -200,7 +208,6 @@ export default {
 .tags-input-wrapper-default.active {
   outline: 0 none;
   border-color: rgb(143, 143, 143) !important;
-
 }
 
 /* The tag badges & the remove icon */

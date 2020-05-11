@@ -1,5 +1,5 @@
 <template>
-  <div class="popular_places_area pt-3">
+  <div class="popular_places_area pt-3" id="topView">
     <b-container>
       <b-row>
         <b-col lg="3" md="12" class="py-1">
@@ -45,6 +45,8 @@
 
 <script>
 import axios from "axios";
+import VueScrollTo from "vue-scrollto";
+
 import CardPlaceholder from "../components/CardPlaceholder";
 import RecipeCard from "../components/RecipeCard";
 
@@ -111,6 +113,8 @@ export default {
         .catch(err => {
           console.log(err);
         });
+
+      VueScrollTo.scrollTo("#topView", 700, { cancelable: false });
     }
   },
   computed: {
@@ -125,7 +129,6 @@ export default {
 .custom-select {
   border: 1px solid #959899;
 }
-
 
 .popular_places_area {
   padding-top: 60px;
