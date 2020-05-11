@@ -5,11 +5,17 @@
         <b-col lg="12">
           <div class="section_title mb_70">
             <b-row>
-              <b-col lg="12">
-                <h4 style="display: inline-block" class="pt-3 pb-4 pr-3 m-0">
+              <b-col lg="4" md="12">
+                <h4 style="display: inline-block" class="pt-3 pb-3 pr-3 m-0">
                   Add your ingredients:
                   <span id="search-title"></span>
                 </h4>
+              </b-col>
+              <b-col lg="8" md="12">
+                <!-- <h4 style="display: inline-block" class="pt-3 pb-4 pr-3 m-0">
+                  Add your ingredients:
+                  <span id="search-title"></span>
+                </h4> -->
                 <div style="display: inline">
                   <tags-input
                     placeholder="Add ingredient..."
@@ -189,7 +195,6 @@ export default {
   background: #fff;
   border-color: #dbdbdb;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
 }
 
 .tags-input-wrapper-default.active {

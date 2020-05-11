@@ -9,7 +9,7 @@
                 <b-form-input
                   id="index-search-box"
                   v-model="searchTitle"
-                  type="email"
+                  type="text"
                   required
                   placeholder="Find recipe"
                   v-on:keyup="checkEnterPressed"
@@ -232,4 +232,5 @@ h3 {
     font-size: 18px;
   }
 }
+
 </style>

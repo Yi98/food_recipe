@@ -266,9 +266,10 @@ export default {
 <style>
 .form-control {
   box-shadow: none !important;
-  border-top: none !important;
+  /* border-top: none !important;
   border-left: none !important;
   border-right: none !important;
+  border-radius: 0 !important; */
 }
 
 .form-control:focus {
