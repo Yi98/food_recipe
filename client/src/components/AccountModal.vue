@@ -70,10 +70,10 @@
           </button>
         </b-col>
       </b-row>
-      <!-- <b-row class="my-4">
-      <b-col lg="12" class="text-center">OR</b-col>-->
-      <!-- </b-row> -->
-      <!-- <b-row class="mt-2">
+      <b-row class="my-4">
+        <b-col lg="12" class="text-center">OR</b-col>
+      </b-row>
+      <b-row class="mt-2">
         <b-col lg="12">
           <button
             type="button"
@@ -92,21 +92,32 @@
       </b-row>
       <b-row class="mt-2">
         <b-col lg="12">
-          <button type="button" class="btn w-100 platforms-btn" data-dismiss="modal">
-            <b-row>
-              <b-col lg="2" cols="2" class="text-right">
+          <button type="button" class="btn w-100" data-dismiss="modal">
+            <b-row style="position: relative">
+              <GoogleLogin
+                class="platforms-btn w-100"
+                :params="params"
+                :onSuccess="onSuccess"
+                :onFailure="onFailure"
+              >Continue with Google</GoogleLogin>
+
+              <img
+                src="../assets/google.png"
+                alt="Google logo"
+                class="platforms-img"
+                width="20px"
+                heigh="20px"
+              />
+
+              <!-- <b-col lg="2" cols="2" class="text-right">
                 <img src="../assets/google.png" alt="Google logo" width="20px" heigh="20px" />
               </b-col>
-              <b-col
-                lg="10"
-                cols="10"
-                class="text-left"
-                @done="onContinueGoogle()"
-              >Continue with Google</b-col>
+
+              <b-col lg="10" cols="10" id="google-btn">Continue with Google</b-col>-->
             </b-row>
           </button>
         </b-col>
-      </b-row>-->
+      </b-row>
       <b-row class="mt-4">
         <b-col lg="12">
           <p id="login-text" v-if="!showForgotPassword">
@@ -136,11 +147,13 @@
 <script>
 import axios from "axios";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import GoogleLogin from "vue-google-login";
 
 export default {
   name: "AccountModal",
   components: {
-    PulseLoader
+    PulseLoader,
+    GoogleLogin
   },
   props: ["passedAction"],
   data: function() {
@@ -154,7 +167,13 @@ export default {
       buttonText: "Continue",
       countdown: 30,
       email: null,
-      password: null
+      password: null,
+      client_id:
+        "566123955602-sj1h6l56i3eeo1e5r71lfqvkvtadues4.apps.googleusercontent.com",
+      params: {
+        client_id:
+          "566123955602-sj1h6l56i3eeo1e5r71lfqvkvtadues4.apps.googleusercontent.com"
+      }
     };
   },
   methods: {
@@ -246,6 +265,15 @@ export default {
           }
         })
         .catch(err => console.log(err));
+    },
+    onSuccess(googleUser) {
+      console.log(googleUser);
+
+      // This only gets the user information: id, name, imageUrl and email
+      console.log(googleUser.getBasicProfile());
+    },
+    onFailure(err) {
+      console.log(err);
     }
   },
   computed: {
@@ -264,6 +292,17 @@ export default {
 </script>
 
 <style>
+.platforms-img {
+  position: absolute;
+  top: 14px;
+  left: 110px;
+}
+
+#google-signin-btn-0 {
+  border-radius: 0.25rem;
+  border: 0;
+}
+
 .form-control {
   box-shadow: none !important;
   /* border-top: none !important;
@@ -363,6 +402,12 @@ export default {
 
   #signup-text {
     padding-bottom: 20% !important;
+  }
+
+  .platforms-img {
+    position: absolute;
+    top: 14px;
+    left: 30px;
   }
 }
 </style>

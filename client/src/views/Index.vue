@@ -95,7 +95,7 @@ export default {
       .type("Tired of thinking what to cook?")
       .pause(1000)
       .delete(null, { speed: 65 })
-      .type("Wanna get rid of existing ingredients?")
+      .type("Don't know how to cook with exisiting ingredients?")
       .pause(1000)
       .delete(null, { speed: 65 })
       .type("Enough of messy recipe's instructions?")
