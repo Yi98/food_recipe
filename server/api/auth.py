@@ -30,6 +30,12 @@ def signup():
 
     user = getUser(email)
 
+    # user exists and synced with Google
+    if (user != None and 'syncGoogle' in user):
+        if (user['syncGoogle'] == True):
+            print('hi')
+            return jsonify({'resendEmail': False, 'message': 'Your account is signed up with Google. Please continue with Google.'})
+
     # user exists and verified
     if (user != None and user['verified'] == True):
         return jsonify({'resendEmail': False, 'message': 'Email already exists.'})
@@ -58,6 +64,13 @@ def login():
     if (user == None):
         return jsonify({'success': False, 'resendEmail': False, 'message': 'Email does not exist'}), 200
 
+    # user exist and synced with Google
+    if 'syncGoogle' in user:
+        if (user['syncGoogle'] == True):
+            print('hi')
+            return jsonify({'resendEmail': False, 'message': 'Your account is signed up with Google. Please continue with Google.'})
+
+    # user signed up but not verified
     if (user['verified'] == False):
         return jsonify({'success': False, 'resendEmail': True, 'message': f"Please confirm your email address to continue."}), 201
 
@@ -89,6 +102,30 @@ def resendEmail():
         sendVerificationEmail(user['email'], user['_id'])
 
     return jsonify({'success': True, 'resendEmail': True, 'message': f"A verification email has been sent to {user['email']}"}), 201
+
+
+@bp.route('/google', methods=['POST'])
+def googleLogin():
+    email = request.form['email']
+
+    # get all users
+    users = db.instance.users
+    user = getUser(email)
+
+    #  user does not exist
+    if (user == None):
+        user = users.insert_one(
+            {'email': email, 'verified': True, 'syncGoogle': True})
+        userId = user.inserted_id
+    else:
+        # get user id for existing user
+        userId = user['_id']
+
+    # Compare user's password with hashed password
+    encoded = jwt.encode(
+        {'userId': str(userId)}, app.config['JWT_KEY'], algorithm='HS256')
+
+    return jsonify({'success': True, 'message': 'Login successfully', 'token': encoded.decode('utf-8')}), 201
 
 
 def getUser(email):
