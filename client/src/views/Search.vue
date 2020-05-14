@@ -93,21 +93,33 @@ export default {
       searchTitle: this.$store.state.currentSearch,
       searchedTerm: null,
       perPage: 1,
-      currentPage: 1,
+      currentPage: this.$store.state.searchPage,
       items: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
     };
   },
+  mounted: function() {
+    if (this.$store.state.currentSearch != "") {
+      this.onSearchRecipe();
+    }
+  },
   methods: {
     onSearchRecipe: function() {
+      if (this.$store.state.currentSearch == null) {
+        return;
+      }
+
+      this.$store.commit("updateSearch", {
+        title: this.searchTitle,
+        page: this.currentPage
+      });
+
       this.hasLoaded = false;
       this.isEmpty = false;
-      this.currentPage = 1;
+      this.currentPage = this.$store.state.searchPage;
       this.searchedTerm = this.searchTitle;
 
-      this.$store.commit("updateSearch", { title: this.searchTitle });
-
       axios
-        .get(`${this.domain}/api/recipe/search?q=${this.searchTitle}&offset=0`)
+        .get(`${this.domain}/api/recipe/search?q=${this.searchTitle}&offset=${(this.currentPage -1) * 6}`)
         .then(response => {
           this.recipes = response.data.results;
           this.hasLoaded = true;
@@ -119,10 +131,17 @@ export default {
     onPageChange: function() {
       this.hasLoaded = false;
 
+      this.$store.commit("updateSearch", {
+        title: this.searchTitle,
+        page: this.currentPage
+      });
+
       axios
         .get(
-          `${this.domain}/api/recipe/search?q=${this.searchTitle}&offset=${this
-            .currentPage * 6}`
+          `${this.domain}/api/recipe/search?q=${this.searchTitle}&offset=${(this
+            .$store.state.searchPage -
+            1) *
+            6}`
         )
         .then(response => {
           this.recipes = response.data.results;

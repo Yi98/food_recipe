@@ -12,8 +12,8 @@
       <p
         class="pl-1"
         v-if="showResendEmail"
-        v-bind:class="{'resend-email': countdownEnd }"
-        @click="startCountdown()"
+        v-bind:class="{'resend-email': countdownEnd, 'disable-resend-email': !countdownEnd }"
+        @click="startCountdown(); resendEmail();"
       >
         Resend verification email
         <span v-if="!countdownEnd">({{ countdown }}s)</span>
@@ -70,9 +70,9 @@
           </button>
         </b-col>
       </b-row>
-      <!-- <b-row class="my-4">
-      <b-col lg="12" class="text-center">OR</b-col>-->
-      <!-- </b-row> -->
+      <b-row class="my-4">
+        <b-col lg="12" class="text-center">OR</b-col>
+      </b-row>
       <!-- <b-row class="mt-2">
         <b-col lg="12">
           <button
@@ -89,24 +89,29 @@
             </b-row>
           </button>
         </b-col>
-      </b-row>
+      </b-row>-->
       <b-row class="mt-2">
         <b-col lg="12">
-          <button type="button" class="btn w-100 platforms-btn" data-dismiss="modal">
-            <b-row>
-              <b-col lg="2" cols="2" class="text-right">
-                <img src="../assets/google.png" alt="Google logo" width="20px" heigh="20px" />
-              </b-col>
-              <b-col
-                lg="10"
-                cols="10"
-                class="text-left"
-                @done="onContinueGoogle()"
-              >Continue with Google</b-col>
+          <button type="button" class="btn w-100" data-dismiss="modal">
+            <b-row style="position: relative">
+              <GoogleLogin
+                class="platforms-btn w-100"
+                :params="params"
+                :onSuccess="onSuccess"
+                :onFailure="onFailure"
+              >Continue with Google</GoogleLogin>
+
+              <img
+                src="../assets/google.png"
+                alt="Google logo"
+                class="platforms-img"
+                width="20px"
+                heigh="20px"
+              />
             </b-row>
           </button>
         </b-col>
-      </b-row>-->
+      </b-row>
       <b-row class="mt-4">
         <b-col lg="12">
           <p id="login-text" v-if="!showForgotPassword">
@@ -136,25 +141,35 @@
 <script>
 import axios from "axios";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import GoogleLogin from "vue-google-login";
 
 export default {
   name: "AccountModal",
   components: {
-    PulseLoader
+    PulseLoader,
+    GoogleLogin
   },
   props: ["passedAction"],
   data: function() {
     return {
+      email: null,
+      password: null,
       hidePassword: true,
       showFeedback: false,
       countdownEnd: false,
       showResendEmail: false,
+      googleLogin: false,
       feedback: "",
       inputType: "password",
       buttonText: "Continue",
       countdown: 30,
-      email: null,
-      password: null
+      params: {
+        // local
+        client_id: "566123955602-sj1h6l56i3eeo1e5r71lfqvkvtadues4.apps.googleusercontent.com"
+        
+        // hexameal
+        // client_id: "566123955602-k5ukg7a98frvgutujbb1l2m6olksjf43.apps.googleusercontent.com"
+      }
     };
   },
   methods: {
@@ -184,8 +199,11 @@ export default {
           this.feedback = response.data.message;
           this.showFeedback = true;
           this.buttonText = "Continue";
+          this.showResendEmail = response.data.resendEmail;
 
-          this.startCountdown();
+          if (this.showResendEmail) {
+            this.startCountdown();
+          }
 
           if (response.data.success && this.modalAction == "Log In") {
             this.email = "";
@@ -218,8 +236,23 @@ export default {
       this.$store.commit("changeModalAction", { action });
     },
     startCountdown: function() {
+      this.countdown = 30;
+      this.countdownEnd = false;
+
+      const timer = setInterval(() => {
+        if (this.countdown > 1) {
+          this.countdown -= 1;
+        } else {
+          this.countdownEnd = true;
+          clearInterval(timer);
+        }
+      }, 1000);
+    },
+    resendEmail: function() {
       const bodyData = new FormData();
       bodyData.append("email", this.email);
+
+      this.startCountdown();
 
       axios({
         method: "POST",
@@ -231,21 +264,42 @@ export default {
           this.feedback = response.data.message;
           this.showFeedback = true;
           this.showResendEmail = response.data.resendEmail;
-          this.countdown = 30;
-          this.countdownEnd = false;
-
-          if (this.showResendEmail) {
-            const timer = setInterval(() => {
-              if (this.countdown > 1) {
-                this.countdown -= 1;
-              } else {
-                this.countdownEnd = true;
-                clearInterval(timer);
-              }
-            }, 1000);
-          }
         })
         .catch(err => console.log(err));
+    },
+    onSuccess(googleUser) {
+      // console.log(googleUser);
+
+      const email = googleUser.getBasicProfile().yu;
+
+      const bodyData = new FormData();
+      bodyData.append("email", email);
+
+      axios({
+        method: "POST",
+        url: `${this.domain}/api/auth/google`,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        data: bodyData
+      })
+        .then(response => {
+          if (response.data.success) {
+            this.googleLogin = true;
+            this.$refs["acc-modal"].hide();
+            this.$store.commit("changeState");
+
+            localStorage.setItem("token", response.data.token);
+
+            if (this.$route.path != "/search") {
+              this.$router.push("/search");
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onFailure(err) {
+      console.log(err);
     }
   },
   computed: {
@@ -264,6 +318,17 @@ export default {
 </script>
 
 <style>
+.platforms-img {
+  position: absolute;
+  top: 14px;
+  left: 100px;
+}
+
+.modal-content {
+  border-radius: 6px !important;
+  border: 0 !important;
+}
+
 .form-control {
   box-shadow: none !important;
   /* border-top: none !important;
@@ -277,9 +342,14 @@ export default {
 }
 
 .resend-email {
-  color: #000;
+  color: rgb(9, 124, 231);
   text-decoration: underline;
   cursor: pointer;
+  pointer-events: auto;
+}
+
+.disable-resend-email {
+  pointer-events: none;
 }
 
 .reveal-icon {
@@ -295,11 +365,13 @@ export default {
 .platforms-btn {
   height: 50px;
   background-color: rgb(226, 226, 226);
+  border-radius: 0.25rem;
+  border: 0;
 }
 
 #acc-modal {
   width: 100%;
-  margin-top: 10% !important;
+  margin-top: 7% !important;
 }
 
 .modal-header {
@@ -326,7 +398,7 @@ export default {
 
 .modal-title {
   margin: auto;
-  margin-left: 45%;
+  margin-left: 42%;
 }
 
 @media all and (max-width: 720px) {
@@ -363,6 +435,12 @@ export default {
 
   #signup-text {
     padding-bottom: 20% !important;
+  }
+
+  .platforms-img {
+    position: absolute;
+    top: 14px;
+    left: 30px;
   }
 }
 </style>

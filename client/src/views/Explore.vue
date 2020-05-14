@@ -71,24 +71,33 @@ export default {
         { value: "Dessert", text: "Dessert" }
       ],
       perPage: 1,
-      currentPage: 1,
+      currentPage: this.$store.state.categoryPage,
       items: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
     };
   },
   mounted: function() {
-    this.onCategoryChange();
+    this.onCategoryChange(
+      this.$store.state.currentCategory,
+      this.$store.state.categoryPage
+    );
   },
   methods: {
-    onCategoryChange: function() {
-      this.hasLoaded = false;
-      this.offset = 0;
-      this.currentPage = 1;
+    onCategoryChange: function(category, page = 1) {
       let selected = this.selected;
-      this.$store.commit("updateCategory", { category: selected });
 
+      this.$store.commit("updateCategory", {
+        category: selected,
+        page
+      });
+
+      this.hasLoaded = false;
+      this.currentPage = this.$store.state.categoryPage;
+      
       axios
         .get(
-          `${this.domain}/api/recipe/search?q=${this.selected}&offset=${this.offset}`
+          `${this.domain}/api/recipe/search?q=${this.selected}&offset=${(page -
+            1) *
+            6}`
         )
         .then(response => {
           this.recipes = response.data.results;
@@ -101,10 +110,17 @@ export default {
     onPageChange: function() {
       this.hasLoaded = false;
 
+      this.$store.commit("updateCategory", {
+        category: this.selected,
+        page: this.currentPage
+      });
+
       axios
         .get(
-          `${this.domain}/api/recipe/search?q=${this.selected}&offset=${this
-            .currentPage * 6}`
+          `${this.domain}/api/recipe/search?q=${this.selected}&offset=${(this
+            .currentPage -
+            1) *
+            6}`
         )
         .then(response => {
           this.recipes = response.data.results;

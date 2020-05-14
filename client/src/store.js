@@ -10,6 +10,8 @@ export default new Vuex.Store({
     existingIngredients: [],
     currentCategory: 'Main Course',
     currentSearch: '',
+    searchPage: 1,
+    categoryPage: 1
   },
   mutations: {
     changeState(state) {
@@ -42,11 +44,13 @@ export default new Vuex.Store({
         state.existingIngredients.splice(state.existingIngredients.indexOf({ key: item, value: item }), 1);
       }
     },
-    updateCategory(state, { category }) {
+    updateCategory(state, { category, page }) {
       state.currentCategory = category;
+      state.categoryPage = page;
     },
-    updateSearch(state, { title }) {
+    updateSearch(state, { title, page }) {
       state.currentSearch = title;
+      state.searchPage = page;
     }
   }
 })
