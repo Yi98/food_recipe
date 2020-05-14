@@ -165,10 +165,10 @@ export default {
       countdown: 30,
       params: {
         // local
-        client_id: "566123955602-sj1h6l56i3eeo1e5r71lfqvkvtadues4.apps.googleusercontent.com"
-        
+        // client_id: "566123955602-sj1h6l56i3eeo1e5r71lfqvkvtadues4.apps.googleusercontent.com"
+
         // hexameal
-        // client_id: "566123955602-k5ukg7a98frvgutujbb1l2m6olksjf43.apps.googleusercontent.com"
+        client_id: "566123955602-k5ukg7a98frvgutujbb1l2m6olksjf43.apps.googleusercontent.com"
       }
     };
   },
@@ -364,7 +364,7 @@ export default {
 
 .platforms-btn {
   height: 50px;
-  background-color: rgb(226, 226, 226);
+  background-color: rgb(243, 243, 243);
   border-radius: 0.25rem;
   border: 0;
 }
