@@ -164,8 +164,11 @@ export default {
       buttonText: "Continue",
       countdown: 30,
       params: {
-        client_id:
-          "566123955602-sj1h6l56i3eeo1e5r71lfqvkvtadues4.apps.googleusercontent.com"
+        // local
+        client_id: "566123955602-sj1h6l56i3eeo1e5r71lfqvkvtadues4.apps.googleusercontent.com"
+        
+        // hexameal
+        // client_id: "566123955602-k5ukg7a98frvgutujbb1l2m6olksjf43.apps.googleusercontent.com"
       }
     };
   },
