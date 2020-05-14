@@ -3,6 +3,9 @@
     <b-container>
       <b-row class="justify-content-center">
         <b-col lg="8" md="9">
+          <p class="pb-3">
+            <b-icon-arrow-left></b-icon-arrow-left><span class="pl-1">Back</span>
+          </p>
           <img
             id="recipeImage"
             :src="'https://spoonacular.com/recipeImages/' + recipe.id + '-636x393.jpg'"
@@ -70,7 +73,6 @@
               </div>
             </div>
           </div>
-
         </b-col>
       </b-row>
     </b-container>

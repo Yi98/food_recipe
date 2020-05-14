@@ -139,14 +139,14 @@ div.skeleton-label {
 div.skeleton-author {
   top: 260px;
   height: 25px;
-  left: 35px;
+  left: 15px;
   width: 300px;
 }
 
 div.skeleton-content-1,
 div.skeleton-content-2,
 div.skeleton-content-3 {
-  left: 35px;
+  left: 15px;
   right: 15px;
   height: 12px;
 }
@@ -189,8 +189,8 @@ div.skeleton-content-3 {
 
 div.recipe-placeholder-card {
   height: 24rem;
-  background-image: linear-gradient(#fff, #fff),
-    linear-gradient(#f7fafd, #f7fafd);
+  /* background-image: linear-gradient(#fff, #fff),
+    linear-gradient(#f7fafd, #f7fafd); */
   background-clip: content-box, padding-box;
 }
 </style>

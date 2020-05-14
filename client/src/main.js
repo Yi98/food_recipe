@@ -1,19 +1,23 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueScrollTo from 'vue-scrollto';
 
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import App from './App.vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
+import App from './App.vue';
 import router from './router';
 import store from './store';
 
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
 Vue.use(VueRouter);
+Vue.use(VueScrollTo);
 
-Vue.config.productionTip = false
+
+Vue.config.productionTip = false;
 
 Vue.mixin({
   data: function () {

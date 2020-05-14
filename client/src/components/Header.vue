@@ -97,6 +97,20 @@ export default {
 </script>
 
 <style>
+.search-icon {
+  position: absolute;
+  right: 0;
+  top: 16px;
+  margin-right: 20px;
+  font-size: 25px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
 .active {
   color: #ff4a52 !important;
 }
@@ -160,5 +174,13 @@ a {
   .dropdown-item {
     padding-left: 10px;
   }
+}
+</style>
+
+<style scoped>
+#search-box {
+  margin-left: 30%;
+  position: relative;
+  width: 600px;
 }
 </style>

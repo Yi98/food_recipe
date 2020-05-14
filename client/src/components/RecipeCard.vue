@@ -46,8 +46,8 @@ export default {
   },
   computed: {
     modifiedTitle: function() {
-      if (this.recipe.title.length > 28) {
-        return this.recipe.title.substring(0, 28) + "...";
+      if (this.recipe.title.length > 27) {
+        return this.recipe.title.substring(0, 27) + "...";
       }
       return this.recipe.title;
     },

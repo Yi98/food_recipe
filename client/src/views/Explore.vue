@@ -1,8 +1,11 @@
 <template>
-  <div class="popular_places_area pt-3">
+  <div class="popular_places_area pt-3" id="topView">
     <b-container>
       <b-row>
-        <b-col lg="12">
+        <b-col lg="3" md="12" class="py-1">
+          <h4>Select a category :</h4>
+        </b-col>
+        <b-col lg="9" md="12">
           <div class="single_select">
             <b-form-select
               @change="onCategoryChange()"
@@ -24,7 +27,15 @@
       <b-row>
         <b-col lg="12">
           <div class="more_place_btn text-center">
-            <a @click="onLoadMoreRecipes()" class="boxed-btn4" style="color: #fff">More Recipes</a>
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="rows"
+              :per-page="perPage"
+              :hide-goto-end-buttons="true"
+              align="center"
+              @input="onPageChange()"
+            ></b-pagination>
+            <!-- <a @click="onLoadMoreRecipes()" class="boxed-btn4" style="color: #fff">More Recipes</a> -->
           </div>
         </b-col>
       </b-row>
@@ -34,6 +45,8 @@
 
 <script>
 import axios from "axios";
+import VueScrollTo from "vue-scrollto";
+
 import CardPlaceholder from "../components/CardPlaceholder";
 import RecipeCard from "../components/RecipeCard";
 
@@ -48,7 +61,7 @@ export default {
       recipes: [],
       hasLoaded: false,
       offset: 0,
-      selected: "Main Course",
+      selected: this.$store.state.currentCategory,
       options: [
         { value: "Main Course", text: "Main Course" },
         { value: "Side Dish", text: "Side Dish" },
@@ -56,7 +69,10 @@ export default {
         { value: "Drink", text: "Drink" },
         { value: "Snack", text: "Snack" },
         { value: "Dessert", text: "Dessert" }
-      ]
+      ],
+      perPage: 1,
+      currentPage: 1,
+      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
     };
   },
   mounted: function() {
@@ -66,6 +82,9 @@ export default {
     onCategoryChange: function() {
       this.hasLoaded = false;
       this.offset = 0;
+      this.currentPage = 1;
+      let selected = this.selected;
+      this.$store.commit("updateCategory", { category: selected });
 
       axios
         .get(
@@ -74,31 +93,43 @@ export default {
         .then(response => {
           this.recipes = response.data.results;
           this.hasLoaded = true;
-          console.log(this.recipes);
         })
         .catch(err => {
           console.log(err);
         });
     },
-    onLoadMoreRecipes: function() {
-      this.offset += 6;
+    onPageChange: function() {
+      this.hasLoaded = false;
 
       axios
         .get(
-          `${this.domain}/api/recipe/search?q=${this.selected}&offset=${this.offset}`
+          `${this.domain}/api/recipe/search?q=${this.selected}&offset=${this
+            .currentPage * 6}`
         )
         .then(response => {
-          this.recipes.push(...response.data.results);
+          this.recipes = response.data.results;
+          this.hasLoaded = true;
         })
         .catch(err => {
           console.log(err);
         });
+
+      VueScrollTo.scrollTo("#topView", 700, { cancelable: false });
+    }
+  },
+  computed: {
+    rows() {
+      return this.items.length;
     }
   }
 };
 </script>
 
 <style scoped>
+.custom-select {
+  border: 1px solid #959899;
+}
+
 .popular_places_area {
   padding-top: 60px;
   padding-bottom: 60px;
